@@ -1,0 +1,78 @@
+/******************************************************************************\
+FILE:           configuration.zp
+AUTHOR:         chris van Run (UiL-OTS)
+ADAPTED BY:     -
+
+EXPERIMENT:     A poper Visual Digit Span test
+
+DESCRIPTION: contains all the configuration flags that influence the script profoundly and 
+some local enumerated types
+
+HISTORY:
+2014-05-15 CvR   Created.
+
+\******************************************************************************/
+// #### ENUMS #### \\
+enum Direction 
+{
+	BOTH	= 0,
+	FORWARD = 1,
+	BACKWARD = -1,
+};
+
+enum Language 
+{
+	ENGLISH,
+	DUTCH
+};
+
+enum Presentation
+{
+	VISUAL_AND_AUDIO = 0,
+	VISUAL = 1,
+	AUDIO = -1,
+};
+
+	// GENERAL SETTINGS
+	const Direction CFG_DIRECTION 							= FORWARD; // FORWARD | BACKWARD | BOTH (Forward first)
+
+	const Language CFG_LANGUAGE 							= DUTCH; // ENGLISH | DUTCH
+
+	const Presentation CFG_PRESENTATION 					= AUDIO; // VISUAL | AUDIO | VISUAL_AND_AUDIO ; the way the digits are presented
+	const int CFG_NDIGITSMIN 								= 	3;					// minimum length of digit array to test.
+	const int CFG_NDIGITSMAX								= 	14;					// maximum length of digit array to test, keep it reasonable (<20) or the pseudo-randomisation might fail.
+	const int CFG_NSTIM_p_SET								=   2;					// number of digit array per set. Default (2)
+	
+	const int CFG_MAXNFAULTS_p_SET							=	2;					// maximum number of faults per set. Block stops at this number. Default (2).
+	
+	// INSTRUCTION SETTINGS
+	
+	const bool CFG_GIVE_INSTRUCTION						= true;				// give instruction all together? Default (true).
+	const bool CFG_GIVE_PRACTISE 							= true;				// give practice all together? Default (true).
+	const int CFG_NDIGITSMIN_PRAC 							= 	2;					// minimum length of digit array to practise.
+	const int CFG_NDIGITSMAX_PRAC							= 	3;					// maximum length of digit array to practise, keep it reasonable (<20) or the pseudo-randomisation might fail.
+	const int CFG_NSTIM_p_SET_PRAC							=   1;					// number of digit array per set in practise. Default (2)
+
+	// PRESET SETTINGS 
+	/******************************************************************************\
+	On using a preset: 
+	* set CFG_USE_A_PRESET to true 
+	* provide a name in CFG_PRESET_NAME 
+	* change the '= default_preset_fwd' and '= default_preset_bwd' to the preset you have defined in presets.zm
+	* make sure the CFG_NSTIM_p_SET is set to what applies to your preset. (i.e. most presets have two of each digit-array length so p_SET = 2).
+	* make sure you put the CFG_DIRECTION on BOTH if you defined a backward and forward preset or on which ever value is appropriated if you only want to do one direction.
+	\******************************************************************************/
+	const bool CFG_USE_A_PRESET							= false;				// see presets.zm in stimuli for possible presets. This prevents randomisation. Default (false). Do not forget to set the direction correctly.
+	const string CFG_PRESET_NAME							= "No_name";				// for in the output tables if you want to know which preset was used. Change if you want to.
+	
+	void setup_presets()	// Don't ask me how or why... it just IS! =/ 
+	{
+		CFG_PRESET_FORWARD 									= default_preset_fwd;	// allows for selection of a preset, please look in presets.zm for defined presets. Make sure you change CFG_USE_A_PRESET
+		CFG_PRESET_BACKWARD									= default_preset_bwd;
+	}
+	
+	// PSEUDO-RANDOM SETTINGS
+	const bool CFG_PSEUDORANDOM_PREVENT_RECUR_SUBSTRINGS	= true; 				// > The string should not contain any previous array as a substring (i.e. "12", "3412"; the last two digits prevent it being selected).
+	const bool CFG_PSEUDORANDOM_PREVENT_INCREMENTING		= true;					// > No strong and easy to remember incrementing/decrementing span (i.e. 12345 or 54321)
+	const int  CFG_MAX_INCR_DESC_THRESHOLD					=	3;					// maximum subsequent incrementing or decrementing digits. Default (3). 
+	const bool CFG_PSEUDORANDOM_PREVENT_DOUBLE				= true; 				// > No two identical digits next to each other

@@ -1,0 +1,22 @@
+/******************************************************************************\
+FILE:           presets.zp
+AUTHOR:         Chris van Run (UiL-OTS)
+ADAPTED BY:     -
+
+EXPERIMENT:     A poper Digit Span test
+
+DESCRIPTION: Any presets are defined here. Sometimes you want the participants
+to see all the same digits or have a decent comparison to other experiments.
+Define them here and configure them to be used in the 
+modules/configuration.zm.
+
+HISTORY:
+2014-05-15 CvR   Created.
+
+\******************************************************************************/
+
+TestItem[..] default_preset_fwd = { { "1", }, { "2", }, };
+TestItem[..] default_preset_bwd = { { "3", }, { "4", }, };
+
+TestItem[] CFG_PRESET_FORWARD;
+TestItem[] CFG_PRESET_BACKWARD;

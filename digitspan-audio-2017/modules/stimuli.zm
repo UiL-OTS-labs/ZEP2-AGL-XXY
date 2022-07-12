@@ -1,0 +1,37 @@
+/******************************************************************************\
+FILE:           stimuli.zm
+AUTHOR:         Theo Veenker (UiL-OTS) <T.J.G.Veenker@uu.nl>
+ADAPTED BY:     Chris van Run
+
+DESCRIPTION:
+
+Defines the formats of item table(s) and provides the actual content of
+the item table(s) i.e. stimulus information.
+
+
+HISTORY:
+2012-03-20 TV   Created.
+2014-05-26 CvR	Adapted (created an array reference for test_items)
+
+\******************************************************************************/
+
+
+// Item record used for the test phase item table.
+record TestItem
+{
+    string      digits;         // target sequence of digits
+}
+
+// Item table used in the test phase (initialized in random.zm).
+//   index: item number
+TestItem[] test_items; //note: it is an array reference!! Not an actual array.
+
+void emptyTestItems(TestItem[] arg) // sets all the digits to "" so they are refreshed when recalled.
+{
+	int i = 0;
+	while( i < arg.size )
+	{
+		arg[i].digits = "";
+		i++;
+	};
+}

@@ -1,0 +1,225 @@
+/******************************************************************************\
+FILE:           propvisdigspan_fwd.zp
+AUTHOR:         Theo Veenker (UiL-OTS) <T.J.G.Veenker@uu.nl>
+ADAPTED BY:     Chris van Run
+
+EXPERIMENT:     A poper Visual Digit Span test
+
+DESCRIPTION:
+
+Memory span test to measure the longest list of digits that a 
+participant can recall after presentation. The participant is visually 
+presented a list of digits (one more for each trial). The participant's
+task is to type in the digits he/she saw in presented or reversed order.
+There are a configured amount of digit sequences per set and if more
+the faults exceed the configured threshold the test is aborted. The
+number of faults is reset at each new set. The script can be configured 
+in modules/configuration.zm. By default the digit arrays are generated 
+psuedo-random.
+
+Output: two tables.
+* Table 1: highest span, direction of recall.
+* Table 2: details trail specifics (i.e. digits, answers etc).
+
+
+Global structure of experiment:
+
+  - welcome
+
+  - instructions
+
+  - practice phase (... trials)
+      trial
+
+  - pause
+
+  - test phase (... trials)
+      trial
+  
+  - second round of instructions (if setup)
+  
+  - second practice phase (if setup)
+  
+  - test phase (... trials)
+      trial      
+     
+
+  - thankyou
+
+
+HISTORY:
+2012-03-20 TV   Created.
+2014-05-02	CR	Adapted.
+
+\******************************************************************************/
+
+requires 1.14;
+
+import std_windows1;
+import std_entry_page1;
+import std_exit_page1;
+import pause_page;
+import std_blank_page;
+import std_texts_en;
+
+import misc;
+import test::task;
+import instruct::instruction;
+import instruct::instruction2;
+import instruct::practice;
+
+import test_page;
+import grouping;
+
+import presets;
+import configuration;
+
+// global var. //
+bool second_chance_flag = false; // goes on if participant has already made a fault
+Direction DIGITSPAN_DIRECTION;
+
+start() // initialises the code, sets variables etc.
+{
+	DIGITSPAN_DIRECTION = ( CFG_DIRECTION == BOTH || CFG_DIRECTION == FORWARD ) ? FORWARD: BACKWARD; // Always start with forward.
+	setup_presets();
+}
+
+Experiment experiment
+{
+    on_event:entry()
+    {	
+		show_test_windows();
+    }
+    
+    on_event:message()
+    {
+        // On Ctrl+F4 jump unconditionally to the thank-you part.
+        if (message_sender == control && message_arg == SYS_STOP)
+        {
+            control.mark_experiment_aborted();
+            thankyou.enter();
+        }
+    }
+
+    Part welcome
+    {
+        on_event:entry()
+        {
+            string wlk_txt = "<Something is wrong with language settings>";
+            if(CFG_LANGUAGE == ENGLISH)
+				wlk_txt = WELCOME_TEXT;
+            if(CFG_LANGUAGE == DUTCH)
+				wlk_txt = "Welkom!";
+            entry_page.set_text(wlk_txt);
+            entry_page.action(this, 0s);
+        }
+    }
+
+	Part first_instruction
+	{
+		on_event:entry()
+        {
+			if(CFG_GIVE_INSTRUCTION)
+			{
+				println("==> Instructing <==");
+				instruct::instruction_call(this);
+			} else signal(first_instruction, CONTINUE);
+		}
+	}
+	
+	Part first_practise
+	{
+		on_event:entry()
+        {
+			if(CFG_GIVE_PRACTISE)
+			{	
+				println("==> Practicing <==");
+				instruct::practice_call(this);
+			} else signal(first_practise, CONTINUE);
+        }
+	}
+	
+	Part first_task // Actual task
+	{
+		on_event:entry()
+        {
+			println("==> TESTING: " + DIGITSPAN_DIRECTION + " <==");
+			test::task_call(this);
+        }
+	}
+	
+	Part pause1
+
+    {
+        on_event:entry()
+        {
+            if(CFG_DIRECTION == BOTH)
+            {
+				blank_page.action_auto(this, 500ms, 500ms);
+			} else signal(pause1, CONTINUE);
+        }
+    }
+	
+	Part second_instruction
+	{
+		on_event:entry()
+        {
+			DIGITSPAN_DIRECTION = DIGITSPAN_DIRECTION == FORWARD ? BACKWARD : FORWARD; // reverse direction!
+			
+			if(CFG_DIRECTION == BOTH && CFG_GIVE_INSTRUCTION)
+			{
+				println("==> Instruction for Second time <==");
+				instruct::instruction2_call(this);
+			} else signal(second_instruction, CONTINUE);
+        }
+	}
+	
+	Part second_practise
+	{
+		on_event:entry()
+        {
+			if(CFG_DIRECTION == BOTH && CFG_GIVE_PRACTISE)
+			{
+				println("==> Practicing <==");
+				instruct::practice_call(this);
+			} else signal(second_practise, CONTINUE);
+        }
+	}
+	
+	Part second_task
+	{
+		on_event:entry()
+        {
+			if(CFG_DIRECTION == BOTH)
+			{
+				println("==> TESTING: " + DIGITSPAN_DIRECTION + " <==");
+				test::task_call(this);
+			} else signal(second_task, CONTINUE);
+        }
+	}
+	
+    Part pause2
+
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms, 500ms);
+        }
+    }
+    
+    Part thankyou
+    {
+        on_event:entry()
+        {
+			control.end_experiment();   // Check-in session.
+			
+			string thanku_txt = "<Something is wrong with language settings!>";
+            if(CFG_LANGUAGE == ENGLISH)
+				thanku_txt = THANK_YOU_TEXT;
+            if(CFG_LANGUAGE == DUTCH)
+				thanku_txt = "Einde van het Experiment!\n\n Dank u wel!";
+			exit_page.set_text(thanku_txt);
+			exit_page.action(this, 5s);
+        }
+    }
+}

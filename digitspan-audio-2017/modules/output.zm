@@ -1,0 +1,88 @@
+/******************************************************************************\
+FILE:           output.zm
+AUTHOR:         chris van Run (UiL-OTS)
+ADAPTED BY:     -
+
+DESCRIPTION:
+
+Defines the formats of output table(s).
+
+
+HISTORY:
+2012-03-20 TV   Created.
+2014-05-26 CvR  Added a few handy variables for researchers.
+
+\******************************************************************************/
+
+
+// Test phase output table record, defining what is to be logged for
+// the final digit span score.
+record TestOutput
+{
+    string 	preset;
+	Direction 	direction;
+    int         highest_span;           // trial number
+	int			n_faults;				// includes the last fault
+	int			last_trail_nr;
+}
+
+
+// Test phase output table record 2, defining what is to be logged for
+// each trial.
+record TestOutput2
+{
+    int         trialnum;       // trial number
+	string 	preset;
+
+    string      digits;         // target sequence of digits
+
+	Direction 	direction;		// Direction of recall
+
+    string     value;          // value: entered text
+
+    int         rt;             // response time [ms]
+    int         correct;        // correct response: 0=no, 1=yes, -1=n.a.
+}
+
+
+// Test phase output table 1.
+TestOutput[..] test_output;
+
+TestOutput2[..] test_output2;
+//------------------------------------------------------------------------------
+
+
+// Appends one row of data to test phase output table 1.
+void test_output_append(TestOutput data)
+{
+    test_output.size = test_output.size + 1;
+    test_output[test_output.size-1] = data;
+}
+
+
+// Writes test phase output table 1 contents to CSV file and clears the table.
+void test_output_save()
+{
+    // Append table to CSV file (create if non-existent). The filename
+    // format is: <dbname>/<dbnum>/<expname>/ses<sesid>-<tblnum>.csv
+    test_output.append(expdb.experiment.session.table_filename(1), "Test phase results" + " Participant: " + expdb.participant.id);
+    test_output.size = 0;
+}
+
+
+// Appends one row of data to test phase output table 2.
+void test_output2_append(TestOutput2 data)
+{
+    test_output2.size = test_output2.size + 1;
+    test_output2[test_output2.size-1] = data;
+}
+
+
+// Writes test phase output table 2 contents to CSV file and clears the table.
+void test_output2_save()
+{
+    // Append table to CSV file (create if non-existent). The filename
+    // format is: <dbname>/<dbnum>/<expname>/ses<sesid>-<tblnum>.csv
+    test_output2.append(expdb.experiment.session.table_filename(2), "Test phase results 2" + " Participant: " + expdb.participant.id);
+    test_output2.size = 0;
+}

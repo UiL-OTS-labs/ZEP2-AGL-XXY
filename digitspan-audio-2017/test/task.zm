@@ -1,0 +1,129 @@
+/******************************************************************************\
+FILE:           task.zp
+AUTHOR:         chris van Run (UiL-OTS)
+ADAPTED BY:     -
+
+EXPERIMENT:     A poper Visual Digit Span task
+
+DESCRIPTION: This block contains the actual test. It is used twice; first for forward and then for backward
+
+HISTORY:
+2014-05-15 CvR   Created.
+2014-06-02 CvR	 Output now correctly shows the number of faults in total instead of only in a set.
+
+\******************************************************************************/
+
+Block test
+{
+	TestItem        item;   // current item
+	int             span;   // memory span
+	int				nfaults = 0; //number of faults
+	int				total_nfaults = 0;
+	int previous_setNR = 1;
+
+	on_event:entry()
+	{
+		// Setup test factor table (9 items, 2 digits ... 10 digits).
+		if (setup_stimuli() != OK) terminate;        
+		num_cycles = test_items.size;
+		
+		//reset number of faults.
+		
+		// Prepare test page: progress bar enabled, feedback and prompt 
+		// disabled.
+		test_page.setup(num_cycles, true, false);
+		
+		//Make sure the reference time is correctly reset!
+		reference_time = now();
+	}
+
+
+	on_event:exit()
+	{
+		// Add digit span score to test output table 1.
+		TestOutput output;
+		output.highest_span = span;
+		println("highest span: " + span);
+		output.last_trail_nr = test.cycle + 1;
+		output.n_faults = total_nfaults;
+		output.preset = CFG_PRESET_NAME;
+		output.direction = DIGITSPAN_DIRECTION;
+		
+	
+		test_output_append(output);
+		test_output_save();
+
+		test_output2_save();
+		test_output_save(); 
+
+		test_page.cleanup();
+		emptyTestItems(test_items);
+		
+		//reset number of faults
+		total_nfaults = 0;
+		nfaults = 0;
+	}
+
+
+	Trial trial
+	{
+		on_event:entry()
+		{
+			item = test_items[test.cycle];
+			test_page.action(this, item, reference_time, test.cycle);
+		}
+
+
+		on_event:exit()
+		{
+			// If response was correct determine span so far.
+			if (test_page.response.correct)
+				span = length(drop_nondigits(item.digits));
+				
+			// Add new row to test output table.
+			TestOutput2 output;
+			output.trialnum = test.cycle + 1;
+			output.preset = CFG_PRESET_NAME;
+			output.digits = drop_nondigits(item.digits);
+			output.direction = DIGITSPAN_DIRECTION;
+			output.value = test_page.response.value;
+			output.rt = test_page.response.rt;
+			output.correct = test_page.response.correct;
+			test_output2_append(output);
+		}
+	}
+
+
+	TransientPart
+	{
+		on_event:entry()
+		{
+			int current_setNR = int( ceil( real(test.cycle+1) / real(CFG_NSTIM_p_SET) ) );
+			// End the block if response was not correct.
+			
+			if(previous_setNR != current_setNR) // if we are in a new set, reset the number of faults
+				nfaults = 0;
+				
+			if (!test_page.response.correct)
+			{	
+				nfaults++;
+				total_nfaults++;
+				println(string(nfaults) + " fault(s) in set " + current_setNR + ".");
+				println(string(total_nfaults) + " fault(s) in total " + current_setNR + ".");				
+				if(nfaults >= CFG_MAXNFAULTS_p_SET)
+				{
+					println("too many faults!");
+					test.leave();
+				}	
+			}
+			previous_setNR = current_setNR;
+		}
+	}
+}
+
+void task_call(Part caller)
+{
+    // Activate the task. When the task is done, the registered caller
+    // (c.q. the main experiment object) will automatically be signalled.
+    test.enter(caller);
+}

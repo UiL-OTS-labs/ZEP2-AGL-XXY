@@ -1,0 +1,104 @@
+/******************************************************************************\
+FILE:           practice.zp
+AUTHOR:         Chris van Run (UiL-OTS)
+ADAPTED BY:     -
+
+EXPERIMENT:     A poper Digit Span test
+
+DESCRIPTION: This contains the practice block that shows
+
+HISTORY:
+2014-05-15 CvR   Created.
+
+\******************************************************************************/
+Block practice
+{
+	Block practice_part
+	{
+		TestItem        item;   // current item
+
+		on_event:entry()
+		{
+			// Setup test factor table (3 items, 2 digits ... 4 digits). Last index signals the number of arrays per set.
+			if (setup_test_items(CFG_NDIGITSMIN_PRAC, CFG_NDIGITSMAX_PRAC, CFG_NSTIM_p_SET_PRAC) != OK) terminate;
+			
+			num_cycles = test_items.size;
+			string overlay_text = "<ERROR: LANGUAGE>";
+			string direction_t = "";
+			if(CFG_LANGUAGE == ENGLISH)
+			{
+				direction_t = DIGITSPAN_DIRECTION == FORWARD ? "GIVEN" : "REVERSE"; 
+				overlay_text = "Repeat in "+ direction_t + " order."; 
+			}
+			if(CFG_LANGUAGE == DUTCH)
+			{
+				direction_t = DIGITSPAN_DIRECTION == FORWARD ? "GEGEVEN" : "OMGEKEERDE"; 
+				overlay_text =	"Herhaal in " + direction_t + " volgorde.";
+			}
+					
+			// Prepare test page: progress bar, feedback and prompt enabled.
+			test_page.setup(num_cycles, true, true, overlay_text);
+		}
+
+
+		on_event:exit()
+		{
+			test_page.cleanup();
+			emptyTestItems(test_items);
+		}
+
+
+		Trial trial
+		{
+			on_event:entry()
+			{
+				item = test_items[practice_part.cycle];
+				test_page.action(this, item, reference_time, practice_part.cycle);
+			}
+		}
+	}
+	
+	Part pause
+	{
+		on_event:entry()
+		{
+			blank_page.action_auto(this, 500ms);
+		}
+	}
+
+
+	Part practise_pause
+	{
+		on_event:entry()
+		{
+			string pract_p_txt =  "<ERROR: LANGUAGE>";
+			if(CFG_LANGUAGE == ENGLISH)
+					pract_p_txt = 	
+						"End of the practice part.\n"
+						"\n"
+						"If you have any questions at this moment please ask the "
+						"experimenter now.\n"
+						"\n"
+						"<i>Hit Enter to start the task.</i>";
+			if(CFG_LANGUAGE == DUTCH)
+					pract_p_txt = 
+						"Einde van de oefening.\n"
+						"\n"
+						"Als u nog vragen hebt is dit het moment om ze "
+						"aan de onderzoeker te stellen.\n"
+						"\n"
+						"<i>Klik op Ga verder om de taak te beginnen.</i>";
+					
+			pause_page.set_text(pract_p_txt, true);
+
+			pause_page.action(this);
+		}
+	}
+}
+
+void practice_call(Part caller)
+{
+	// Activate the task. When the task is done, the registered caller
+    // (c.q. the main experiment object) will automatically be signalled.
+    practice.enter(caller);
+}

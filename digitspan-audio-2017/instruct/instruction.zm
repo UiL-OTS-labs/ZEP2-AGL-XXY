@@ -1,0 +1,80 @@
+/******************************************************************************\
+FILE:           instruction.zp
+AUTHOR:         Chris van Run (UiL-OTS)
+ADAPTED BY:     -
+
+EXPERIMENT:     A poper Digit Span test
+
+DESCRIPTION: contains the initial language based instructions.
+
+HISTORY:
+2014-05-15 CvR   Created.
+
+\******************************************************************************/
+Block instruction // Provides instruction to the participant
+{
+		on_event:entry()
+		{
+			string presentation_var;
+			string direction_var;
+			string page_text = "<SOMETHING WENT WRONG WITH THE LANGUAGE SETTINGS>";
+			string practice_text;
+			if(CFG_LANGUAGE == ENGLISH) // Show Dutch instructions
+			{			
+				presentation_var = CFG_PRESENTATION == VISUAL_AND_AUDIO ? "on the screen and via the soundsystem.\n" : ( CFG_PRESENTATION == VISUAL ? "\non the screen.\n" : "via the soundsystem.\n");
+				direction_var = DIGITSPAN_DIRECTION == FORWARD ? "given" : "reverse"; 
+				practice_text = CFG_GIVE_PRACTISE ? "First we will do a short practice.\n":""; 
+				
+				page_text = 
+				"<b>Dear participant,</b>\n"
+				"\n"
+				"Thank you for participating in this experiment.\n"
+				"\n"
+				"This is memory test. I will list a sequence of digits "
+				+ presentation_var +
+				"\n"
+				"Your task is then to type in the digits in the "
+				+ direction_var +  
+				" order and then hit Enter.\n"
+				"\n"
+				+ practice_text +
+				"\n"
+				"<i>Hit Enter when ready to start.</i>";
+			}
+			 if(CFG_LANGUAGE == DUTCH) // Show Dutch instructions
+			{
+				presentation_var = CFG_PRESENTATION == VISUAL_AND_AUDIO ? "\nop het scherm en via het geluidsysteem." : ( CFG_PRESENTATION == VISUAL ? "\nop het scherm." : "via het geluidsysteem.");
+				direction_var = DIGITSPAN_DIRECTION == FORWARD ? "zelfde" : "omgekeerde"; 
+				practice_text = CFG_GIVE_PRACTISE ? "Eerst doen we een korte oefening.\n": ""; 
+
+				page_text = 
+				"<b>Beste deelnemer,</b>\n"
+				"\n"
+				"Dank u voor het deelnemen in dit experiment.\n"
+				"\n"
+				"Dit is een geheugen test. Ik presenteer een lijst van cijfers "
+				+ presentation_var +
+				"\n"
+				"\n"
+				"Uw taak is de cijfers in te typen in de"
+				+ direction_var +  
+				" volgorde en dan op OK te klikken.\n"
+				"\n"
+				+ practice_text +
+				"\n"
+				"<i>Klik op Ga verder wanneer u klaar bent om te starten.</i>";			
+			} 
+			
+			pause_page.set_text(page_text, true);
+			
+			pause_page.action(this);
+	}
+}
+    
+void instruction_call(Part caller)
+{
+    // Activate the task. When the task is done, the registered caller
+    // (c.q. the main experiment object) will automatically be signalled.
+    instruction.enter(caller);
+}
+

@@ -1,0 +1,44 @@
+/******************************************************************************\
+FILE:           misc.zm
+AUTHOR:         Theo Veenker (UiL-OTS) <T.J.G.Veenker@uu.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:
+
+Miscellaneous functions.
+
+
+HISTORY:
+2012-03-20 TV   Created.
+2014-05-26 CvR	Added a reverse string function.
+
+\******************************************************************************/
+// Returns specified string without any non-digits.
+string drop_nondigits(string s)
+{
+    string out;
+    int slen = length(s);
+    int n;
+    while (n < slen)
+    {
+        char c = character(s, n);
+        if (c >= '0' && c <= '9') out += c;
+        n++;
+    }
+
+    return out;
+}
+
+string reverse_string(string s) 
+{
+	int len = length(s);
+	string output;
+	
+	while(len > 0)
+	{
+		output = output + character(s, len  -1);
+		len--;
+	}
+	
+	return output;
+}
