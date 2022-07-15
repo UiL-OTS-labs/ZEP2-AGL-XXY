@@ -1,0 +1,104 @@
+/******************************************************************************\
+FILE:           stimuli.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     Silvia Radulescu
+LAST MODIFIED:	2017-11-22
+
+DESCRIPTION:
+
+Defines the formats of item table(s) and provides the actual content of
+the item table(s) i.e. stimulus information.
+
+
+HISTORY:
+2011-10-25 TV   Created.
+2016-12-12 SR   Adapted.
+2017-11-22 SR	Adapted.
+
+\******************************************************************************/
+
+
+// Symbolic definition of item type.
+enum Type
+{
+    MEM1,                    // memory test string from training (TARGET)
+    MEM2,                    // memory test string that wasn't in training (FOIL)
+}
+
+
+// Item table record.
+record TestItem
+{
+    int         id;             // item id
+    Type        type;           // item type
+    string      sndfn;          // stimulus word sound filename
+}
+
+
+TestItem[..] training_words =
+{
+  {1,           MEM1,            "balut.wav"},
+  {2,           MEM1,            "berden.wav"},
+  {3,           MEM1,            "bruikel.wav"},
+  {4,           MEM1,            "drebak.wav"},
+  {5,           MEM1,            "droepes.wav"},
+  {6,           MEM1,            "flebor.wav"},
+  {7,           MEM1,            "stoesem.wav"},
+  {8,           MEM1,            "vloefte.wav"},
+  {9,           MEM1,            "brimpel.wav"},
+  {10,          MEM1,            "ganif.wav"},
+  {11,          MEM1,            "gavom.wav"},
+  {12,          MEM1,            "gobel.wav"},
+  {13,          MEM1,            "kaalon.wav"},
+  {14,          MEM1,            "lapin.wav"},
+  {15,          MEM1,            "leucel.wav"},
+  {16,          MEM1,            "leudin.wav"},
+  {17,          MEM1,            "loming.wav"},
+  {18,          MEM1,            "madin.wav"},
+  {19,          MEM1,            "panoel.wav"},
+  {20,          MEM1,            "suvie.wav"},
+  {21,          MEM1,            "derga.wav"},
+  {22,          MEM1,            "darkis.wav"},
+  {23,          MEM1,            "kelbis.wav"},
+  {24,          MEM1,            "lerbien.wav"},
+  {25,          MEM1,            "liltus.wav"},
+  {26,          MEM1,            "peldig.wav"},
+  {27,          MEM1,            "penger.wav"},
+  {28,          MEM1,            "roeftaag.wav"},
+  {29,          MEM1,            "tielder.wav"},
+  {30,          MEM1,            "verpin.wav"},
+};
+
+TestItem[..] test_words =
+{
+  {1,           MEM1,            "bruikel.wav"},
+  {2,           MEM1,            "drebak.wav"},
+  {3,           MEM1,            "droepes.wav"},
+  {4,           MEM1,            "flebor.wav"},
+  {5,           MEM1,            "stoesem.wav"},
+  {6,           MEM1,            "ganif.wav"},
+  {7,           MEM1,            "kaalon.wav"},
+  {8,           MEM1,            "leucel.wav"},
+  {9,           MEM1,            "loming.wav"},
+  {10,          MEM1,            "panoel.wav"},
+  {11,          MEM1,            "darkis.wav"},
+  {12,          MEM1,            "peldig.wav"},
+  {13,          MEM1,            "roeftaag.wav"},
+  {14,          MEM1,            "tielder.wav"},
+  {15,          MEM1,            "verpin.wav"},
+  {16,          MEM2,            "blestig.wav"},
+  {17,          MEM2,            "drottig.wav"},
+  {18,          MEM2,            "pleming.wav"},
+  {19,          MEM2,            "striepel.wav"},
+  {20,          MEM2,            "spalder.wav"},
+  {21,          MEM2,            "funor.wav"},
+  {22,          MEM2,            "gonig.wav"},
+  {23,          MEM2,            "keesep.wav"},
+  {24,          MEM2,            "koetim.wav"},
+  {25,          MEM2,            "lobat.wav"},
+  {26,          MEM2,            "puigel.wav"},
+  {27,          MEM2,            "rielon.wav"},
+  {28,          MEM2,            "roegen.wav"},
+  {29,          MEM2,            "polbin.wav"},
+  {30,          MEM2,            "valtos.wav"},
+};

@@ -1,0 +1,258 @@
+/******************************************************************************\
+FILE:           task.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     Silvia Radulescu <S.Radulescu@uu.nl>
+Last Modified:	March 15, 2015
+
+DESCRIPTION:
+
+Original script: Auditory Lexical Decision, Entr
+Actual script: TBD
+See readme.txt for more information.
+
+
+Global structure of this experiment phase:
+
+  - memory test 1 (trainig1)
+  - memory test 2 (test1)
+
+
+HISTORY:
+2011-10-25 TV   Created.
+
+\******************************************************************************/
+
+//requires 1.10;
+
+import defs;
+import stimuli;
+import shuffle;
+import output;
+import test_page;
+import global_texts;
+
+
+Block task
+{
+    on_event:entry()
+    {
+        control.button_box.open();
+
+        // If necessary set parallel port line D0 to power button box device.
+	// control.button_box.output(0x02);
+
+        // Randomize tests.
+        if (shuffle_test_items() != OK) terminate;
+
+    }
+
+
+    /*Part instructions
+    {
+        on_event:entry()
+        {
+//            pause_page.set_text_size(1000, 600);
+            pause_page.set_text(
+                "<b>Dear participant,</b>\n"
+                "\n"
+                "Thank you for participating in this experiment.\n"
+                "\n"
+                "To respond, hit the left button on the button-box for "
+                "<i>No</i> and the right button for <i>Yes</i>.\n"
+
+//                "To respond, hit the left shift key for <i>No</i> and the "
+//                "right shift key for <i>Yes</i>.\n"
+
+//                "To respond, hit the left button on the button-box for "
+//                "<i>No</i> and the right button for <i>Yes</i>. "
+//                "Alternatively you can use the left or right shift keys.\n"
+
+//                "<i>Hit Enter when ready to start.</i>",
+                "<i>Hit any button on the button-box when ready to start.</i>",
+                true);
+
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }*/
+
+
+    Part pause_training1
+    {
+        on_event:entry()
+        {
+            pause_page.set_text(
+                "Je gaat zo luisteren naar woorden uit een vergeten taal. Elk woord behoort to één van de volgende categorieën: bloemen, dieren, of gereedschap.\n"
+                "Jouw taak is om ieder woord in te delen in één van deze categorieën, gebaseerd op hoe het woord klinkt.\n"
+                "Nadat je het woord gehoord hebt, krijg je steeds 3 seconden de tijd om een categorie te kiezen. Dit doe je door op de bijbehorende knop op de knoppenkast voor je te drukken.\n"
+                "Zorg ervoor dat je altijd binnen de tijd een categorie gekozen hebt.\n"
+                "\n"
+                "<i>Druk op START zodra je klaar bent om te beginnen.</i>",
+                true);
+
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+
+    Block training1
+    {
+        TestItem        item;   // current item
+
+
+        on_event:entry()
+        {
+            num_cycles = training_words.size;
+	    training_words.shuffle(0, -1);
+
+            // Prepare test page: progress bar enabled, feedback and prompt
+            // disabled.
+            training_page.setup(num_cycles, "training words ");
+	    training_page.set_question(TRAINING_QUESTION);
+        }
+
+
+        on_event:exit()
+        {
+            training_page.cleanup();
+
+            // Save test output table as CSV file.
+            test_output_save();
+        }
+
+
+        Trial trial
+        {
+            on_event:entry()
+            {
+                item = training_words[training1.cycle];
+
+                training_page.action(this, item, reference_time, training1.cycle);
+            }
+
+
+            on_event:exit()
+            {
+                // Add new row to test output table.
+                TestOutput output;
+                output.step = "training_words";
+		output.grp = selected_group;
+                output.trial = training1.cycle + 1;
+                output.id = item.id;
+                output.type = item.type;
+                output.sndfn = item.sndfn;
+                output.value = training_page.response.value;
+                output.rt = training_page.response.rt;
+                output.correct = training_page.response.correct;
+                test_output_append(output);
+            }
+        }
+    }
+
+
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+
+
+    Part pause_test1
+    {
+        on_event:entry()
+        {
+            pause_page.set_text(
+                "In de vorige fase heb je geluisterd naar woorden uit een vergeten taal.\n"
+                "Nu willen we controleren hoeveel woorden je hiervan onthouden hebt. Je krijgt zo verschillende woorden te horen. Enkele woorden heb je in de vorige fase al gehoord, andere woorden zijn nieuw. De woorden behoren tot dezelfde taal.\n"
+                "In deze taak heb je de knoppenbox niet meer nodig. Gebruik de muis om op de JA of NEE knop op het scherm te klikken.\n"
+                "Als je het woord eerder gehoord hebt, klik JA. Als je het woord nu voor het eerst hoort, dan klik je NEE.\n"
+		"Maak een beslissing zodra je het antwoord weet.\n"
+                "\n"
+                "<i>Druk op START zodra je klaar bent om te beginnen.</i>",
+                true);
+
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+
+    Block test1
+    {
+        TestItem        item;   // current item
+
+
+        on_event:entry()
+        {
+            num_cycles = test_words.size;
+	    test_words.shuffle(0, -1);
+
+            // Prepare test page: progress bar enabled, feedback and prompt
+            // disabled.
+            test_page.setup(num_cycles, "test words");
+	    test_page.set_question(TEST_QUESTION);
+        }
+
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+
+            // Save test output table as CSV file.
+            test_output_save();
+        }
+
+
+        Trial trial
+        {
+            on_event:entry()
+            {
+                item = test_words[test1.cycle];
+
+                test_page.action(this, item, reference_time, test1.cycle);
+            }
+
+
+            on_event:exit()
+            {
+                // Add new row to test output table.
+                TestOutput output;
+                output.step = "test_words";
+		output.grp = selected_group;
+                output.trial = test1.cycle + 1;
+                output.id = item.id;
+                output.type = item.type;
+                output.sndfn = item.sndfn;
+                output.value = test_page.response.value;
+                output.rt = test_page.response.rt;
+                output.correct = test_page.response.correct;
+                test_output_append(output);
+            }
+        }
+    }
+
+
+
+    Part
+    {
+        on_event:entry()
+        {
+            // Save test output table as CSV file.
+            test_output_save();
+
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+}
+
+
+void action(Part caller)
+{
+    // Activate the task. When the task is done, the registered caller
+    // (c.q. the main experiment object) will automatically be signalled.
+    task.enter(caller);
+}
