@@ -1,0 +1,33 @@
+/******************************************************************************\
+FILE:           defs.zm
+AUTHOR:         Theo Veenker (UiL-OTS) <T.J.G.Veenker@uu.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:
+
+Defines the experiment version, database related settings and trial timing
+setttings.
+
+
+HISTORY:
+2011-10-25 TV   Created.
+
+\******************************************************************************/
+
+
+// Duration of the interval between two trials.
+const dur       INTERTRIAL_INTERVAL             = 1000ms;
+
+// Duration of the fixation symbol presentation.
+const dur       FIXATION_DURATION               = 500ms;
+
+// Duration of the stimulus presentation.
+const dur       STIMULUS_DURATION               = 100000ms;
+
+// Duration of the feedback presentation.
+const dur       FEEDBACK_DURATION               = 100000ms;
+
+// Duration of the response interval. A value of 0ms means there is no
+// timeout.
+const dur       RESPONSE_DURATION               = 0ms;       // auto-paced
+//const dur       RESPONSE_DURATION               = 0ms;          // self-paced
