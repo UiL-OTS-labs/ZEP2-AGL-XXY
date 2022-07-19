@@ -26,7 +26,7 @@ HISTORY:
 
 \******************************************************************************/
 
-requires 1.14;
+requires 2.5;
 
 import std_windows1;
 import global_texts;
