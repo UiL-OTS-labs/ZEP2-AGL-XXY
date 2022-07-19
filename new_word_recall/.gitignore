@@ -1,0 +1,3 @@
+
+# Don't add the zep database
+db/*
