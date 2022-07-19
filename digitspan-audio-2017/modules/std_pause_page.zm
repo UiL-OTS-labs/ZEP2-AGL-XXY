@@ -129,7 +129,8 @@ Page pause_page
 
     void set_text(string txt, bool markup=false)
     {
-        layout.message.text = txt, markup;
+        if (markup) layout.message.fancy_text = txt;
+        else layout.message.text = txt;
     }
 
 
@@ -151,41 +152,42 @@ Page pause_page
     }
 
 
-    void action_auto(dur timeout=0s, 
+    void action_auto(dur timeout=0s,
         dur showdelay=-1s, dur fadedur=-1s)
     {
         action(null, timeout, showdelay, fadedur, false);
     }
 
 
-    void action_auto(Object caller, dur timeout=0s, 
+    void action_auto(Object caller, dur timeout=0s,
         dur showdelay=-1s, dur fadedur=-1s)
     {
         action(caller, timeout, showdelay, fadedur, false);
     }
 
 
-    void action(Object caller, dur timeout=0s, 
+    void action(Object caller, dur timeout=0s,
         dur showdelay=-1s, dur fadedur=-1s, bool kbd=true)
     {
         timer.abort();
+
         // Force page show delay and transition duration in sane range.
         if (showdelay < 0s) showdelay = PAGE_TRANSITION_DELAY;
         else showdelay = limit(showdelay, 0s, MAX_PAGE_TRANSITION_DELAY);
         if (fadedur < 0s) fadedur = PAGE_TRANSITION_DURATION;
         else fadedur = limit(fadedur, 0s, MAX_PAGE_TRANSITION_DURATION);
 
-    	// Clear page transition delay.
-    	page_transition_delay = 0s;
+        // Clear page transition delay.
+        page_transition_delay = 0s;
 
-	// Let's delay the first test page trial following this page.
-	first_trial_delay = FIRST_TRIAL_EXTRA_DELAY;
+        // Let's delay the first test page trial following this page.
+        first_trial_delay = FIRST_TRIAL_EXTRA_DELAY;
 
-        if (test_window1.show_page(this, now() + showdelay, fadedur) == 0)
+        if (!test_window1.show_page(this, now() + showdelay, fadedur))
         {
-            // Page not yet shown. Extend timeout period (if applicable) 
+            // Page not yet shown. Extend timeout period (if applicable)
             // until page is fully visible (fade-in has finished).
-            if (timeout > 0s) 
+            if (timeout > 0s)
                 timeout += expected_transition_finish_time - now();
         }
 

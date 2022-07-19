@@ -15,8 +15,10 @@ HISTORY:
 
 \******************************************************************************/
 
-TestItem[..] default_preset_fwd = { { "1", }, { "2", }, };
-TestItem[..] default_preset_bwd = { { "3", }, { "4", }, };
+import test::stimuli;
 
-TestItem[] CFG_PRESET_FORWARD;
-TestItem[] CFG_PRESET_BACKWARD;
+test::TestItem[..] default_preset_fwd = { { "1", }, { "2", }, };
+test::TestItem[..] default_preset_bwd = { { "3", }, { "4", }, };
+
+test::TestItem[] CFG_PRESET_FORWARD;
+test::TestItem[] CFG_PRESET_BACKWARD;
