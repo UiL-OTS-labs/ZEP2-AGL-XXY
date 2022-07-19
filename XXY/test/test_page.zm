@@ -85,20 +85,17 @@ Page train_page
     }
 
 
-    SoundChain stimulus
+    SoundPlayback stimulus
     {
 
         SoundFile clip {}
-
-
-        SoundPlayback playback {}
 
 
         time play(time t)
         {
             abort();
 
-            playback.device = sound_output_device;
+            stimulus.device = sound_output_device;
             clip.file = stimuli_dir() + "sounds/" + item.sndfn;
 
             start(t);
@@ -135,7 +132,7 @@ Page train_page
     void setup(int ntrials=-1)
     {
         test_page_overlay.setup(this);
-	this.ntrials = ntrials;
+        this.ntrials = ntrials;
 
         // Show item number
         test_page_overlay.show_prompt("" + ntrials + " items", true);
@@ -340,21 +337,16 @@ Page test_page
     }
 
 
-    SoundChain stimulus
+    SoundPlayback stimulus
     {
         // Sound source/producer object.
         SoundFile clip {}
-
-
-        // Sound sink/consumer object.
-        SoundPlayback playback {}
-
 
         time play(time t)
         {
             abort();
 
-            playback.device = sound_output_device;
+            stimulus.device = sound_output_device;
             clip.file = stimuli_dir() + "sounds/" + item.sndfn;
 
             start(t);
@@ -477,10 +469,10 @@ Page test_page
 
         // Enable button-box buttons 0 and 1 for resp. yes(0) and no(1).
         control.target = this;
-        control.button_box.disable_buttons();
-       	control.button_box.enable_button(0, 1); // button 0 means yes(1)
+        control.disable_buttons();
+       	control.enable_button(0, 1); // button 0 means yes(1)
         // button 1 is unused (button down)
-        control.button_box.enable_button(2, 0); // button 2 means no(0)
+        control.enable_button(2, 0); // button 2 means no(0)
     }
 
 
@@ -489,7 +481,7 @@ Page test_page
     {
         test_page_overlay.cleanup();
 
-        control.button_box.disable_buttons();
+        control.disable_buttons();
         control.target = null;
     }
 
