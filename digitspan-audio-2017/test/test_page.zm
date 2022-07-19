@@ -16,6 +16,8 @@ HISTORY:
 \******************************************************************************/
 
 import std_sound_output_device;
+import defs;
+
 
 Page test_page
 {
@@ -57,43 +59,41 @@ Page test_page
 
 			on_event:pre_start()
             {
-				this.set_text("-");
+				text = "-";
             }
 
             on_event:start()
             {
-				this.set_text("");
+				text = "";
             }
 
             void show(string digit)
             {
-				this.set_text(digit);
+				text = digit;
             }
 
             void interval()
             {
-				this.set_text("");
+				text = "";
             }
 
             on_event:finish()
             {
-				this.set_text("");
+				text = "";
             }
         }
 
-		SoundChain stimulus_audio
+		SoundPlayback play_back 
 		{
 			 // Sound source/producer object.
 			SoundFile clip {}
-			// Sound sink/consumer object.
-			SoundPlayback playback {}
 
 			void sound(string digit)
 			{
 				string sndfn = digit + ".wav";
-				stimulus_audio.clip.file = stimuli_dir() + "sounds/" + CFG_LANGUAGE +"/" + sndfn;
-				stimulus_audio.playback.device = sound_output_device;
-				stimulus_audio.start();
+				play_back.clip.file = stimuli_dir() + "sounds/" + CFG_LANGUAGE +"/" + sndfn;
+				play_back.device = sound_output_device;
+				play_back.start();
 			}
 		}
 
@@ -154,7 +154,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "1");
+                    input.text = input.text + "1";
                 }
             }
 
@@ -173,7 +173,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "2");
+                    input.text = input.text + "2";
                 }
             }
 
@@ -192,7 +192,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "3");
+                    input.text = input.text + "3";
                 }
             }
 
@@ -211,7 +211,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "4");
+                    input.text = input.text + "4";
                 }
             }
 
@@ -230,7 +230,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "5");
+                    input.text = input.text + "5";
                 }
             }
 
@@ -249,7 +249,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "6");
+                    input.text = input.text + "6";
                 }
             }
 
@@ -268,7 +268,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "7");
+                    input.text = input.text + "7";
                 }
             }
 
@@ -287,7 +287,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "8");
+                    input.text = input.text + "8";
                 }
             }
 
@@ -306,7 +306,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "9");
+                    input.text = input.text + "9";
                 }
             }
 
@@ -325,7 +325,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(input.text + "0");
+                    input.text = input.text + "0";
                 }
             }
 
@@ -344,7 +344,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    input.set_text(substring(input.text, 0, length(input.text) - 1));
+                    input.text =  substring(input.text, 0, length(input.text) - 1);
                 }
             }
 
@@ -589,9 +589,9 @@ Page test_page
 				if(!in_interval) //we are currently not in an interval so let's setup one.
 				{
 					layout.stimulus_visual.interval();
-					layout.stimulus_audio.abort();
+					layout.play_back.abort();
 					in_interval = true;
-					this.start( expected_expire_time + INTERSTIMULUS_INTERVAL);
+					start(expire_time + INTERSTIMULUS_INTERVAL);
 				}
 				else //we WERE in an interval so let us continue the show
 				{
@@ -600,10 +600,10 @@ Page test_page
 					if(CFG_PRESENTATION == VISUAL || CFG_PRESENTATION == VISUAL_AND_AUDIO)
 						layout.stimulus_visual.show(current_digit);
 					if(CFG_PRESENTATION == AUDIO || CFG_PRESENTATION == VISUAL_AND_AUDIO)
-						layout.stimulus_audio.sound(current_digit);
+						layout.play_back.sound(current_digit);
 					digit_nr++;
 					in_interval = false;
-					this.start(this.expected_expire_time + STIMULUS_DURATION);
+					start(expire_time + STIMULUS_DURATION);
 				}
 			}
 			else

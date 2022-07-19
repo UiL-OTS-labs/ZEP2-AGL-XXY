@@ -23,7 +23,7 @@ record TestOutput
 	Direction 	direction;
     int         highest_span;           // trial number
 	int			n_faults;				// includes the last fault
-	int			last_trail_nr;
+	int			last_trial_nr;
 }
 
 
@@ -32,13 +32,13 @@ record TestOutput
 record TestOutput2
 {
     int         trialnum;       // trial number
-	string 	preset;
+	string 	    preset;
 
     string      digits;         // target sequence of digits
 
 	Direction 	direction;		// Direction of recall
 
-    string     value;          // value: entered text
+    string      value;          // value: entered text
 
     int         rt;             // response time [ms]
     int         correct;        // correct response: 0=no, 1=yes, -1=n.a.
@@ -55,34 +55,28 @@ TestOutput2[..] test_output2;
 // Appends one row of data to test phase output table 1.
 void test_output_append(TestOutput data)
 {
-    test_output.size = test_output.size + 1;
-    test_output[test_output.size-1] = data;
+    expdb.add_trial_data_record(namespace_name, "1", "Test results");
+
+    expdb.set_trial_data_string_field("preset", data.preset,
+            "present (forward/backward...?)");
+    expdb.set_trial_data_enum_field("direction", string(data.direction),
+            "forward or backward");
+    expdb.set_trial_data_int_field("highest_span", data.highest_span);
+    expdb.set_trial_data_int_field("n_faults", data.n_faults);
+    expdb.set_trial_data_int_field("last_trial_nr", data.last_trial_nr);
 }
-
-
-// Writes test phase output table 1 contents to CSV file and clears the table.
-void test_output_save()
-{
-    // Append table to CSV file (create if non-existent). The filename
-    // format is: <dbname>/<dbnum>/<expname>/ses<sesid>-<tblnum>.csv
-    test_output.append(expdb.experiment.session.table_filename(1), "Test phase results" + " Participant: " + expdb.participant.id);
-    test_output.size = 0;
-}
-
 
 // Appends one row of data to test phase output table 2.
 void test_output2_append(TestOutput2 data)
 {
-    test_output2.size = test_output2.size + 1;
-    test_output2[test_output2.size-1] = data;
+    expdb.add_trial_data_record(namespace_name, "2", "Test Results");
+
+    expdb.set_trial_data_int_field("trialnum", data.trialnum);
+    expdb.set_trial_data_string_field("preset", data.preset);
+    expdb.set_trial_data_string_field("digits", data.digits);
+    expdb.set_trial_data_enum_field("direction", string(data.direction));
+    expdb.set_trial_data_string_field("value", data.value);
+    expdb.set_trial_data_int_field("rt", data.rt);
+    expdb.set_trial_data_int_field("correct", data.correct);
 }
 
-
-// Writes test phase output table 2 contents to CSV file and clears the table.
-void test_output2_save()
-{
-    // Append table to CSV file (create if non-existent). The filename
-    // format is: <dbname>/<dbnum>/<expname>/ses<sesid>-<tblnum>.csv
-    test_output2.append(expdb.experiment.session.table_filename(2), "Test phase results 2" + " Participant: " + expdb.participant.id);
-    test_output2.size = 0;
-}
