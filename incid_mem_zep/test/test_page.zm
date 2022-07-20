@@ -31,7 +31,7 @@ Page training_page
     init()
     {
         fill_pattern_color = TEST_PAGE_COLOR;
-	this.set_question(EXPERIMENT_TEST_QUESTION);
+        this.set_question(EXPERIMENT_TEST_QUESTION);
     }
 
 
@@ -97,86 +97,85 @@ Page training_page
             }
         }
 
-	// Disable buttons from the screen - user uses handels
-  HorizontalLayout buttons
-  {
-      init()
-      {
-          spacing = 250;
-          options = LAYOUT_EQUAL_WIDTH;
-      }
+        // Disable buttons from the screen - user uses handels
+        HorizontalLayout buttons
+        {
+            init()
+            {
+                spacing = 250;
+                options = LAYOUT_EQUAL_WIDTH;
+            }
 
 
-      ButtonGadget button1
-      {
-          init()
-          {
-              text = "Bloemen";
-              font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
-              font_size = TEST_PAGE_BUTTON_FONT_SIZE;
-              fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
-              text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
-              size = 250, 75;
-          }
+            ButtonGadget button1
+            {
+                init()
+                {
+                    text = "Bloemen";
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                    size = 250, 75;
+                }
 
 
-          on_event:activate()
-          {
-              response.process_hit(1, event_time);
-          }
-      }
+                activate()
+                {
+                    response.process_hit(1, event_time);
+                }
+            }
 
 
-      ButtonGadget button3
-      {
-          init()
-          {
-              text = "Gereedschap";
-              font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
-              font_size = TEST_PAGE_BUTTON_FONT_SIZE;
-              fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
-              text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
-              size = 250, 75;
-          }
+            ButtonGadget button3
+            {
+                init()
+                {
+                    text = "Gereedschap";
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                    size = 250, 75;
+                }
 
 
-          on_event:activate()
-          {
-              response.process_hit(3, event_time);
-          }
-      }
-  }
+                activate()
+                {
+                    response.process_hit(3, event_time);
+                }
+            }
+        }
 
 
-  HorizontalLayout buttons2
-  {
-      init()
-      {
-          spacing = 50;
-          options = LAYOUT_EQUAL_WIDTH;
-      }
+        HorizontalLayout buttons2
+        {
+            init()
+            {
+                spacing = 50;
+                options = LAYOUT_EQUAL_WIDTH;
+            }
 
 
-      ButtonGadget button2
-      {
-          init()
-          {
-              text = "Dieren";
-              font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
-              font_size = TEST_PAGE_BUTTON_FONT_SIZE;
-              fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
-              text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
-              size = 250, 75;
-          }
+            ButtonGadget button2
+            {
+                init()
+                {
+                    text = "Dieren";
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                    size = 250, 75;
+                }
 
 
-          on_event:activate()
-          {
-              response.process_hit(2, event_time);
-          }
-      }
-  }
-	//
+                activate()
+                {
+                    response.process_hit(2, event_time);
+                }
+            }
+        }
 
 
         time start_fixation(time t)
@@ -196,21 +195,16 @@ Page training_page
     }
 
 
-    SoundChain stimulus
+    SoundPlayback stimulus
     {
         // Sound source/producer object.
         SoundFile clip {}
-
-
-        // Sound sink/consumer object.
-        SoundPlayback playback {}
-
 
         time play(time t)
         {
             abort();
 
-            playback.device = sound_output_device;
+            stimulus.device = sound_output_device;
             clip.file = stimuli_dir() + "sounds/" + item.sndfn;
 
             start(t);
@@ -299,11 +293,11 @@ Page training_page
     void setup(int ntrials=-1, string test_no="", int count_offset=0, int total_offset=0)
     {
         test_page_overlay.setup(this);
-	this.ntrials = ntrials;
-	this.test_no = test_no;
-	this.count_offset = count_offset;
-	this.total_offset = total_offset;
-	this.set_question_only_duration();
+        this.ntrials = ntrials;
+        this.test_no = test_no;
+        this.count_offset = count_offset;
+        this.total_offset = total_offset;
+        this.set_question_only_duration();
 
         // Show or hide prompt.
         test_page_overlay.show_prompt("" + (this.total_offset + this.ntrials) + " items", true);
@@ -313,10 +307,10 @@ Page training_page
 
         // Enable button-box buttons 0 and 1 for resp., and button 2 (3 buttons)
         control.target = this;
-        control.button_box.disable_buttons();
-       	control.button_box.enable_button(0, 0); // button 0 means flower
-        control.button_box.enable_button(1, 1); // button 1 means animal
-        control.button_box.enable_button(2, 2); // button 2 means tool
+        control.disable_buttons();
+        control.enable_button(0, 0); // button 0 means flower
+        control.enable_button(1, 1); // button 1 means animal
+        control.enable_button(2, 2); // button 2 means tool
     }
 
 
@@ -325,7 +319,7 @@ Page training_page
     {
         test_page_overlay.cleanup();
 
-        control.button_box.disable_buttons();
+        control.disable_buttons();
         control.target = null;
     }
 
@@ -350,9 +344,9 @@ Page training_page
 
         // Show item number
         test_page_overlay.show_prompt(this.question + "\n\n" + (this.count_offset + count + 1) + " / " +
-				      (this.total_offset + this.ntrials), true);
+                (this.total_offset + this.ntrials), true);
 
-	fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);
+        fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);
         // Start stimulus at fixation offset.
         time stimonset = stimulus.play(fixoffset);
 
@@ -364,33 +358,34 @@ Page training_page
         // test_page_overlay.update_progress_bar(this.count_offset + count);
 
         // Update status line on control window. Cleared in done() above.
-	string status = this.test_no + ": " +
-			string(item.id) + "  " +
-            		string(item.type) + "  " +
-            		string(item.sndfn);
+        string status = this.test_no + ": " +
+            string(item.id) + "  " +
+            string(item.type) + "  " +
+            string(item.sndfn);
 
         control.set_status(status);
-	println(status);
+        println(status);
 
         // Remember who to signal when the trial is over.
         target = caller;
     }
 }
+
 Page test_page
 {
     TestItem    item;           // trial control parameters
-    int 	ntrials;
-    string 	test_no;
-    int 	count_offset;
-    int 	total_offset;
-    string	question;
-    dur		question_only_dur;
+    int 	    ntrials;
+    string 	    test_no;
+    int 	    count_offset;
+    int 	    total_offset;
+    string	    question;
+    dur		    question_only_dur;
 
 
     init()
     {
         fill_pattern_color = TEST_PAGE_COLOR;
-	this.set_question(EXPERIMENT_TEST_QUESTION);
+        this.set_question(EXPERIMENT_TEST_QUESTION);
     }
 
 
@@ -526,21 +521,17 @@ Page test_page
     }
 
 
-    SoundChain stimulus
+    SoundPlayback stimulus
     {
         // Sound source/producer object.
         SoundFile clip {}
-
-
-        // Sound sink/consumer object.
-        SoundPlayback playback {}
 
 
         time play(time t)
         {
             abort();
 
-            playback.device = sound_output_device;
+            stimulus.device = sound_output_device;
             clip.file = stimuli_dir() + "sounds/" + item.sndfn;
 
             start(t);
@@ -578,17 +569,17 @@ Page test_page
                 value = val;
                 rt = int(reaction_time(0));
                 if (item.type == MEM1){
-                  if (val == 1) {
-                    correct = 1;
-                  } else {
-                    correct = 2;
-                  }
+                    if (val == 1) {
+                        correct = 1;
+                    } else {
+                        correct = 2;
+                    }
                 } else {
-                if (val == 1) {
-                  correct = 3;
-                } else {
-                  correct = 4;
-                }
+                    if (val == 1) {
+                        correct = 3;
+                    } else {
+                        correct = 4;
+                    }
                 }
 
                 ignore_remaining_hits();
@@ -642,11 +633,11 @@ Page test_page
     void setup(int ntrials=-1, string test_no="", int count_offset=0, int total_offset=0)
     {
         test_page_overlay.setup(this);
-	this.ntrials = ntrials;
-	this.test_no = test_no;
-	this.count_offset = count_offset;
-	this.total_offset = total_offset;
-	this.set_question_only_duration();
+        this.ntrials = ntrials;
+        this.test_no = test_no;
+        this.count_offset = count_offset;
+        this.total_offset = total_offset;
+        this.set_question_only_duration();
 
         // Show or hide prompt.
         test_page_overlay.show_prompt("" + (this.total_offset + this.ntrials) + " items", true);
@@ -656,10 +647,10 @@ Page test_page
 
         // Enable button-box buttons 0 and 1 for resp. yes(0) and no(1).
         control.target = this;
-        control.button_box.disable_buttons();
-       	control.button_box.enable_button(0, 1); // button 0 means Yes
-        // control.button_box.enable_button(1, 0); // button 1 means No
-        control.button_box.enable_button(2, 0); // button 2 means No
+        control.disable_buttons();
+        control.enable_button(0, 1); // button 0 means Yes
+        // control.enable_button(1, 0); // button 1 means No
+        control.enable_button(2, 0); // button 2 means No
     }
 
 
@@ -668,7 +659,7 @@ Page test_page
     {
         test_page_overlay.cleanup();
 
-        control.button_box.disable_buttons();
+        control.disable_buttons();
         control.target = null;
     }
 
@@ -693,9 +684,9 @@ Page test_page
 
         // Show item number
         test_page_overlay.show_prompt(this.question + "\n\n" + (this.count_offset + count + 1) + " / " +
-				      (this.total_offset + this.ntrials), true);
+                (this.total_offset + this.ntrials), true);
 
-	fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);
+        fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);
         // Start stimulus at fixation offset.
         time stimonset = stimulus.play(fixoffset);
 
@@ -707,15 +698,16 @@ Page test_page
         // test_page_overlay.update_progress_bar(this.count_offset + count);
 
         // Update status line on control window. Cleared in done() above.
-	string status = this.test_no + ": " +
-			string(item.id) + "  " +
-            		string(item.type) + "  " +
-            		string(item.sndfn);
+        string status = this.test_no + ": " +
+            string(item.id) + "  " +
+            string(item.type) + "  " +
+            string(item.sndfn);
 
         control.set_status(status);
-	println(status);
+        println(status);
 
         // Remember who to signal when the trial is over.
         target = caller;
     }
 }
+

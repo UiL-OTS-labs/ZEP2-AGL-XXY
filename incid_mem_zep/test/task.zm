@@ -22,8 +22,6 @@ HISTORY:
 
 \******************************************************************************/
 
-//requires 1.10;
-
 import defs;
 import stimuli;
 import shuffle;
@@ -36,46 +34,9 @@ Block task
 {
     on_event:entry()
     {
-        control.button_box.open();
-
-        // If necessary set parallel port line D0 to power button box device.
-	// control.button_box.output(0x02);
-
         // Randomize tests.
         if (shuffle_test_items() != OK) terminate;
-
     }
-
-
-    /*Part instructions
-    {
-        on_event:entry()
-        {
-//            pause_page.set_text_size(1000, 600);
-            pause_page.set_text(
-                "<b>Dear participant,</b>\n"
-                "\n"
-                "Thank you for participating in this experiment.\n"
-                "\n"
-                "To respond, hit the left button on the button-box for "
-                "<i>No</i> and the right button for <i>Yes</i>.\n"
-
-//                "To respond, hit the left shift key for <i>No</i> and the "
-//                "right shift key for <i>Yes</i>.\n"
-
-//                "To respond, hit the left button on the button-box for "
-//                "<i>No</i> and the right button for <i>Yes</i>. "
-//                "Alternatively you can use the left or right shift keys.\n"
-
-//                "<i>Hit Enter when ready to start.</i>",
-                "<i>Hit any button on the button-box when ready to start.</i>",
-                true);
-
-            pause_page.action(this);
-            control.button_box.enable_all_buttons(CONTINUE);
-        }
-    }*/
-
 
     Part pause_training1
     {
@@ -91,7 +52,7 @@ Block task
                 true);
 
             pause_page.action(this);
-            control.button_box.enable_all_buttons(CONTINUE);
+            control.enable_all_buttons(CONTINUE);
         }
     }
 
@@ -104,21 +65,18 @@ Block task
         on_event:entry()
         {
             num_cycles = training_words.size;
-	    training_words.shuffle(0, -1);
+            training_words.shuffle(0, -1);
 
             // Prepare test page: progress bar enabled, feedback and prompt
             // disabled.
             training_page.setup(num_cycles, "training words ");
-	    training_page.set_question(TRAINING_QUESTION);
+            training_page.set_question(TRAINING_QUESTION);
         }
 
 
         on_event:exit()
         {
             training_page.cleanup();
-
-            // Save test output table as CSV file.
-            test_output_save();
         }
 
 
@@ -137,7 +95,7 @@ Block task
                 // Add new row to test output table.
                 TestOutput output;
                 output.step = "training_words";
-		output.grp = selected_group;
+                output.grp = selected_group;
                 output.trial = training1.cycle + 1;
                 output.id = item.id;
                 output.type = item.type;
@@ -167,16 +125,19 @@ Block task
         {
             pause_page.set_text(
                 "In de vorige fase heb je geluisterd naar woorden uit een vergeten taal.\n"
-                "Nu willen we controleren hoeveel woorden je hiervan onthouden hebt. Je krijgt zo verschillende woorden te horen. Enkele woorden heb je in de vorige fase al gehoord, andere woorden zijn nieuw. De woorden behoren tot dezelfde taal.\n"
+                "Nu willen we controleren hoeveel woorden je hiervan onthouden hebt. "
+                "Je krijgt zo verschillende woorden te horen. Enkele woorden heb je in "
+                "de vorige fase al gehoord, andere woorden zijn nieuw. De woorden behoren "
+                "tot dezelfde taal.\n"
                 "In deze taak heb je de knoppenbox niet meer nodig. Gebruik de muis om op de JA of NEE knop op het scherm te klikken.\n"
                 "Als je het woord eerder gehoord hebt, klik JA. Als je het woord nu voor het eerst hoort, dan klik je NEE.\n"
-		"Maak een beslissing zodra je het antwoord weet.\n"
+                "Maak een beslissing zodra je het antwoord weet.\n"
                 "\n"
                 "<i>Druk op START zodra je klaar bent om te beginnen.</i>",
                 true);
 
             pause_page.action(this);
-            control.button_box.enable_all_buttons(CONTINUE);
+            control.enable_all_buttons(CONTINUE);
         }
     }
 
@@ -189,21 +150,18 @@ Block task
         on_event:entry()
         {
             num_cycles = test_words.size;
-	    test_words.shuffle(0, -1);
+            test_words.shuffle(0, -1);
 
             // Prepare test page: progress bar enabled, feedback and prompt
             // disabled.
             test_page.setup(num_cycles, "test words");
-	    test_page.set_question(TEST_QUESTION);
+            test_page.set_question(TEST_QUESTION);
         }
 
 
         on_event:exit()
         {
             test_page.cleanup();
-
-            // Save test output table as CSV file.
-            test_output_save();
         }
 
 
@@ -222,7 +180,7 @@ Block task
                 // Add new row to test output table.
                 TestOutput output;
                 output.step = "test_words";
-		output.grp = selected_group;
+                output.grp = selected_group;
                 output.trial = test1.cycle + 1;
                 output.id = item.id;
                 output.type = item.type;
@@ -241,14 +199,10 @@ Block task
     {
         on_event:entry()
         {
-            // Save test output table as CSV file.
-            test_output_save();
-
             blank_page.action_auto(this, 500ms);
         }
     }
 }
-
 
 void action(Part caller)
 {
@@ -256,3 +210,4 @@ void action(Part caller)
     // (c.q. the main experiment object) will automatically be signalled.
     task.enter(caller);
 }
+

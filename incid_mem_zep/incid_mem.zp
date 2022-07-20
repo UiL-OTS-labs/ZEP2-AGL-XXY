@@ -42,9 +42,6 @@ Experiment experiment
 {
     on_event:entry()
     {
-	control.button_box.open("/dev/ttyACM0");
-        
-
         show_test_windows();
     }
 
