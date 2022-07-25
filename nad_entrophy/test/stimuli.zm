@@ -1,0 +1,183 @@
+/******************************************************************************\
+FILE:           stimuli.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     Silvia Radulescu
+LAST MODIFIED:	2015-03-17
+
+DESCRIPTION:
+
+Defines the formats of item table(s) and provides the actual content of
+the item table(s) i.e. stimulus information.
+
+
+HISTORY:
+2011-10-25 TV   Created.
+
+\******************************************************************************/
+
+
+// Symbolic definition of item type.
+enum Type
+{
+    TRAIN_LOW,               // training string low entropy
+    TRAIN_MEDIUM,            // training string medium entropy
+    TRAIN_HIGH,              // training string high entropy
+    TYPE1,                   // test string type1 - XXY trained
+    TYPE2,                   // test string type2 - X1X2Y trained
+    TYPE3,                   // test string type3 - XXY untrained
+    TYPE4,                   // test string type4 - X1X2Y untrained
+    CHECKIN,                 // checkin test
+}
+
+
+// Item table record.
+record TestItem
+{
+    int         id;             // item id
+    Type        type;           // item type
+    string      sndfn;          // stimulus word sound filename
+}
+
+record CheckinItem
+{
+    int           id;
+    Type          type;
+    string        value;
+}
+
+
+// Practice item table.
+//   index: item number
+TestItem[..][..] train_items =
+{
+    { // LoEn
+        {1,         TRAIN_LOW,            "kee_kee_muu.wav"},
+        {2,         TRAIN_LOW,            "joe_joe_goo.wav"},
+        {3,         TRAIN_LOW,            "daa_daa_lie.wav"},
+        {4,         TRAIN_LOW,            "puu_puu_reu.wav"},
+        {5,         TRAIN_LOW,            "teu_teu_vee.wav"},
+        {6,         TRAIN_LOW,            "hie_hie_saa.wav"},
+        {7,         TRAIN_LOW,            "foo_foo_sjoe.wav"},
+        {8,         TRAIN_LOW,            "kee_kee_muu.wav"},
+        {9,         TRAIN_LOW,            "joe_joe_goo.wav"},
+        {10,        TRAIN_LOW,            "daa_daa_lie.wav"},
+        {11,        TRAIN_LOW,            "puu_puu_reu.wav"},
+        {12,        TRAIN_LOW,            "teu_teu_vee.wav"},
+        {13,        TRAIN_LOW,            "hie_hie_saa.wav"},
+        {14,        TRAIN_LOW,            "foo_foo_sjoe.wav"},
+        {15,        TRAIN_LOW,            "kee_kee_muu.wav"},
+        {16,        TRAIN_LOW,            "joe_joe_goo.wav"},
+        {17,        TRAIN_LOW,            "daa_daa_lie.wav"},
+        {18,        TRAIN_LOW,            "puu_puu_reu.wav"},
+        {19,        TRAIN_LOW,            "teu_teu_vee.wav"},
+        {20,        TRAIN_LOW,            "hie_hie_saa.wav"},
+        {21,        TRAIN_LOW,            "foo_foo_sjoe.wav"},
+        {22,        TRAIN_LOW,            "kee_kee_muu.wav"},
+        {23,        TRAIN_LOW,            "joe_joe_goo.wav"},
+        {24,        TRAIN_LOW,            "daa_daa_lie.wav"},
+        {25,        TRAIN_LOW,            "puu_puu_reu.wav"},
+        {26,        TRAIN_LOW,            "teu_teu_vee.wav"},
+        {27,        TRAIN_LOW,            "hie_hie_saa.wav"},
+        {28,        TRAIN_LOW,            "foo_foo_sjoe.wav"},
+    },
+    { // MdEn
+        {1,         TRAIN_MEDIUM,         "kee_kee_muu.wav"},
+        {2,         TRAIN_MEDIUM,         "joe_joe_goo.wav"},
+        {3,         TRAIN_MEDIUM,         "daa_daa_lie.wav"},
+        {4,         TRAIN_MEDIUM,         "puu_puu_reu.wav"},
+        {5,         TRAIN_MEDIUM,         "teu_teu_vee.wav"},
+        {6,         TRAIN_MEDIUM,         "hie_hie_saa.wav"},
+        {7,         TRAIN_MEDIUM,         "foo_foo_sjoe.wav"},
+        {8,         TRAIN_MEDIUM,         "noo_noo_sjeu.wav"},
+        {9,         TRAIN_MEDIUM,         "noe_noe_veu.wav"},
+        {10,        TRAIN_MEDIUM,         "kuu_kuu_waa.wav"},
+        {11,        TRAIN_MEDIUM,         "jeu_jeu_vie.wav"},
+        {12,        TRAIN_MEDIUM,         "too_too_meu.wav"},
+        {13,        TRAIN_MEDIUM,         "haa_haa_vuu.wav"},
+        {14,        TRAIN_MEDIUM,         "fuu_fuu_sjie.wav"},
+        {15,        TRAIN_MEDIUM,         "daa_daa_meu.wav"},
+        {16,        TRAIN_MEDIUM,         "puu_puu_goo.wav"},
+        {17,        TRAIN_MEDIUM,         "teu_teu_sjie.wav"},
+        {18,        TRAIN_MEDIUM,         "hie_hie_muu.wav"},
+        {19,        TRAIN_MEDIUM,         "foo_foo_vuu.wav"},
+        {20,        TRAIN_MEDIUM,         "noo_noo_lie.wav"},
+        {21,        TRAIN_MEDIUM,         "noe_noe_vee.wav"},
+        {22,        TRAIN_MEDIUM,         "kuu_kuu_reu.wav"},
+        {23,        TRAIN_MEDIUM,         "jeu_jeu_saa.wav"},
+        {24,        TRAIN_MEDIUM,         "too_too_sjoe.wav"},
+        {25,        TRAIN_MEDIUM,         "haa_haa_sjeu.wav"},
+        {26,        TRAIN_MEDIUM,         "fuu_fuu_veu.wav"},
+        {27,        TRAIN_MEDIUM,         "kee_kee_waa.wav"},
+        {28,        TRAIN_MEDIUM,         "joe_joe_vie.wav"}
+    },
+    { // HiEn
+        {1,         TRAIN_HIGH,           "kee_kee_muu.wav"},
+        {2,         TRAIN_HIGH,           "joe_joe_goo.wav"},
+        {3,         TRAIN_HIGH,           "daa_daa_lie.wav"},
+        {4,         TRAIN_HIGH,           "puu_puu_reu.wav"},
+        {5,         TRAIN_HIGH,           "teu_teu_vee.wav"},
+        {6,         TRAIN_HIGH,           "hie_hie_saa.wav"},
+        {7,         TRAIN_HIGH,           "foo_foo_sjoe.wav"},
+        {8,         TRAIN_HIGH,           "noo_noo_sjeu.wav"},
+        {9,         TRAIN_HIGH,           "noe_noe_veu.wav"},
+        {10,        TRAIN_HIGH,           "kuu_kuu_waa.wav"},
+        {11,        TRAIN_HIGH,           "jeu_jeu_vie.wav"},
+        {12,        TRAIN_HIGH,           "too_too_meu.wav"},
+        {13,        TRAIN_HIGH,           "haa_haa_vuu.wav"},
+        {14,        TRAIN_HIGH,           "fuu_fuu_sjie.wav"},
+        {15,        TRAIN_HIGH,           "doo_doo_geu.wav"},
+        {16,        TRAIN_HIGH,           "buu_buu_roo.wav"},
+        {17,        TRAIN_HIGH,           "bie_bie_moo.wav"},
+        {18,        TRAIN_HIGH,           "kie_kie_goe.wav"},
+        {19,        TRAIN_HIGH,           "fie_fie_zuu.wav"},
+        {20,        TRAIN_HIGH,           "foe_foe_weu.wav"},
+        {21,        TRAIN_HIGH,           "heu_heu_woo.wav"},
+        {22,        TRAIN_HIGH,           "kaa_kaa_zeu.wav"},
+        {23,        TRAIN_HIGH,           "keu_keu_loe.wav"},
+        {24,        TRAIN_HIGH,           "boo_boo_gee.wav"},
+        {25,        TRAIN_HIGH,           "dee_dee_vaa.wav"},
+        {26,        TRAIN_HIGH,           "huu_huu_seu.wav"},
+        {27,        TRAIN_HIGH,           "faa_faa_luu.wav"},
+        {28,        TRAIN_HIGH,           "juu_juu_chie.wav"}
+    }
+};
+
+
+// Test item table.
+//   index: item number
+TestItem[..][..] test_items =
+{
+    { // TEST1
+        {1,         TYPE1,           "daa_daa_lie.wav"},
+        {2,         TYPE2,           "joe_daa_saa.wav"},
+        {3,         TYPE3,           "duu_duu_taa.wav"},
+        {4,         TYPE4,           "poo_gaa_roe.wav"},
+    },
+    { // TEST2
+        {5,         TYPE1,           "hie_hie_saa.wav"},
+        {6,         TYPE2,           "puu_teu_muu.wav"},
+        {7,         TYPE3,           "zoe_zoe_voo.wav"},
+        {8,         TYPE4,           "roe_nuu_nie.wav"},
+    },
+    { // TEST3
+        {9,         TYPE1,           "kee_kee_muu.wav"},
+        {10,        TYPE2,           "kee_foo_vee.wav"},
+        {11,        TYPE3,           "soo_soo_ruu.wav"},
+        {12,        TYPE4,           "gaa_mie_suu.wav"},
+    },
+    { // TEST4
+        {13,        TYPE1,           "teu_teu_vee.wav"},
+        {14,        TYPE2,           "hie_daa_reu.wav"},
+        {15,        TYPE3,           "jie_jie_feu.wav"},
+        {16,        TYPE4,           "suu_nie_nuu.wav"},
+    },
+    { // TEST5
+        {17,        TYPE1,           "joe_joe_goo.wav"},
+        {18,        TYPE2,           "teu_puu_goo.wav"},
+        {19,        TYPE3,           "woe_woe_see.wav"},
+        {20,        TYPE4,           "mie_poo_gaa.wav"},
+    },
+};
+
+
+
