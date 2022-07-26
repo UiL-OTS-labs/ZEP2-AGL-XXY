@@ -17,9 +17,14 @@ HISTORY:
 // Symbolic definition of groups.
 enum TestGroup
 {
-    LoEn,
-    MdEn,
-    HiEn
+    lo_150_a, // low entrophy interstimulus interval 150 ms language a
+    lo_150_b, // low entrophy interstimulus interval 150 ms language b
+    lo_75_a,  // low entrophy interstimulus interval 75 ms language a
+    lo_75_b,  // low entrophy interstimulus interval 75 ms language a
+    hi_150_a, // high entrophy interstimulus interval 150 ms language a
+    hi_150_b, // high entrophy interstimulus interval 150 ms language b
+    hi_75_a,  // high entrophy interstimulus interval 75 ms language a
+    hi_75_b,  // high entrophy interstimulus interval 75 ms language a
 }
  
  
