@@ -1,30 +1,3 @@
-/******************************************************************************\
-FILE:           entr.zp
-AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
-ADAPTED BY:     Silvia Radulescu <sil.radulescu@gmail.com>
-
-DESCRIPTION:
-
-Implementation of task: Limits and Variations of Generalization
-
-For more information see readme.txt in the
-test folder.
-
-
-Global structure of experiment:
-
-  - welcome
-
-  - phase 1 (see subfolder test)
-
-  - thankyou
-
-
-HISTORY:
-2015-03-10 Adapted.
-2017-01-04 Adapted.
-
-\******************************************************************************/
 
 requires 2.5;
 
