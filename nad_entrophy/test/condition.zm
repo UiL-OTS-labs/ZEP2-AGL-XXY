@@ -12,13 +12,13 @@ enum CondEntropy {
 };
 
 enum CondISI {
-    ISI_75,
-    ISI_150
+    ISI_83,
+    ISI_167
 };
 
 enum CondLang {
-    LANG_A,
-    LANG_B
+    LANG_L1,
+    LANG_L2
 };
 
 CondEntropy chosen_entropy;
@@ -27,34 +27,34 @@ CondLang    chosen_language;
 
 void init_conditions_from_test_group(TestGroup group) {
     if (
-        group == lo_150_a ||
-        group == lo_150_b ||
-        group == lo_75_a  ||
-        group == lo_75_b
+        group == lo_pause_l1    ||
+        group == lo_pause_l2    ||
+        group == lo_nopause_l1  ||
+        group == lo_nopause_l2
        )
         chosen_entropy = EN_LOW;
     else
         chosen_entropy = EN_HIGH;
 
     if (
-        group == lo_150_a ||
-        group == lo_150_b ||
-        group == hi_150_a ||
-        group == hi_150_b
+        group == lo_pause_l1 ||
+        group == lo_pause_l2 ||
+        group == hi_pause_l1 ||
+        group == hi_pause_l2
        )
-        chosen_isi = ISI_150;
+        chosen_isi = ISI_167;
     else
-        chosen_isi = ISI_75;
+        chosen_isi = ISI_83;
     
     if (
-        group == lo_150_a ||
-        group == lo_75_a  ||
-        group == hi_150_a ||
-        group == hi_75_a
+        group == lo_pause_l1   ||
+        group == lo_nopause_l1 ||
+        group == hi_pause_l1   ||
+        group == hi_nopause_l1
        )
-        chosen_language = LANG_A;
+        chosen_language = LANG_L1;
     else
-        chosen_language = LANG_B;
+        chosen_language = LANG_L2;
 }
 
 
