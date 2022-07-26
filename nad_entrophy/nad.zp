@@ -9,6 +9,7 @@ import std_exit_page1;
 import std_pause_page;
 import std_blank_page;
 
+import test::condition;
 import test::task;
 
 
@@ -16,6 +17,8 @@ Experiment experiment
 {
     on_event:entry()
     {
+        test::init_conditions_from_test_group(selected_group);
+        test::print_chosen_conditions(cast<TestGroup>(selected_group));
         show_test_windows();
     }
 

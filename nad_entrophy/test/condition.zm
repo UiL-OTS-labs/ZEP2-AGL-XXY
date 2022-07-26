@@ -1,0 +1,67 @@
+/*
+ * Each participant gets assigned to a test group, in
+ * each test group are 3 conditions encoded:
+ *  - entropy low or high
+ *  - inter stimulus time 150 or 75 ms
+ *  - language of training stimuli, language a or b
+ */
+
+enum CondEntropy {
+    EN_HIGH,
+    EN_LOW
+};
+
+enum CondISI {
+    ISI_75,
+    ISI_150
+};
+
+enum CondLang {
+    LANG_A,
+    LANG_B
+};
+
+CondEntropy chosen_entropy;
+CondISI     chosen_isi;
+CondLang    chosen_language;
+
+void init_conditions_from_test_group(TestGroup group) {
+    if (
+        group == lo_150_a ||
+        group == lo_150_b ||
+        group == lo_75_a  ||
+        group == lo_75_b
+       )
+        chosen_entropy = EN_LOW;
+    else
+        chosen_entropy = EN_HIGH;
+
+    if (
+        group == lo_150_a ||
+        group == lo_150_b ||
+        group == hi_150_a ||
+        group == hi_150_b
+       )
+        chosen_isi = ISI_150;
+    else
+        chosen_isi = ISI_75;
+    
+    if (
+        group == lo_150_a ||
+        group == lo_75_a  ||
+        group == hi_150_a ||
+        group == hi_75_a
+       )
+        chosen_language = LANG_A;
+    else
+        chosen_language = LANG_B;
+}
+
+
+void print_chosen_conditions(TestGroup group) {
+    println("chosen_group = " + group);
+    println("chosen_entropy = " + chosen_entropy);
+    println("chosen_isi = " + chosen_isi);
+    println("chosen_language = " + chosen_language);
+}
+
