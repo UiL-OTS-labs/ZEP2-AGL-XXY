@@ -20,7 +20,7 @@ import global_texts;
 Page train_page
 {
     TestItem    item;           // trial control parameters
-    int 	ntrials;
+    int         ntrials;
 
 
     init()
@@ -175,13 +175,13 @@ Page train_page
         // test_page_overlay.update_progress_bar(count);
 
         // Update status line on control window. Cleared in done() above.
-	string status = "TRAIN " + ": " +
-                        string(item.id) + "  " +
-                        string(item.type) + "  " +
-                        string(item.sndfn);
+        string status = "TRAIN " + ": " +
+            string(item.id) + "  " +
+            string(item.type) + "  " +
+            string(item.sndfn);
 
         control.set_status(status);
-	println(status);
+        println(status);
 
         // Remember who to signal when the trial is over.
         target = caller;
@@ -202,7 +202,7 @@ Page test_page
     init()
     {
         fill_pattern_color = TEST_PAGE_COLOR;
-	this.set_question(EXPERIMENT_TEST_QUESTION);
+        this.set_question(EXPERIMENT_TEST_QUESTION);
     }
 
 
@@ -455,11 +455,11 @@ Page test_page
     void setup(int ntrials=-1, string test_no="", int count_offset=0, int total_offset=0)
     {
         test_page_overlay.setup(this);
-	this.ntrials = ntrials;
-	this.test_no = test_no;
-	this.count_offset = count_offset;
-	this.total_offset = total_offset;
-	this.set_question_only_duration();
+        this.ntrials = ntrials;
+        this.test_no = test_no;
+        this.count_offset = count_offset;
+        this.total_offset = total_offset;
+        this.set_question_only_duration();
 
         // Show or hide prompt.
         test_page_overlay.show_prompt("" + (this.total_offset + this.ntrials) + " items", true);
@@ -470,7 +470,7 @@ Page test_page
         // Enable button-box buttons 0 and 1 for resp. yes(0) and no(1).
         control.target = this;
         control.disable_buttons();
-       	control.enable_button(0, 1); // button 0 means yes(1)
+        control.enable_button(0, 1); // button 0 means yes(1)
         // button 1 is unused (button down)
         control.enable_button(2, 0); // button 2 means no(0)
     }
@@ -506,9 +506,9 @@ Page test_page
 
         // Show item number
         test_page_overlay.show_prompt(this.question + "\n\n" + (this.count_offset + count + 1) + " / " +
-				      (this.total_offset + this.ntrials), true);
+                (this.total_offset + this.ntrials), true);
 
-	fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);
+        fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);
         // Start stimulus at fixation offset.
         time stimonset = stimulus.play(fixoffset);
 
@@ -520,13 +520,13 @@ Page test_page
         // test_page_overlay.update_progress_bar(this.count_offset + count);
 
         // Update status line on control window. Cleared in done() above.
-	string status = "TEST " + this.test_no + ": " +
-			string(item.id) + "  " +
-            		string(item.type) + "  " +
-            		string(item.sndfn);
+        string status = "TEST " + this.test_no + ": " +
+            string(item.id) + "  " +
+            string(item.type) + "  " +
+            string(item.sndfn);
 
         control.set_status(status);
-	println(status);
+        println(status);
 
         // Remember who to signal when the trial is over.
         target = caller;
