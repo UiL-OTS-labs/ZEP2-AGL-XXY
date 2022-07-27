@@ -47,8 +47,6 @@ Block task
 {
     on_event:entry()
     {
-        // Randomize tests.
-        if (shuffle_test_items() != OK) terminate;
     }
 
 
