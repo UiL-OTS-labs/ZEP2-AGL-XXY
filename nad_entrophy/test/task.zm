@@ -88,8 +88,7 @@ Block task
 
         on_event:entry()
         {
-            num_cycles = train_items[selected_group].size;
-            train_items[selected_group].shuffle(0, -1);
+            num_cycles = training_items1.size;
 
             // Prepare test page: progress bar, feedback and prompt enabled.
             train_page.setup(num_cycles);
@@ -106,7 +105,7 @@ Block task
         {
             on_event:entry()
             {
-                item = train_items[selected_group][training1.cycle];
+                item = training_items1[training1.cycle];
 
                 train_page.action(this, item, reference_time, training1.cycle);
             }
@@ -224,8 +223,7 @@ Block task
 
         on_event:entry()
         {
-            num_cycles = train_items[selected_group].size;
-	    train_items[selected_group].shuffle(0, -1);
+            num_cycles = training_items2.size;
 
             // Prepare test page: progress bar, feedback and prompt enabled.
             train_page.setup(num_cycles);
@@ -242,27 +240,27 @@ Block task
         {
             on_event:entry()
             {
-                item = train_items[selected_group][training2.cycle];
+                item = training_items2[training2.cycle];
 
                 train_page.action(this, item, reference_time, training2.cycle);
             }
 
-	    on_event:exit()
-	    {
-                // Add new row to test output table.
-                TestOutput output;
-                output.step = "training2";
-                output.grp = selected_group;
-                output.trial = training2.cycle + 1;
-                output.id = item.id;
-                output.type = item.type;
-                output.sndfn = item.sndfn;
-                output.value = -1;
-                output.rt = -1;
-                output.correct = -1;
-                output.atype = -1;
-                test_output_append(output);
-	    }
+            on_event:exit()
+            {
+                 // Add new row to test output table.
+                 TestOutput output;
+                 output.step = "training2";
+                 output.grp = selected_group;
+                 output.trial = training2.cycle + 1;
+                 output.id = item.id;
+                 output.type = item.type;
+                 output.sndfn = item.sndfn;
+                 output.value = -1;
+                 output.rt = -1;
+                 output.correct = -1;
+                 output.atype = -1;
+                 test_output_append(output);
+            }
         }
     }
 
@@ -360,8 +358,7 @@ Block task
 
         on_event:entry()
         {
-            num_cycles = train_items[selected_group].size;
-	    train_items[selected_group].shuffle(0, -1);
+            num_cycles = training_items3.size;
 
             // Prepare test page: progress bar, feedback and prompt enabled.
             train_page.setup(num_cycles);
@@ -378,7 +375,7 @@ Block task
         {
             on_event:entry()
             {
-                item = train_items[selected_group][training3.cycle];
+                item = training_items3[training3.cycle];
 
                 train_page.action(this, item, reference_time, training3.cycle);
             }
