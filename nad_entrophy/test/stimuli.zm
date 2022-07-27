@@ -243,7 +243,7 @@ void append_test_item(TestItem[] array, TestItem item) {
  * Distributes all trainings items over the three separate lists/blocks
  */
 void prepare_training_lists(TestItem[] input) {
-    TestItem[] master_list;
+    TestItem[] master_list = {};
     TestItem[] current_list;
     int nth_rep = 0;
     int i = 0;

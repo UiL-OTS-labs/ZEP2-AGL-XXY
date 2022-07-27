@@ -116,7 +116,8 @@ Block task
                 output.grp = selected_group;
                 output.trial = training1.cycle + 1;
                 output.id = item.id;
-                output.type = item.type;
+                output.entropy = item.entropy;
+                output.language = item.language;
                 output.sndfn = item.sndfn;
                 output.value = -1;
                 output.rt = -1;
@@ -194,7 +195,8 @@ Block task
                 output.grp = selected_group;
                 output.trial = test1.cycle + 1;
                 output.id = item.id;
-                output.type = item.type;
+                output.entropy = item.entropy;
+                output.language = item.language;
                 output.sndfn = item.sndfn;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
@@ -245,19 +247,20 @@ Block task
 
             on_event:exit()
             {
-                 // Add new row to test output table.
-                 TestOutput output;
-                 output.step = "training2";
-                 output.grp = selected_group;
-                 output.trial = training2.cycle + 1;
-                 output.id = item.id;
-                 output.type = item.type;
-                 output.sndfn = item.sndfn;
-                 output.value = -1;
-                 output.rt = -1;
-                 output.correct = -1;
-                 output.atype = -1;
-                 test_output_append(output);
+                // Add new row to test output table.
+                TestOutput output;
+                output.step = "training2";
+                output.grp = selected_group;
+                output.trial = training2.cycle + 1;
+                output.id = item.id;
+                output.entropy = item.entropy;
+                output.language = item.language;
+                output.sndfn = item.sndfn;
+                output.value = -1;
+                output.rt = -1;
+                output.correct = -1;
+                output.atype = -1;
+                test_output_append(output);
             }
         }
     }
@@ -329,7 +332,8 @@ Block task
                 output.grp = selected_group;
                 output.trial = test2.cycle + 1;
                 output.id = item.id;
-                output.type = item.type;
+                output.entropy = item.entropy;
+                output.language = item.language;
                 output.sndfn = item.sndfn;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
@@ -386,7 +390,8 @@ Block task
                 output.grp = selected_group;
                 output.trial = training3.cycle + 1;
                 output.id = item.id;
-                output.type = item.type;
+                output.entropy = item.entropy;
+                output.language = item.language;
                 output.sndfn = item.sndfn;
                 output.value = -1;
                 output.rt = -1;
@@ -464,7 +469,8 @@ Block task
                 output.grp = selected_group;
                 output.trial = test3.cycle + 1;
                 output.id = item.id;
-                output.type = item.type;
+                output.entropy = item.entropy;
+                output.language = item.language;
                 output.sndfn = item.sndfn;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
@@ -542,7 +548,8 @@ Block task
                 output.grp = selected_group;
                 output.trial = test4.cycle + 1;
                 output.id = item.id;
-                output.type = item.type;
+                output.entropy = item.entropy;
+                output.language = item.language;
                 output.sndfn = item.sndfn;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
@@ -594,7 +601,8 @@ Block task
                 output.grp = selected_group;
                 output.trial = test5.cycle + 1;
                 output.id = item.id;
-                output.type = item.type;
+                output.entropy = item.entropy;
+                output.language = item.language;
                 output.sndfn = item.sndfn;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
