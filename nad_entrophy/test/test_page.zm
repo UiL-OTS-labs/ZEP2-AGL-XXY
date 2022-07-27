@@ -177,7 +177,8 @@ Page train_page
         // Update status line on control window. Cleared in done() above.
         string status = "TRAIN " + ": " +
             string(item.id) + "  " +
-            string(item.type) + "  " +
+            string(item.entropy) + "  " +
+            string(item.language) + "  " +
             string(item.sndfn);
 
         control.set_status(status);
@@ -386,7 +387,8 @@ Page test_page
             {
                 value = val;
                 rt = int(reaction_time(0));
-                isXXY = (item.type == TYPE1 || item.type == TYPE3);
+                //isXXY = (item.type == TYPE1 || item.type == TYPE3);
+                println("fix process hit testpage 391");
                 correct = (
                       (isXXY && val == 1) || (!isXXY && val == 0)
                 );
@@ -522,7 +524,8 @@ Page test_page
         // Update status line on control window. Cleared in done() above.
         string status = "TEST " + this.test_no + ": " +
             string(item.id) + "  " +
-            string(item.type) + "  " +
+            string(item.entropy) + "  " +
+            string(item.language) + "  " +
             string(item.sndfn);
 
         control.set_status(status);

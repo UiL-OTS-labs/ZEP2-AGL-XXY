@@ -24,9 +24,15 @@ const dur       FIXATION_DURATION               = 0ms;
 const dur       FEEDBACK_DURATION               = 1000ms;
 
 // Duration before playing the first stimuli in a test
-const dur	QUESTION_ALONE_DURATION		= 3000ms;
+const dur	    QUESTION_ALONE_DURATION	        = 3000ms;
 
 // Duration of the response interval. A value of 0ms means there is no
 // timeout.
 // const dur       RESPONSE_DURATION               = 2000ms;       // auto-paced
 const dur       RESPONSE_DURATION               = 0ms;          // self-paced
+
+// The number of training items in one of the trainings blocks
+const int       NUM_TRAININGS_ITEMS             = 144;
+
+// The total number of trainings items
+const int       TOT_TRAININGS_ITEMS             = 432;

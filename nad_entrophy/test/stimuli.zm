@@ -15,12 +15,12 @@ HISTORY:
 
 \******************************************************************************/
 
+import condition;
 
 // Symbolic definition of item type.
 enum Type
 {
     TRAIN_LOW,               // training string low entropy
-    TRAIN_MEDIUM,            // training string medium entropy
     TRAIN_HIGH,              // training string high entropy
     TYPE1,                   // test string type1 - XXY trained
     TYPE2,                   // test string type2 - X1X2Y trained
@@ -34,7 +34,8 @@ enum Type
 record TestItem
 {
     int         id;             // item id
-    Type        type;           // item type
+    CondEntropy entropy;        // entropy of item
+    CondLang    language;       // L1 or L2
     string      sndfn;          // stimulus word sound filename
 }
 
@@ -46,138 +47,216 @@ record CheckinItem
 }
 
 
-// Practice item table.
-//   index: item number
-TestItem[..][..] train_items =
+// Training items of language 1 with low entropy
+TestItem[] items_low_l1 =
 {
-    { // LoEn
-        {1,         TRAIN_LOW,            "kee_kee_muu.wav"},
-        {2,         TRAIN_LOW,            "joe_joe_goo.wav"},
-        {3,         TRAIN_LOW,            "daa_daa_lie.wav"},
-        {4,         TRAIN_LOW,            "puu_puu_reu.wav"},
-        {5,         TRAIN_LOW,            "teu_teu_vee.wav"},
-        {6,         TRAIN_LOW,            "hie_hie_saa.wav"},
-        {7,         TRAIN_LOW,            "foo_foo_sjoe.wav"},
-        {8,         TRAIN_LOW,            "kee_kee_muu.wav"},
-        {9,         TRAIN_LOW,            "joe_joe_goo.wav"},
-        {10,        TRAIN_LOW,            "daa_daa_lie.wav"},
-        {11,        TRAIN_LOW,            "puu_puu_reu.wav"},
-        {12,        TRAIN_LOW,            "teu_teu_vee.wav"},
-        {13,        TRAIN_LOW,            "hie_hie_saa.wav"},
-        {14,        TRAIN_LOW,            "foo_foo_sjoe.wav"},
-        {15,        TRAIN_LOW,            "kee_kee_muu.wav"},
-        {16,        TRAIN_LOW,            "joe_joe_goo.wav"},
-        {17,        TRAIN_LOW,            "daa_daa_lie.wav"},
-        {18,        TRAIN_LOW,            "puu_puu_reu.wav"},
-        {19,        TRAIN_LOW,            "teu_teu_vee.wav"},
-        {20,        TRAIN_LOW,            "hie_hie_saa.wav"},
-        {21,        TRAIN_LOW,            "foo_foo_sjoe.wav"},
-        {22,        TRAIN_LOW,            "kee_kee_muu.wav"},
-        {23,        TRAIN_LOW,            "joe_joe_goo.wav"},
-        {24,        TRAIN_LOW,            "daa_daa_lie.wav"},
-        {25,        TRAIN_LOW,            "puu_puu_reu.wav"},
-        {26,        TRAIN_LOW,            "teu_teu_vee.wav"},
-        {27,        TRAIN_LOW,            "hie_hie_saa.wav"},
-        {28,        TRAIN_LOW,            "foo_foo_sjoe.wav"},
-    },
-    { // MdEn
-        {1,         TRAIN_MEDIUM,         "kee_kee_muu.wav"},
-        {2,         TRAIN_MEDIUM,         "joe_joe_goo.wav"},
-        {3,         TRAIN_MEDIUM,         "daa_daa_lie.wav"},
-        {4,         TRAIN_MEDIUM,         "puu_puu_reu.wav"},
-        {5,         TRAIN_MEDIUM,         "teu_teu_vee.wav"},
-        {6,         TRAIN_MEDIUM,         "hie_hie_saa.wav"},
-        {7,         TRAIN_MEDIUM,         "foo_foo_sjoe.wav"},
-        {8,         TRAIN_MEDIUM,         "noo_noo_sjeu.wav"},
-        {9,         TRAIN_MEDIUM,         "noe_noe_veu.wav"},
-        {10,        TRAIN_MEDIUM,         "kuu_kuu_waa.wav"},
-        {11,        TRAIN_MEDIUM,         "jeu_jeu_vie.wav"},
-        {12,        TRAIN_MEDIUM,         "too_too_meu.wav"},
-        {13,        TRAIN_MEDIUM,         "haa_haa_vuu.wav"},
-        {14,        TRAIN_MEDIUM,         "fuu_fuu_sjie.wav"},
-        {15,        TRAIN_MEDIUM,         "daa_daa_meu.wav"},
-        {16,        TRAIN_MEDIUM,         "puu_puu_goo.wav"},
-        {17,        TRAIN_MEDIUM,         "teu_teu_sjie.wav"},
-        {18,        TRAIN_MEDIUM,         "hie_hie_muu.wav"},
-        {19,        TRAIN_MEDIUM,         "foo_foo_vuu.wav"},
-        {20,        TRAIN_MEDIUM,         "noo_noo_lie.wav"},
-        {21,        TRAIN_MEDIUM,         "noe_noe_vee.wav"},
-        {22,        TRAIN_MEDIUM,         "kuu_kuu_reu.wav"},
-        {23,        TRAIN_MEDIUM,         "jeu_jeu_saa.wav"},
-        {24,        TRAIN_MEDIUM,         "too_too_sjoe.wav"},
-        {25,        TRAIN_MEDIUM,         "haa_haa_sjeu.wav"},
-        {26,        TRAIN_MEDIUM,         "fuu_fuu_veu.wav"},
-        {27,        TRAIN_MEDIUM,         "kee_kee_waa.wav"},
-        {28,        TRAIN_MEDIUM,         "joe_joe_vie.wav"}
-    },
-    { // HiEn
-        {1,         TRAIN_HIGH,           "kee_kee_muu.wav"},
-        {2,         TRAIN_HIGH,           "joe_joe_goo.wav"},
-        {3,         TRAIN_HIGH,           "daa_daa_lie.wav"},
-        {4,         TRAIN_HIGH,           "puu_puu_reu.wav"},
-        {5,         TRAIN_HIGH,           "teu_teu_vee.wav"},
-        {6,         TRAIN_HIGH,           "hie_hie_saa.wav"},
-        {7,         TRAIN_HIGH,           "foo_foo_sjoe.wav"},
-        {8,         TRAIN_HIGH,           "noo_noo_sjeu.wav"},
-        {9,         TRAIN_HIGH,           "noe_noe_veu.wav"},
-        {10,        TRAIN_HIGH,           "kuu_kuu_waa.wav"},
-        {11,        TRAIN_HIGH,           "jeu_jeu_vie.wav"},
-        {12,        TRAIN_HIGH,           "too_too_meu.wav"},
-        {13,        TRAIN_HIGH,           "haa_haa_vuu.wav"},
-        {14,        TRAIN_HIGH,           "fuu_fuu_sjie.wav"},
-        {15,        TRAIN_HIGH,           "doo_doo_geu.wav"},
-        {16,        TRAIN_HIGH,           "buu_buu_roo.wav"},
-        {17,        TRAIN_HIGH,           "bie_bie_moo.wav"},
-        {18,        TRAIN_HIGH,           "kie_kie_goe.wav"},
-        {19,        TRAIN_HIGH,           "fie_fie_zuu.wav"},
-        {20,        TRAIN_HIGH,           "foe_foe_weu.wav"},
-        {21,        TRAIN_HIGH,           "heu_heu_woo.wav"},
-        {22,        TRAIN_HIGH,           "kaa_kaa_zeu.wav"},
-        {23,        TRAIN_HIGH,           "keu_keu_loe.wav"},
-        {24,        TRAIN_HIGH,           "boo_boo_gee.wav"},
-        {25,        TRAIN_HIGH,           "dee_dee_vaa.wav"},
-        {26,        TRAIN_HIGH,           "huu_huu_seu.wav"},
-        {27,        TRAIN_HIGH,           "faa_faa_luu.wav"},
-        {28,        TRAIN_HIGH,           "juu_juu_chie.wav"}
-    }
+    {1, EN_LOW, LANG_L1, "rak_bap_toef"},
+    {2, EN_LOW, LANG_L1, "rak_gom_toef"},
+    {3, EN_LOW, LANG_L1, "rak_ves_toef"},
+    {4, EN_LOW, LANG_L1, "sot_bap_jik"},
+    {5, EN_LOW, LANG_L1, "sot_gom_jik"},
+    {6, EN_LOW, LANG_L1, "sot_ves_jik"},
+    {7, EN_LOW, LANG_L1, "tep_bap_lut"},
+    {8, EN_LOW, LANG_L1, "tep_gom_lut"},
+    {9, EN_LOW, LANG_L1, "tep_ves_lut"},
 };
 
+// Training items of language 1 with high entropy
+TestItem[] items_high_l1 = {
+    {1,  EN_HIGH, LANG_L1, "rak_bap_toef"},
+    {2,  EN_HIGH, LANG_L1, "rak_gom_toef"},
+    {3,  EN_HIGH, LANG_L1, "rak_ves_toef"},
+    {4,  EN_HIGH, LANG_L1, "sot_bap_jik"},
+    {5,  EN_HIGH, LANG_L1, "sot_gom_jik"},
+    {6,  EN_HIGH, LANG_L1, "sot_ves_jik"},
+    {7,  EN_HIGH, LANG_L1, "tep_bap_lut"},
+    {8,  EN_HIGH, LANG_L1, "tep_gom_lut"},
+    {9,  EN_HIGH, LANG_L1, "tep_ves_lut"},
+    {10, EN_HIGH, LANG_L1, "rak_dos_toef"},
+    {11, EN_HIGH, LANG_L1, "rak_huf_toef"},
+    {12, EN_HIGH, LANG_L1, "rak_mip_toef"},
+    {13, EN_HIGH, LANG_L1, "rak_nit_toef"},
+    {14, EN_HIGH, LANG_L1, "rak_pem_toef"},
+    {15, EN_HIGH, LANG_L1, "rak_wop_toef"},
+    {16, EN_HIGH, LANG_L1, "sot_dos_jik"},
+    {17, EN_HIGH, LANG_L1, "sot_huf_jik"},
+    {18, EN_HIGH, LANG_L1, "sot_mip_jik"},
+    {19, EN_HIGH, LANG_L1, "sot_nit_jik"},
+    {20, EN_HIGH, LANG_L1, "sot_pem_jik"},
+    {21, EN_HIGH, LANG_L1, "sot_wop_jik"},
+    {22, EN_HIGH, LANG_L1, "tep_dos_lut"},
+    {23, EN_HIGH, LANG_L1, "tep_huf_lut"},
+    {24, EN_HIGH, LANG_L1, "tep_mip_lut"},
+    {25, EN_HIGH, LANG_L1, "tep_nit_lut"},
+    {26, EN_HIGH, LANG_L1, "tep_pem_lut"},
+    {27, EN_HIGH, LANG_L1, "tep_wop_lut"},
+    {28, EN_HIGH, LANG_L1, "rak_bif_toef"},
+    {29, EN_HIGH, LANG_L1, "rak_dul_toef"},
+    {30, EN_HIGH, LANG_L1, "rak_hog_toef"},
+    {31, EN_HIGH, LANG_L1, "rak_jal_toef"},
+    {32, EN_HIGH, LANG_L1, "rak_keg_toef"},
+    {33, EN_HIGH, LANG_L1, "rak_kof_toef"},
+    {34, EN_HIGH, LANG_L1, "rak_naf_toef"},
+    {35, EN_HIGH, LANG_L1, "rak_nup_toef"},
+    {36, EN_HIGH, LANG_L1, "rak_zuk_toef"},
+    {37, EN_HIGH, LANG_L1, "sot_bif_jik"},
+    {38, EN_HIGH, LANG_L1, "sot_dul_jik"},
+    {39, EN_HIGH, LANG_L1, "sot_hog_jik"},
+    {40, EN_HIGH, LANG_L1, "sot_jal_jik"},
+    {41, EN_HIGH, LANG_L1, "sot_keg_jik"},
+    {42, EN_HIGH, LANG_L1, "sot_kof_jik"},
+    {43, EN_HIGH, LANG_L1, "sot_naf_jik"},
+    {44, EN_HIGH, LANG_L1, "sot_nup_jik"},
+    {45, EN_HIGH, LANG_L1, "sot_zuk_jik"},
+    {46, EN_HIGH, LANG_L1, "tep_bif_lut"},
+    {47, EN_HIGH, LANG_L1, "tep_dul_lut"},
+    {48, EN_HIGH, LANG_L1, "tep_hog_lut"},
+    {49, EN_HIGH, LANG_L1, "tep_jal_lut"},
+    {50, EN_HIGH, LANG_L1, "tep_keg_lut"},
+    {51, EN_HIGH, LANG_L1, "tep_kof_lut"},
+    {52, EN_HIGH, LANG_L1, "tep_naf_lut"},
+    {53, EN_HIGH, LANG_L1, "tep_nup_lut"},
+    {54, EN_HIGH, LANG_L1, "tep_zuk_lut"}
+}
+
+// Training items of language 2 with low entropy
+TestItem[] items_low_l2 =
+{
+    {1, EN_LOW, LANG_L2, "rak_bap_lut"},
+    {2, EN_LOW, LANG_L2, "rak_gom_lut"},
+    {3, EN_LOW, LANG_L2, "rak_ves_lut"},
+    {4, EN_LOW, LANG_L2, "sot_bap_toef"},
+    {5, EN_LOW, LANG_L2, "sot_gom_toef"},
+    {6, EN_LOW, LANG_L2, "sot_ves_toef"},
+    {7, EN_LOW, LANG_L2, "tep_bap_jik"},
+    {8, EN_LOW, LANG_L2, "tep_gom_jik"},
+    {9, EN_LOW, LANG_L2, "tep_ves_jik"},
+};
+
+
+// Training items of language 2 with high entropy
+TestItem[] items_high_l2 = {
+    {1,  EN_HIGH, LANG_L2, "rak_bap_lut"},
+    {2,  EN_HIGH, LANG_L2, "rak_gom_lut"},
+    {3,  EN_HIGH, LANG_L2, "rak_ves_lut"},
+    {4,  EN_HIGH, LANG_L2, "sot_bap_toef"},
+    {5,  EN_HIGH, LANG_L2, "sot_gom_toef"},
+    {6,  EN_HIGH, LANG_L2, "sot_ves_toef"},
+    {7,  EN_HIGH, LANG_L2, "tep_bap_jik"},
+    {8,  EN_HIGH, LANG_L2, "tep_gom_jik"},
+    {9,  EN_HIGH, LANG_L2, "tep_ves_jik"},
+    {10, EN_HIGH, LANG_L2, "rak_dos_lut"},
+    {11, EN_HIGH, LANG_L2, "rak_huf_lut"},
+    {12, EN_HIGH, LANG_L2, "rak_mip_lut"},
+    {13, EN_HIGH, LANG_L2, "rak_nit_lut"},
+    {14, EN_HIGH, LANG_L2, "rak_pem_lut"},
+    {15, EN_HIGH, LANG_L2, "rak_wop_lut"},
+    {16, EN_HIGH, LANG_L2, "sot_dos_toef"},
+    {17, EN_HIGH, LANG_L2, "sot_huf_toef"},
+    {18, EN_HIGH, LANG_L2, "sot_mip_toef"},
+    {19, EN_HIGH, LANG_L2, "sot_nit_toef"},
+    {20, EN_HIGH, LANG_L2, "sot_pem_toef"},
+    {21, EN_HIGH, LANG_L2, "sot_wop_toef"},
+    {22, EN_HIGH, LANG_L2, "tep_dos_jik"},
+    {23, EN_HIGH, LANG_L2, "tep_huf_jik"},
+    {24, EN_HIGH, LANG_L2, "tep_mip_jik"},
+    {25, EN_HIGH, LANG_L2, "tep_nit_jik"},
+    {26, EN_HIGH, LANG_L2, "tep_pem_jik"},
+    {27, EN_HIGH, LANG_L2, "tep_wop_jik"},
+    {28, EN_HIGH, LANG_L2, "rak_bif_lut"},
+    {29, EN_HIGH, LANG_L2, "rak_dul_lut"},
+    {30, EN_HIGH, LANG_L2, "rak_hog_lut"},
+    {31, EN_HIGH, LANG_L2, "rak_jal_lut"},
+    {32, EN_HIGH, LANG_L2, "rak_keg_lut"},
+    {33, EN_HIGH, LANG_L2, "rak_kof_lut"},
+    {34, EN_HIGH, LANG_L2, "rak_naf_lut"},
+    {35, EN_HIGH, LANG_L2, "rak_nup_lut"},
+    {36, EN_HIGH, LANG_L2, "rak_zuk_lut"},
+    {37, EN_HIGH, LANG_L2, "sot_bif_toef"},
+    {38, EN_HIGH, LANG_L2, "sot_dul_toef"},
+    {39, EN_HIGH, LANG_L2, "sot_hog_toef"},
+    {40, EN_HIGH, LANG_L2, "sot_jal_toef"},
+    {41, EN_HIGH, LANG_L2, "sot_keg_toef"},
+    {42, EN_HIGH, LANG_L2, "sot_kof_toef"},
+    {43, EN_HIGH, LANG_L2, "sot_naf_toef"},
+    {44, EN_HIGH, LANG_L2, "sot_nup_toef"},
+    {45, EN_HIGH, LANG_L2, "sot_zuk_toef"},
+    {46, EN_HIGH, LANG_L2, "tep_bif_jik"},
+    {47, EN_HIGH, LANG_L2, "tep_dul_jik"},
+    {48, EN_HIGH, LANG_L2, "tep_hog_jik"},
+    {49, EN_HIGH, LANG_L2, "tep_jal_jik"},
+    {50, EN_HIGH, LANG_L2, "tep_keg_jik"},
+    {51, EN_HIGH, LANG_L2, "tep_kof_jik"},
+    {52, EN_HIGH, LANG_L2, "tep_naf_jik"},
+    {53, EN_HIGH, LANG_L2, "tep_nup_jik"},
+    {54, EN_HIGH, LANG_L2, "tep_zuk_jik"}
+}
+
+
+TestItem[] training_items1;
+TestItem[] training_items2;
+TestItem[] training_items3;
 
 // Test item table.
 //   index: item number
 TestItem[..][..] test_items =
 {
     { // TEST1
-        {1,         TYPE1,           "daa_daa_lie.wav"},
-        {2,         TYPE2,           "joe_daa_saa.wav"},
-        {3,         TYPE3,           "duu_duu_taa.wav"},
-        {4,         TYPE4,           "poo_gaa_roe.wav"},
+//        {1,         TYPE1,           "daa_daa_lie.wav"},
+//        {2,         TYPE2,           "joe_daa_saa.wav"},
+//        {3,         TYPE3,           "duu_duu_taa.wav"},
+//        {4,         TYPE4,           "poo_gaa_roe.wav"},
     },
     { // TEST2
-        {5,         TYPE1,           "hie_hie_saa.wav"},
-        {6,         TYPE2,           "puu_teu_muu.wav"},
-        {7,         TYPE3,           "zoe_zoe_voo.wav"},
-        {8,         TYPE4,           "roe_nuu_nie.wav"},
+//        {5,         TYPE1,           "hie_hie_saa.wav"},
+//        {6,         TYPE2,           "puu_teu_muu.wav"},
+//        {7,         TYPE3,           "zoe_zoe_voo.wav"},
+//        {8,         TYPE4,           "roe_nuu_nie.wav"},
     },
     { // TEST3
-        {9,         TYPE1,           "kee_kee_muu.wav"},
-        {10,        TYPE2,           "kee_foo_vee.wav"},
-        {11,        TYPE3,           "soo_soo_ruu.wav"},
-        {12,        TYPE4,           "gaa_mie_suu.wav"},
+//        {9,         TYPE1,           "kee_kee_muu.wav"},
+//        {10,        TYPE2,           "kee_foo_vee.wav"},
+//        {11,        TYPE3,           "soo_soo_ruu.wav"},
+//        {12,        TYPE4,           "gaa_mie_suu.wav"},
     },
     { // TEST4
-        {13,        TYPE1,           "teu_teu_vee.wav"},
-        {14,        TYPE2,           "hie_daa_reu.wav"},
-        {15,        TYPE3,           "jie_jie_feu.wav"},
-        {16,        TYPE4,           "suu_nie_nuu.wav"},
+//        {13,        TYPE1,           "teu_teu_vee.wav"},
+//        {14,        TYPE2,           "hie_daa_reu.wav"},
+//        {15,        TYPE3,           "jie_jie_feu.wav"},
+//        {16,        TYPE4,           "suu_nie_nuu.wav"},
     },
     { // TEST5
-        {17,        TYPE1,           "joe_joe_goo.wav"},
-        {18,        TYPE2,           "teu_puu_goo.wav"},
-        {19,        TYPE3,           "woe_woe_see.wav"},
-        {20,        TYPE4,           "mie_poo_gaa.wav"},
+//        {17,        TYPE1,           "joe_joe_goo.wav"},
+//        {18,        TYPE2,           "teu_puu_goo.wav"},
+//        {19,        TYPE3,           "woe_woe_see.wav"},
+//        {20,        TYPE4,           "mie_poo_gaa.wav"},
     },
 };
 
+void prepare_trainings_list(TestItem[] result, TestItem[] input) {
+    while (result.size < 144) {
+    }
+}
 
+void prepare_training_items() {
+
+    TestItem[] trainings_items;
+
+    if (chosen_entropy == EN_HIGH) {
+        if (chosen_language == LANG_L1)
+            trainings_items = items_high_l1;
+        else 
+            trainings_items = items_high_l2;
+    }
+    else {
+        if (chosen_language == LANG_L1)
+            trainings_items = items_low_l1;
+        else
+            trainings_items = items_low_l2;
+    }
+
+    prepare_training_list(training_items1, training_items);
+    prepare_training_list(training_items2, training_items);
+    prepare_training_list(training_items3, training_items);
+}
 
