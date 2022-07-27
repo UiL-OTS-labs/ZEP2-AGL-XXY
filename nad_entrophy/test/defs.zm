@@ -31,8 +31,12 @@ const dur	    QUESTION_ALONE_DURATION	        = 3000ms;
 // const dur       RESPONSE_DURATION               = 2000ms;       // auto-paced
 const dur       RESPONSE_DURATION               = 0ms;          // self-paced
 
+const int       NUM_TRAINING_BLOCKS             = 3;
+
+
 // The number of training items in one of the trainings blocks
 const int       NUM_TRAININGS_ITEMS             = 144;
 
 // The total number of trainings items
-const int       TOT_TRAININGS_ITEMS             = 432;
+const int       TOT_TRAININGS_ITEMS             = NUM_TRAININGS_ITEMS * 3;
+

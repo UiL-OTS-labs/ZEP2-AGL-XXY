@@ -34,6 +34,7 @@ enum Type
 record TestItem
 {
     int         id;             // item id
+    int         nth_rep;        // the number of repetition.
     CondEntropy entropy;        // entropy of item
     CondLang    language;       // L1 or L2
     string      sndfn;          // stimulus word sound filename
@@ -50,146 +51,146 @@ record CheckinItem
 // Training items of language 1 with low entropy
 TestItem[] items_low_l1 =
 {
-    {1, EN_LOW, LANG_L1, "rak_bap_toef"},
-    {2, EN_LOW, LANG_L1, "rak_gom_toef"},
-    {3, EN_LOW, LANG_L1, "rak_ves_toef"},
-    {4, EN_LOW, LANG_L1, "sot_bap_jik"},
-    {5, EN_LOW, LANG_L1, "sot_gom_jik"},
-    {6, EN_LOW, LANG_L1, "sot_ves_jik"},
-    {7, EN_LOW, LANG_L1, "tep_bap_lut"},
-    {8, EN_LOW, LANG_L1, "tep_gom_lut"},
-    {9, EN_LOW, LANG_L1, "tep_ves_lut"},
+    {1, 0, EN_LOW, LANG_L1, "rak_bap_toef"},
+    {2, 0, EN_LOW, LANG_L1, "rak_gom_toef"},
+    {3, 0, EN_LOW, LANG_L1, "rak_ves_toef"},
+    {4, 0, EN_LOW, LANG_L1, "sot_bap_jik"},
+    {5, 0, EN_LOW, LANG_L1, "sot_gom_jik"},
+    {6, 0, EN_LOW, LANG_L1, "sot_ves_jik"},
+    {7, 0, EN_LOW, LANG_L1, "tep_bap_lut"},
+    {8, 0, EN_LOW, LANG_L1, "tep_gom_lut"},
+    {9, 0, EN_LOW, LANG_L1, "tep_ves_lut"},
 };
 
 // Training items of language 1 with high entropy
 TestItem[] items_high_l1 = {
-    {1,  EN_HIGH, LANG_L1, "rak_bap_toef"},
-    {2,  EN_HIGH, LANG_L1, "rak_gom_toef"},
-    {3,  EN_HIGH, LANG_L1, "rak_ves_toef"},
-    {4,  EN_HIGH, LANG_L1, "sot_bap_jik"},
-    {5,  EN_HIGH, LANG_L1, "sot_gom_jik"},
-    {6,  EN_HIGH, LANG_L1, "sot_ves_jik"},
-    {7,  EN_HIGH, LANG_L1, "tep_bap_lut"},
-    {8,  EN_HIGH, LANG_L1, "tep_gom_lut"},
-    {9,  EN_HIGH, LANG_L1, "tep_ves_lut"},
-    {10, EN_HIGH, LANG_L1, "rak_dos_toef"},
-    {11, EN_HIGH, LANG_L1, "rak_huf_toef"},
-    {12, EN_HIGH, LANG_L1, "rak_mip_toef"},
-    {13, EN_HIGH, LANG_L1, "rak_nit_toef"},
-    {14, EN_HIGH, LANG_L1, "rak_pem_toef"},
-    {15, EN_HIGH, LANG_L1, "rak_wop_toef"},
-    {16, EN_HIGH, LANG_L1, "sot_dos_jik"},
-    {17, EN_HIGH, LANG_L1, "sot_huf_jik"},
-    {18, EN_HIGH, LANG_L1, "sot_mip_jik"},
-    {19, EN_HIGH, LANG_L1, "sot_nit_jik"},
-    {20, EN_HIGH, LANG_L1, "sot_pem_jik"},
-    {21, EN_HIGH, LANG_L1, "sot_wop_jik"},
-    {22, EN_HIGH, LANG_L1, "tep_dos_lut"},
-    {23, EN_HIGH, LANG_L1, "tep_huf_lut"},
-    {24, EN_HIGH, LANG_L1, "tep_mip_lut"},
-    {25, EN_HIGH, LANG_L1, "tep_nit_lut"},
-    {26, EN_HIGH, LANG_L1, "tep_pem_lut"},
-    {27, EN_HIGH, LANG_L1, "tep_wop_lut"},
-    {28, EN_HIGH, LANG_L1, "rak_bif_toef"},
-    {29, EN_HIGH, LANG_L1, "rak_dul_toef"},
-    {30, EN_HIGH, LANG_L1, "rak_hog_toef"},
-    {31, EN_HIGH, LANG_L1, "rak_jal_toef"},
-    {32, EN_HIGH, LANG_L1, "rak_keg_toef"},
-    {33, EN_HIGH, LANG_L1, "rak_kof_toef"},
-    {34, EN_HIGH, LANG_L1, "rak_naf_toef"},
-    {35, EN_HIGH, LANG_L1, "rak_nup_toef"},
-    {36, EN_HIGH, LANG_L1, "rak_zuk_toef"},
-    {37, EN_HIGH, LANG_L1, "sot_bif_jik"},
-    {38, EN_HIGH, LANG_L1, "sot_dul_jik"},
-    {39, EN_HIGH, LANG_L1, "sot_hog_jik"},
-    {40, EN_HIGH, LANG_L1, "sot_jal_jik"},
-    {41, EN_HIGH, LANG_L1, "sot_keg_jik"},
-    {42, EN_HIGH, LANG_L1, "sot_kof_jik"},
-    {43, EN_HIGH, LANG_L1, "sot_naf_jik"},
-    {44, EN_HIGH, LANG_L1, "sot_nup_jik"},
-    {45, EN_HIGH, LANG_L1, "sot_zuk_jik"},
-    {46, EN_HIGH, LANG_L1, "tep_bif_lut"},
-    {47, EN_HIGH, LANG_L1, "tep_dul_lut"},
-    {48, EN_HIGH, LANG_L1, "tep_hog_lut"},
-    {49, EN_HIGH, LANG_L1, "tep_jal_lut"},
-    {50, EN_HIGH, LANG_L1, "tep_keg_lut"},
-    {51, EN_HIGH, LANG_L1, "tep_kof_lut"},
-    {52, EN_HIGH, LANG_L1, "tep_naf_lut"},
-    {53, EN_HIGH, LANG_L1, "tep_nup_lut"},
-    {54, EN_HIGH, LANG_L1, "tep_zuk_lut"}
+    {1, 0,  EN_HIGH, LANG_L1, "rak_bap_toef"},
+    {2, 0,  EN_HIGH, LANG_L1, "rak_gom_toef"},
+    {3, 0,  EN_HIGH, LANG_L1, "rak_ves_toef"},
+    {4, 0,  EN_HIGH, LANG_L1, "sot_bap_jik"},
+    {5, 0,  EN_HIGH, LANG_L1, "sot_gom_jik"},
+    {6, 0,  EN_HIGH, LANG_L1, "sot_ves_jik"},
+    {7, 0,  EN_HIGH, LANG_L1, "tep_bap_lut"},
+    {8, 0,  EN_HIGH, LANG_L1, "tep_gom_lut"},
+    {9, 0,  EN_HIGH, LANG_L1, "tep_ves_lut"},
+    {10, 0, EN_HIGH, LANG_L1, "rak_dos_toef"},
+    {11, 0, EN_HIGH, LANG_L1, "rak_huf_toef"},
+    {12, 0, EN_HIGH, LANG_L1, "rak_mip_toef"},
+    {13, 0, EN_HIGH, LANG_L1, "rak_nit_toef"},
+    {14, 0, EN_HIGH, LANG_L1, "rak_pem_toef"},
+    {15, 0, EN_HIGH, LANG_L1, "rak_wop_toef"},
+    {16, 0, EN_HIGH, LANG_L1, "sot_dos_jik"},
+    {17, 0, EN_HIGH, LANG_L1, "sot_huf_jik"},
+    {18, 0, EN_HIGH, LANG_L1, "sot_mip_jik"},
+    {19, 0, EN_HIGH, LANG_L1, "sot_nit_jik"},
+    {20, 0, EN_HIGH, LANG_L1, "sot_pem_jik"},
+    {21, 0, EN_HIGH, LANG_L1, "sot_wop_jik"},
+    {22, 0, EN_HIGH, LANG_L1, "tep_dos_lut"},
+    {23, 0, EN_HIGH, LANG_L1, "tep_huf_lut"},
+    {24, 0, EN_HIGH, LANG_L1, "tep_mip_lut"},
+    {25, 0, EN_HIGH, LANG_L1, "tep_nit_lut"},
+    {26, 0, EN_HIGH, LANG_L1, "tep_pem_lut"},
+    {27, 0, EN_HIGH, LANG_L1, "tep_wop_lut"},
+    {28, 0, EN_HIGH, LANG_L1, "rak_bif_toef"},
+    {29, 0, EN_HIGH, LANG_L1, "rak_dul_toef"},
+    {30, 0, EN_HIGH, LANG_L1, "rak_hog_toef"},
+    {31, 0, EN_HIGH, LANG_L1, "rak_jal_toef"},
+    {32, 0, EN_HIGH, LANG_L1, "rak_keg_toef"},
+    {33, 0, EN_HIGH, LANG_L1, "rak_kof_toef"},
+    {34, 0, EN_HIGH, LANG_L1, "rak_naf_toef"},
+    {35, 0, EN_HIGH, LANG_L1, "rak_nup_toef"},
+    {36, 0, EN_HIGH, LANG_L1, "rak_zuk_toef"},
+    {37, 0, EN_HIGH, LANG_L1, "sot_bif_jik"},
+    {38, 0, EN_HIGH, LANG_L1, "sot_dul_jik"},
+    {39, 0, EN_HIGH, LANG_L1, "sot_hog_jik"},
+    {40, 0, EN_HIGH, LANG_L1, "sot_jal_jik"},
+    {41, 0, EN_HIGH, LANG_L1, "sot_keg_jik"},
+    {42, 0, EN_HIGH, LANG_L1, "sot_kof_jik"},
+    {43, 0, EN_HIGH, LANG_L1, "sot_naf_jik"},
+    {44, 0, EN_HIGH, LANG_L1, "sot_nup_jik"},
+    {45, 0, EN_HIGH, LANG_L1, "sot_zuk_jik"},
+    {46, 0, EN_HIGH, LANG_L1, "tep_bif_lut"},
+    {47, 0, EN_HIGH, LANG_L1, "tep_dul_lut"},
+    {48, 0, EN_HIGH, LANG_L1, "tep_hog_lut"},
+    {49, 0, EN_HIGH, LANG_L1, "tep_jal_lut"},
+    {50, 0, EN_HIGH, LANG_L1, "tep_keg_lut"},
+    {51, 0, EN_HIGH, LANG_L1, "tep_kof_lut"},
+    {52, 0, EN_HIGH, LANG_L1, "tep_naf_lut"},
+    {53, 0, EN_HIGH, LANG_L1, "tep_nup_lut"},
+    {54, 0, EN_HIGH, LANG_L1, "tep_zuk_lut"}
 }
 
 // Training items of language 2 with low entropy
 TestItem[] items_low_l2 =
 {
-    {1, EN_LOW, LANG_L2, "rak_bap_lut"},
-    {2, EN_LOW, LANG_L2, "rak_gom_lut"},
-    {3, EN_LOW, LANG_L2, "rak_ves_lut"},
-    {4, EN_LOW, LANG_L2, "sot_bap_toef"},
-    {5, EN_LOW, LANG_L2, "sot_gom_toef"},
-    {6, EN_LOW, LANG_L2, "sot_ves_toef"},
-    {7, EN_LOW, LANG_L2, "tep_bap_jik"},
-    {8, EN_LOW, LANG_L2, "tep_gom_jik"},
-    {9, EN_LOW, LANG_L2, "tep_ves_jik"},
+    {1, 0, EN_LOW, LANG_L2, "rak_bap_lut"},
+    {2, 0, EN_LOW, LANG_L2, "rak_gom_lut"},
+    {3, 0, EN_LOW, LANG_L2, "rak_ves_lut"},
+    {4, 0, EN_LOW, LANG_L2, "sot_bap_toef"},
+    {5, 0, EN_LOW, LANG_L2, "sot_gom_toef"},
+    {6, 0, EN_LOW, LANG_L2, "sot_ves_toef"},
+    {7, 0, EN_LOW, LANG_L2, "tep_bap_jik"},
+    {8, 0, EN_LOW, LANG_L2, "tep_gom_jik"},
+    {9, 0, EN_LOW, LANG_L2, "tep_ves_jik"},
 };
 
 
 // Training items of language 2 with high entropy
 TestItem[] items_high_l2 = {
-    {1,  EN_HIGH, LANG_L2, "rak_bap_lut"},
-    {2,  EN_HIGH, LANG_L2, "rak_gom_lut"},
-    {3,  EN_HIGH, LANG_L2, "rak_ves_lut"},
-    {4,  EN_HIGH, LANG_L2, "sot_bap_toef"},
-    {5,  EN_HIGH, LANG_L2, "sot_gom_toef"},
-    {6,  EN_HIGH, LANG_L2, "sot_ves_toef"},
-    {7,  EN_HIGH, LANG_L2, "tep_bap_jik"},
-    {8,  EN_HIGH, LANG_L2, "tep_gom_jik"},
-    {9,  EN_HIGH, LANG_L2, "tep_ves_jik"},
-    {10, EN_HIGH, LANG_L2, "rak_dos_lut"},
-    {11, EN_HIGH, LANG_L2, "rak_huf_lut"},
-    {12, EN_HIGH, LANG_L2, "rak_mip_lut"},
-    {13, EN_HIGH, LANG_L2, "rak_nit_lut"},
-    {14, EN_HIGH, LANG_L2, "rak_pem_lut"},
-    {15, EN_HIGH, LANG_L2, "rak_wop_lut"},
-    {16, EN_HIGH, LANG_L2, "sot_dos_toef"},
-    {17, EN_HIGH, LANG_L2, "sot_huf_toef"},
-    {18, EN_HIGH, LANG_L2, "sot_mip_toef"},
-    {19, EN_HIGH, LANG_L2, "sot_nit_toef"},
-    {20, EN_HIGH, LANG_L2, "sot_pem_toef"},
-    {21, EN_HIGH, LANG_L2, "sot_wop_toef"},
-    {22, EN_HIGH, LANG_L2, "tep_dos_jik"},
-    {23, EN_HIGH, LANG_L2, "tep_huf_jik"},
-    {24, EN_HIGH, LANG_L2, "tep_mip_jik"},
-    {25, EN_HIGH, LANG_L2, "tep_nit_jik"},
-    {26, EN_HIGH, LANG_L2, "tep_pem_jik"},
-    {27, EN_HIGH, LANG_L2, "tep_wop_jik"},
-    {28, EN_HIGH, LANG_L2, "rak_bif_lut"},
-    {29, EN_HIGH, LANG_L2, "rak_dul_lut"},
-    {30, EN_HIGH, LANG_L2, "rak_hog_lut"},
-    {31, EN_HIGH, LANG_L2, "rak_jal_lut"},
-    {32, EN_HIGH, LANG_L2, "rak_keg_lut"},
-    {33, EN_HIGH, LANG_L2, "rak_kof_lut"},
-    {34, EN_HIGH, LANG_L2, "rak_naf_lut"},
-    {35, EN_HIGH, LANG_L2, "rak_nup_lut"},
-    {36, EN_HIGH, LANG_L2, "rak_zuk_lut"},
-    {37, EN_HIGH, LANG_L2, "sot_bif_toef"},
-    {38, EN_HIGH, LANG_L2, "sot_dul_toef"},
-    {39, EN_HIGH, LANG_L2, "sot_hog_toef"},
-    {40, EN_HIGH, LANG_L2, "sot_jal_toef"},
-    {41, EN_HIGH, LANG_L2, "sot_keg_toef"},
-    {42, EN_HIGH, LANG_L2, "sot_kof_toef"},
-    {43, EN_HIGH, LANG_L2, "sot_naf_toef"},
-    {44, EN_HIGH, LANG_L2, "sot_nup_toef"},
-    {45, EN_HIGH, LANG_L2, "sot_zuk_toef"},
-    {46, EN_HIGH, LANG_L2, "tep_bif_jik"},
-    {47, EN_HIGH, LANG_L2, "tep_dul_jik"},
-    {48, EN_HIGH, LANG_L2, "tep_hog_jik"},
-    {49, EN_HIGH, LANG_L2, "tep_jal_jik"},
-    {50, EN_HIGH, LANG_L2, "tep_keg_jik"},
-    {51, EN_HIGH, LANG_L2, "tep_kof_jik"},
-    {52, EN_HIGH, LANG_L2, "tep_naf_jik"},
-    {53, EN_HIGH, LANG_L2, "tep_nup_jik"},
-    {54, EN_HIGH, LANG_L2, "tep_zuk_jik"}
+    {1, 0,  EN_HIGH, LANG_L2, "rak_bap_lut"},
+    {2, 0,  EN_HIGH, LANG_L2, "rak_gom_lut"},
+    {3, 0,  EN_HIGH, LANG_L2, "rak_ves_lut"},
+    {4, 0,  EN_HIGH, LANG_L2, "sot_bap_toef"},
+    {5, 0,  EN_HIGH, LANG_L2, "sot_gom_toef"},
+    {6, 0,  EN_HIGH, LANG_L2, "sot_ves_toef"},
+    {7, 0,  EN_HIGH, LANG_L2, "tep_bap_jik"},
+    {8, 0,  EN_HIGH, LANG_L2, "tep_gom_jik"},
+    {9, 0,  EN_HIGH, LANG_L2, "tep_ves_jik"},
+    {10, 0, EN_HIGH, LANG_L2, "rak_dos_lut"},
+    {11, 0, EN_HIGH, LANG_L2, "rak_huf_lut"},
+    {12, 0, EN_HIGH, LANG_L2, "rak_mip_lut"},
+    {13, 0, EN_HIGH, LANG_L2, "rak_nit_lut"},
+    {14, 0, EN_HIGH, LANG_L2, "rak_pem_lut"},
+    {15, 0, EN_HIGH, LANG_L2, "rak_wop_lut"},
+    {16, 0, EN_HIGH, LANG_L2, "sot_dos_toef"},
+    {17, 0, EN_HIGH, LANG_L2, "sot_huf_toef"},
+    {18, 0, EN_HIGH, LANG_L2, "sot_mip_toef"},
+    {19, 0, EN_HIGH, LANG_L2, "sot_nit_toef"},
+    {20, 0, EN_HIGH, LANG_L2, "sot_pem_toef"},
+    {21, 0, EN_HIGH, LANG_L2, "sot_wop_toef"},
+    {22, 0, EN_HIGH, LANG_L2, "tep_dos_jik"},
+    {23, 0, EN_HIGH, LANG_L2, "tep_huf_jik"},
+    {24, 0, EN_HIGH, LANG_L2, "tep_mip_jik"},
+    {25, 0, EN_HIGH, LANG_L2, "tep_nit_jik"},
+    {26, 0, EN_HIGH, LANG_L2, "tep_pem_jik"},
+    {27, 0, EN_HIGH, LANG_L2, "tep_wop_jik"},
+    {28, 0, EN_HIGH, LANG_L2, "rak_bif_lut"},
+    {29, 0, EN_HIGH, LANG_L2, "rak_dul_lut"},
+    {30, 0, EN_HIGH, LANG_L2, "rak_hog_lut"},
+    {31, 0, EN_HIGH, LANG_L2, "rak_jal_lut"},
+    {32, 0, EN_HIGH, LANG_L2, "rak_keg_lut"},
+    {33, 0, EN_HIGH, LANG_L2, "rak_kof_lut"},
+    {34, 0, EN_HIGH, LANG_L2, "rak_naf_lut"},
+    {35, 0, EN_HIGH, LANG_L2, "rak_nup_lut"},
+    {36, 0, EN_HIGH, LANG_L2, "rak_zuk_lut"},
+    {37, 0, EN_HIGH, LANG_L2, "sot_bif_toef"},
+    {38, 0, EN_HIGH, LANG_L2, "sot_dul_toef"},
+    {39, 0, EN_HIGH, LANG_L2, "sot_hog_toef"},
+    {40, 0, EN_HIGH, LANG_L2, "sot_jal_toef"},
+    {41, 0, EN_HIGH, LANG_L2, "sot_keg_toef"},
+    {42, 0, EN_HIGH, LANG_L2, "sot_kof_toef"},
+    {43, 0, EN_HIGH, LANG_L2, "sot_naf_toef"},
+    {44, 0, EN_HIGH, LANG_L2, "sot_nup_toef"},
+    {45, 0, EN_HIGH, LANG_L2, "sot_zuk_toef"},
+    {46, 0, EN_HIGH, LANG_L2, "tep_bif_jik"},
+    {47, 0, EN_HIGH, LANG_L2, "tep_dul_jik"},
+    {48, 0, EN_HIGH, LANG_L2, "tep_hog_jik"},
+    {49, 0, EN_HIGH, LANG_L2, "tep_jal_jik"},
+    {50, 0, EN_HIGH, LANG_L2, "tep_keg_jik"},
+    {51, 0, EN_HIGH, LANG_L2, "tep_kof_jik"},
+    {52, 0, EN_HIGH, LANG_L2, "tep_naf_jik"},
+    {53, 0, EN_HIGH, LANG_L2, "tep_nup_jik"},
+    {54, 0, EN_HIGH, LANG_L2, "tep_zuk_jik"}
 }
 
 
@@ -233,30 +234,87 @@ TestItem[..][..] test_items =
     },
 };
 
-void prepare_trainings_list(TestItem[] result, TestItem[] input) {
-    while (result.size < 144) {
+void append_test_item(TestItem[] array, TestItem item) {
+    array.size = array.size + 1;
+    array[array.size - 1] = item;
+}
+
+/*
+ * Distributes all trainings items over the three separate lists/blocks
+ */
+void prepare_training_lists(TestItem[] input) {
+    TestItem[] master_list;
+    TestItem[] current_list;
+    int nth_rep = 0;
+    int i = 0;
+    int start;
+    int end;
+    while (master_list.size < TOT_TRAININGS_ITEMS) {
+        while(i < input.size) {
+            TestItem item = input[i];
+            item.nth_rep = nth_rep;
+            append_test_item(master_list, item);
+            i++;
+        }
+        nth_rep++;
+    }
+    if (master_list.size != TOT_TRAININGS_ITEMS) {
+        print_error("The number of trainings items is " + master_list.size +". "); 
+        print_error("We expected it to be " + TOT_TRAININGS_ITEMS + "\n");
+    }
+
+    // prepare list 1
+    current_list = training_items1;
+    start = TOT_TRAININGS_ITEMS / NUM_TRAINING_BLOCKS * 0;
+    end = start + NUM_TRAININGS_ITEMS;
+    i = start;
+    while (i < end) {
+        append_test_item(current_list, master_list[i]);
+        i++;
+    }
+    
+    // prepare list 2
+    current_list = training_items2;
+    start = TOT_TRAININGS_ITEMS / NUM_TRAINING_BLOCKS * 1;
+    end = start + NUM_TRAININGS_ITEMS;
+    i = start;
+    while (i < end) {
+        append_test_item(current_list, master_list[i]);
+        i++;
+    }
+    
+    // prepare list 3
+    current_list = training_items3;
+    start = TOT_TRAININGS_ITEMS / NUM_TRAINING_BLOCKS * 2;
+    end = start + NUM_TRAININGS_ITEMS;
+    i = start;
+    while (i < end) {
+        append_test_item(current_list, master_list[i]);
+        i++;
     }
 }
 
+/*
+ * Selects the right source list for the current conditions and
+ * prepares the training lists.
+ */
 void prepare_training_items() {
 
-    TestItem[] trainings_items;
+    TestItem[] training_items;
 
     if (chosen_entropy == EN_HIGH) {
         if (chosen_language == LANG_L1)
-            trainings_items = items_high_l1;
+            training_items = items_high_l1;
         else 
-            trainings_items = items_high_l2;
+            training_items = items_high_l2;
     }
     else {
         if (chosen_language == LANG_L1)
-            trainings_items = items_low_l1;
+            training_items = items_low_l1;
         else
-            trainings_items = items_low_l2;
+            training_items = items_low_l2;
     }
 
-    prepare_training_list(training_items1, training_items);
-    prepare_training_list(training_items2, training_items);
-    prepare_training_list(training_items3, training_items);
+    prepare_training_lists(training_items);
 }
 

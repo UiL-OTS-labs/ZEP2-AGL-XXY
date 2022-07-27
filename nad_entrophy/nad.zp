@@ -18,7 +18,8 @@ Experiment experiment
     on_event:entry()
     {
         test::init_conditions_from_test_group(selected_group);
-        test::print_chosen_conditions(cast<TestGroup>(selected_group));
+        test::prepare_training_items();
+        //test::randomize_according_constraints();
         show_test_windows();
     }
 
