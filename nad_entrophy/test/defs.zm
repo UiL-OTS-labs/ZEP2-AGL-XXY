@@ -15,7 +15,11 @@ HISTORY:
 
 
 // Duration of the interval between two trials.
-const dur       INTERTRIAL_INTERVAL             = 750ms;
+const dur       PAUSE_INTERTRIAL_INTERVAL       = 250ms;
+const dur       NOPAUSE_INTERTRIAL_INTERVAL     = 83ms;
+
+// Duration between test trials
+const dur       INTERTRIAL_INTERVAL             = 1s;
 
 // Duration of the fixation symbol presentation.
 const dur       FIXATION_DURATION               = 0ms;

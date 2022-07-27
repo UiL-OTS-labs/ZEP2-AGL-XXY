@@ -96,7 +96,7 @@ Page train_page
             abort();
 
             stimulus.device = sound_output_device;
-            clip.file = stimuli_dir() + "sounds/" + item.sndfn;
+            clip.file = stimuli_dir() + "sounds/training/" + item.sndfn + ".wav";
 
             start(t);
 
@@ -159,8 +159,10 @@ Page train_page
 
 
         // Show this page (if not yet done) and make tref the trial start time.
-        tref = test_window1.show_test_page(this, tref + INTERTRIAL_INTERVAL);
-
+        if (chosen_pause == PAUSE)
+            tref = test_window1.show_test_page(this, tref + PAUSE_INTERTRIAL_INTERVAL);
+        else
+            tref = test_window1.show_test_page(this, tref + NOPAUSE_INTERTRIAL_INTERVAL);
 
         // Start fixation symbol.
         time fixoffset = layout.start_fixation(tref);
@@ -192,12 +194,12 @@ Page train_page
 Page test_page
 {
     TestItem    item;           // trial control parameters
-    int 	ntrials;
-    string 	test_no;
-    int 	count_offset;
-    int 	total_offset;
-    string	question;
-    dur		question_only_dur;
+    int         ntrials;
+    string      test_no;
+    int         count_offset;
+    int         total_offset;
+    string      question;
+    dur         question_only_dur;
 
 
     init()
@@ -269,7 +271,7 @@ Page test_page
             }
         }
 
-	/* Disable buttons from the screen - user uses handels */
+	    /* Disable buttons from the screen - user uses handels */
         HorizontalLayout buttons
         {
             init()
@@ -348,7 +350,7 @@ Page test_page
             abort();
 
             stimulus.device = sound_output_device;
-            clip.file = stimuli_dir() + "sounds/" + item.sndfn;
+            clip.file = stimuli_dir() + "sounds/test/" + item.sndfn + ".wav";
 
             start(t);
 
@@ -357,7 +359,7 @@ Page test_page
     }
 
 
-   Response response
+    Response response
     {
         // Response data.
         int     value;          // response value: 0=no, 1=yes, -1=timeout
@@ -414,7 +416,6 @@ Page test_page
                 // False alarm. Deal with this if desired.
             }
         }
-
 
 
         on_event:finish()
@@ -494,10 +495,8 @@ Page test_page
         // Save the passed trial control parameters.
         item = it;
 
-
         // Show this page (if not yet done) and make tref the trial start time.
         tref = test_window1.show_test_page(this, tref + INTERTRIAL_INTERVAL);
-
 
         // Reset response data.
         response.clear();

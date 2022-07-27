@@ -11,9 +11,9 @@ enum CondEntropy {
     EN_LOW
 };
 
-enum CondISI {
-    ISI_83,
-    ISI_167
+enum CondPause {
+    NOPAUSE,
+    PAUSE
 };
 
 enum CondLang {
@@ -22,7 +22,7 @@ enum CondLang {
 };
 
 CondEntropy chosen_entropy;
-CondISI     chosen_isi;
+CondPause   chosen_pause;
 CondLang    chosen_language;
 
 void init_conditions_from_test_group(TestGroup group) {
@@ -42,9 +42,9 @@ void init_conditions_from_test_group(TestGroup group) {
         group == hi_pause_l1 ||
         group == hi_pause_l2
        )
-        chosen_isi = ISI_167;
+        chosen_pause = PAUSE;
     else
-        chosen_isi = ISI_83;
+        chosen_pause = NOPAUSE;
     
     if (
         group == lo_pause_l1   ||
@@ -61,7 +61,7 @@ void init_conditions_from_test_group(TestGroup group) {
 void print_chosen_conditions(TestGroup group) {
     println("chosen_group = " + group);
     println("chosen_entropy = " + chosen_entropy);
-    println("chosen_isi = " + chosen_isi);
+    println("chosen_pause = " + chosen_pause);
     println("chosen_language = " + chosen_language);
 }
 
