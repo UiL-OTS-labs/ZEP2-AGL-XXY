@@ -194,9 +194,9 @@ TestItem[] items_high_l2 = {
 }
 
 
-TestItem[] training_items1;
-TestItem[] training_items2;
-TestItem[] training_items3;
+TestItem[] training_items1 = {};
+TestItem[] training_items2 = {};
+TestItem[] training_items3 = {};
 
 // Test item table.
 //   index: item number
@@ -250,6 +250,7 @@ void prepare_training_lists(TestItem[] input) {
     int start;
     int end;
     while (master_list.size < TOT_TRAININGS_ITEMS) {
+        i = 0;
         while(i < input.size) {
             TestItem item = input[i];
             item.nth_rep = nth_rep;
