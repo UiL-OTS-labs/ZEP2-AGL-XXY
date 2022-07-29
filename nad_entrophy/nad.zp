@@ -9,6 +9,7 @@ import std_exit_page1;
 import std_pause_page;
 import std_blank_page;
 
+import test::defs;
 import test::condition;
 import test::task;
 import test::shuffle;
@@ -19,6 +20,10 @@ Experiment experiment
     on_event:entry()
     {
         test::init_conditions_from_test_group(selected_group);
+        if (have_flag("short")) { // for testing purposes
+            test::NUM_TRAININGS_ITEMS = 12;
+        }
+        test::TOT_TRAININGS_ITEMS = test::NUM_TRAININGS_ITEMS * 3;
         test::prepare_training_items();
 
         string message = "Unable to randomize according constraints";

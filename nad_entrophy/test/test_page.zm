@@ -184,7 +184,6 @@ Page train_page
             string(item.sndfn);
 
         control.set_status(status);
-        println(status);
 
         // Remember who to signal when the trial is over.
         target = caller;
@@ -312,7 +311,6 @@ Page test_page
                     text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
                     size = 150, 75;
                 }
-
 
                 on_event:activate()
                 {
@@ -528,7 +526,6 @@ Page test_page
             string(item.sndfn);
 
         control.set_status(status);
-        println(status);
 
         // Remember who to signal when the trial is over.
         target = caller;

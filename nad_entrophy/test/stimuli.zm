@@ -251,7 +251,7 @@ void prepare_training_lists(TestItem[] input) {
     int end;
     while (master_list.size < TOT_TRAININGS_ITEMS) {
         i = 0;
-        while(i < input.size) {
+        while(i < input.size && i < NUM_TRAININGS_ITEMS) {
             TestItem item = input[i];
             item.nth_rep = nth_rep;
             append_test_item(master_list, item);
@@ -273,6 +273,10 @@ void prepare_training_lists(TestItem[] input) {
         append_test_item(current_list, master_list[i]);
         i++;
     }
+    if (current_list.size != NUM_TRAININGS_ITEMS) {
+        print_error("block1 The number of trainings items is " + current_list.size +". "); 
+        print_error("We expected it to be " + NUM_TRAININGS_ITEMS + "\n");
+    }
     
     // prepare list 2
     current_list = training_items2;
@@ -283,6 +287,10 @@ void prepare_training_lists(TestItem[] input) {
         append_test_item(current_list, master_list[i]);
         i++;
     }
+    if (current_list.size != NUM_TRAININGS_ITEMS) {
+        print_error("block2 The number of trainings items is " + current_list.size +". "); 
+        print_error("We expected it to be " + NUM_TRAININGS_ITEMS + "\n");
+    }
     
     // prepare list 3
     current_list = training_items3;
@@ -292,6 +300,10 @@ void prepare_training_lists(TestItem[] input) {
     while (i < end) {
         append_test_item(current_list, master_list[i]);
         i++;
+    }
+    if (current_list.size != NUM_TRAININGS_ITEMS) {
+        print_error("block3 The number of trainings items is " + current_list.size +". "); 
+        print_error("We expected it to be " + NUM_TRAININGS_ITEMS + "\n");
     }
 }
 
