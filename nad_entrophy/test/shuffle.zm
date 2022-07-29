@@ -8,11 +8,11 @@ import stimuli;
  * Returns -1 to indicate the order is allright or the index of the item that
  * violates the order
  */
-int check_violating_item(TestItem[] array) {
+int check_violating_item(TrainItem[] array) {
     int i = 1;
     while (i < array.size) {
-        TestItem i0 = array[i-1];
-        TestItem i1 = array[i];
+        TrainItem i0 = array[i-1];
+        TrainItem i1 = array[i];
         if (i0.sndfn == i1.sndfn)
             return i;
         i++;
@@ -20,14 +20,14 @@ int check_violating_item(TestItem[] array) {
     return -1;
 }
 
-void swap_test_items(TestItem[] input, int i, int j) {
-    TestItem temp = input[i];
+void swap_test_items(TrainItem[] input, int i, int j) {
+    TrainItem temp = input[i];
     input[i] = input[j];
     input[j] = temp;
 }
 
-void fix_violating_item(TestItem[] input, int n) {
-    TestItem violation = input[n];
+void fix_violating_item(TrainItem[] input, int n) {
+    TrainItem violation = input[n];
     int rand = random(0, input.size);
     // Make sure that we swap the item with a item that fixes the order
     while (rand == n ||
@@ -40,7 +40,7 @@ void fix_violating_item(TestItem[] input, int n) {
 /*
  * Shuffles test_items table 
  */
-int shuffle_test_items(TestItem[] input, int max_tries=1000)
+int shuffle_test_items(TrainItem[] input, int max_tries=1000)
 {
     input.shuffle(0, -1);
     int ntries = 0;

@@ -19,7 +19,7 @@ import global_texts;
 
 Page train_page
 {
-    TestItem    item;           // trial control parameters
+    TrainItem    item;           // trial control parameters
     int         ntrials;
 
 
@@ -152,7 +152,7 @@ Page train_page
 
 
     // Starts a trial.
-    void action(Object caller, TestItem it, time tref, int count=-1)
+    void action(Object caller, TrainItem it, time tref, int count=-1)
     {
         // Save the passed trial control parameters.
         item = it;
@@ -192,7 +192,7 @@ Page train_page
 
 Page test_page
 {
-    TestItem    item;           // trial control parameters
+    TrainItem    item;           // trial control parameters
     int         ntrials;
     string      test_no;
     int         count_offset;
@@ -488,7 +488,7 @@ Page test_page
 
 
     // Starts a trial.
-    void action(Object caller, TestItem it, time tref, int count=-1)
+    void action(Object caller, TrainItem it, time tref, int count=-1)
     {
         // Save the passed trial control parameters.
         item = it;

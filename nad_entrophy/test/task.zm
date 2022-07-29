@@ -82,7 +82,7 @@ Block task
 
     Block training1
     {
-        TestItem        item;   // current item
+        TrainItem        item;   // current item
 
         on_event:entry()
         {
@@ -162,8 +162,7 @@ Block task
 
         on_event:entry()
         {
-            num_cycles = test_items[0].size;
-            test_items[0].shuffle(0, -1);
+            num_cycles = test_items1.size;
 
             // Prepare test page: progress bar enabled, feedback and prompt
             // disabled.
@@ -181,7 +180,7 @@ Block task
         {
             on_event:entry()
             {
-                item = test_items[0][test1.cycle];
+                item = test_items1[test1.cycle];
 
                 test_page.action(this, item, reference_time, test1.cycle);
             }
@@ -219,7 +218,7 @@ Block task
 
     Block training2
     {
-        TestItem        item;   // current item
+        TrainItem        item;   // current item
 
         on_event:entry()
         {
@@ -294,7 +293,7 @@ Block task
 
     Block test2
     {
-        TestItem        item;   // current item
+        TrainItem        item;   // current item
 
 
         on_event:entry()
@@ -356,7 +355,7 @@ Block task
 
     Block training3
     {
-        TestItem        item;   // current item
+        TrainItem        item;   // current item
 
         on_event:entry()
         {
@@ -431,7 +430,7 @@ Block task
 
     Block test3
     {
-        TestItem        item;   // current item
+        TrainItem        item;   // current item
 
 
         on_event:entry()

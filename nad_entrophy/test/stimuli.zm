@@ -17,21 +17,14 @@ HISTORY:
 
 import condition;
 
-// Symbolic definition of item type.
-enum Type
-{
-    TRAIN_LOW,               // training string low entropy
-    TRAIN_HIGH,              // training string high entropy
-    TYPE1,                   // test string type1 - XXY trained
-    TYPE2,                   // test string type2 - X1X2Y trained
-    TYPE3,                   // test string type3 - XXY untrained
-    TYPE4,                   // test string type4 - X1X2Y untrained
-    CHECKIN,                 // checkin test
+
+enum TestType {
+    TRAINED_FIRST, // In the the test phase the trained is presented first
+    FOREIGN_FIRST  // In the test phase the 
 }
 
-
 // Item table record.
-record TestItem
+record TrainItem
 {
     int         id;             // item id
     int         nth_rep;        // the number of repetition.
@@ -40,16 +33,22 @@ record TestItem
     string      sndfn;          // stimulus word sound filename
 }
 
+record TestItem {
+    int         id;
+    TestType    test_type;      // The type of test trial foreign or trained 
+    string      fn1;            // file of the first stimulus
+    string      fn2;            // file of the second stimulus
+};
+
 record CheckinItem
 {
     int           id;
-    Type          type;
     string        value;
 }
 
 
 // Training items of language 1 with low entropy
-TestItem[] items_low_l1 =
+TrainItem[] items_low_l1 =
 {
     {1, 0, EN_LOW, LANG_L1, "rak_bap_toef"},
     {2, 0, EN_LOW, LANG_L1, "rak_gom_toef"},
@@ -63,7 +62,7 @@ TestItem[] items_low_l1 =
 };
 
 // Training items of language 1 with high entropy
-TestItem[] items_high_l1 = {
+TrainItem[] items_high_l1 = {
     {1, 0,  EN_HIGH, LANG_L1, "rak_bap_toef"},
     {2, 0,  EN_HIGH, LANG_L1, "rak_gom_toef"},
     {3, 0,  EN_HIGH, LANG_L1, "rak_ves_toef"},
@@ -121,7 +120,7 @@ TestItem[] items_high_l1 = {
 }
 
 // Training items of language 2 with low entropy
-TestItem[] items_low_l2 =
+TrainItem[] items_low_l2 =
 {
     {1, 0, EN_LOW, LANG_L2, "rak_bap_lut"},
     {2, 0, EN_LOW, LANG_L2, "rak_gom_lut"},
@@ -136,7 +135,7 @@ TestItem[] items_low_l2 =
 
 
 // Training items of language 2 with high entropy
-TestItem[] items_high_l2 = {
+TrainItem[] items_high_l2 = {
     {1, 0,  EN_HIGH, LANG_L2, "rak_bap_lut"},
     {2, 0,  EN_HIGH, LANG_L2, "rak_gom_lut"},
     {3, 0,  EN_HIGH, LANG_L2, "rak_ves_lut"},
@@ -193,46 +192,71 @@ TestItem[] items_high_l2 = {
     {54, 0, EN_HIGH, LANG_L2, "tep_zuk_jik"}
 }
 
-
-TestItem[] training_items1 = {};
-TestItem[] training_items2 = {};
-TestItem[] training_items3 = {};
-
-// Test item table.
-//   index: item number
-TestItem[..][..] test_items =
-{
-    { // TEST1
-//        {1,         TYPE1,           "daa_daa_lie.wav"},
-//        {2,         TYPE2,           "joe_daa_saa.wav"},
-//        {3,         TYPE3,           "duu_duu_taa.wav"},
-//        {4,         TYPE4,           "poo_gaa_roe.wav"},
-    },
-    { // TEST2
-//        {5,         TYPE1,           "hie_hie_saa.wav"},
-//        {6,         TYPE2,           "puu_teu_muu.wav"},
-//        {7,         TYPE3,           "zoe_zoe_voo.wav"},
-//        {8,         TYPE4,           "roe_nuu_nie.wav"},
-    },
-    { // TEST3
-//        {9,         TYPE1,           "kee_kee_muu.wav"},
-//        {10,        TYPE2,           "kee_foo_vee.wav"},
-//        {11,        TYPE3,           "soo_soo_ruu.wav"},
-//        {12,        TYPE4,           "gaa_mie_suu.wav"},
-    },
-    { // TEST4
-//        {13,        TYPE1,           "teu_teu_vee.wav"},
-//        {14,        TYPE2,           "hie_daa_reu.wav"},
-//        {15,        TYPE3,           "jie_jie_feu.wav"},
-//        {16,        TYPE4,           "suu_nie_nuu.wav"},
-    },
-    { // TEST5
-//        {17,        TYPE1,           "joe_joe_goo.wav"},
-//        {18,        TYPE2,           "teu_puu_goo.wav"},
-//        {19,        TYPE3,           "woe_woe_see.wav"},
-//        {20,        TYPE4,           "mie_poo_gaa.wav"},
-    },
+string[] familiar_l1 = {
+    "rak_bap_toef",
+    "rak_gom_toef",
+    "rak_ves_toef",
+    "sot_bap_jik",
+    "sot_gom_jik",
+    "sot_ves_jik",
+    "tep_bap_lut",
+    "tep_gom_lut",
+    "tep_ves_lut",
 };
+
+string[] familiar_l2 = {
+    "rak_bap_lut",
+    "rak_gom_lut",
+    "rak_ves_lut",
+    "sot_bap_toef",
+    "sot_gom_toef",
+    "sot_ves_toef",
+    "tep_bap_jik",
+    "tep_gom_jik",
+    "tep_ves_jik"
+};
+
+string[] new_l1 = {
+    "rak_bug_toef",
+    "rak_gak_toef",
+    "rak_zim_toef",
+    "sot_bug_jik",
+    "sot_gak_jik",
+    "sot_zim_jik",
+    "tep_bug_lut",
+    "tep_gak_lut",
+    "tep_zim_lut"
+};
+
+string[] new_l2 = {
+    "rak_bug_lut",
+    "rak_gak_lut",
+    "rak_zim_lut",
+    "sot_bug_toef",
+    "sot_gak_toef",
+    "sot_zim_toef",
+    "tep_bug_jik",
+    "tep_gak_jik",
+    "tep_zim_jik"
+};
+
+/*
+ * The training stimuli are presented in these 3 lists, each
+ * list corresponds to a block.
+ */
+TrainItem[] training_items1 = {};
+TrainItem[] training_items2 = {};
+TrainItem[] training_items3 = {};
+
+TestItem [] test_items1 = {};
+TestItem [] test_items2 = {};
+TestItem [] test_items3 = {};
+
+
+void append_train_item(TrainItem[] array, TrainItem item) {
+    array.size = array.size + 1;
+    array[array.size - 1] = item;
+}
 
 void append_test_item(TestItem[] array, TestItem item) {
     array.size = array.size + 1;
@@ -242,9 +266,9 @@ void append_test_item(TestItem[] array, TestItem item) {
 /*
  * Distributes all trainings items over the three separate lists/blocks
  */
-void prepare_training_lists(TestItem[] input) {
-    TestItem[] master_list = {};
-    TestItem[] current_list;
+void prepare_training_lists(TrainItem[] input) {
+    TrainItem[] master_list = {};
+    TrainItem[] current_list;
     int nth_rep = 0;
     int i = 0;
     int start;
@@ -252,9 +276,9 @@ void prepare_training_lists(TestItem[] input) {
     while (master_list.size < TOT_TRAININGS_ITEMS) {
         i = 0;
         while(i < input.size && i < NUM_TRAININGS_ITEMS) {
-            TestItem item = input[i];
+            TrainItem item = input[i];
             item.nth_rep = nth_rep;
-            append_test_item(master_list, item);
+            append_train_item(master_list, item);
             i++;
         }
         nth_rep++;
@@ -270,7 +294,7 @@ void prepare_training_lists(TestItem[] input) {
     end = start + NUM_TRAININGS_ITEMS;
     i = start;
     while (i < end) {
-        append_test_item(current_list, master_list[i]);
+        append_train_item(current_list, master_list[i]);
         i++;
     }
     if (current_list.size != NUM_TRAININGS_ITEMS) {
@@ -284,7 +308,7 @@ void prepare_training_lists(TestItem[] input) {
     end = start + NUM_TRAININGS_ITEMS;
     i = start;
     while (i < end) {
-        append_test_item(current_list, master_list[i]);
+        append_train_item(current_list, master_list[i]);
         i++;
     }
     if (current_list.size != NUM_TRAININGS_ITEMS) {
@@ -298,7 +322,7 @@ void prepare_training_lists(TestItem[] input) {
     end = start + NUM_TRAININGS_ITEMS;
     i = start;
     while (i < end) {
-        append_test_item(current_list, master_list[i]);
+        append_train_item(current_list, master_list[i]);
         i++;
     }
     if (current_list.size != NUM_TRAININGS_ITEMS) {
@@ -313,7 +337,7 @@ void prepare_training_lists(TestItem[] input) {
  */
 void prepare_training_items() {
 
-    TestItem[] training_items;
+    TrainItem[] training_items;
 
     if (chosen_entropy == EN_HIGH) {
         if (chosen_language == LANG_L1)
@@ -331,3 +355,69 @@ void prepare_training_items() {
     prepare_training_lists(training_items);
 }
 
+/*
+ *
+ */
+void prepare_test_stims(string[] fam, string[] new) {
+    int[] first = {}; // Nope initializing with {1 ,1, ..., 0}; is an syntax error...
+    first.size = 9;
+    first[0] = 1;
+    first[1] = 1;
+    first[2] = 1;
+    first[3] = 1;
+    first[4] = 1;
+    first[5] = 0;
+    first[6] = 0;
+    first[7] = 0;
+    first[8] = 0;
+    first.shuffle(0, -1);
+    
+    int first_stim = random(1, 0);
+    int i = 0;
+    string stim_fam;
+    string stim_new;
+    while (i < TOT_TEST_ITEMS) {
+        TestItem item;
+        item.id = 1;
+        item.test_type = first[i] == first_stim ? TRAINED_FIRST : FOREIGN_FIRST;
+        stim_fam = fam[i];
+        stim_new = new[i];
+
+        if (item.test_type == TRAINED_FIRST) {
+            item.fn1 = stim_fam;
+            item.fn2 = stim_new;
+        }
+        else {
+            item.fn1 = stim_new;
+            item.fn2 = stim_fam;
+        }
+
+        if (i % 3 == 0)
+            append_test_item(test_items1, item);
+        else if (i % 3 == 1)
+            append_test_item(test_items2, item);
+        else
+            append_test_item(test_items3, item);
+
+        i++;
+    }
+}
+
+/*
+ * Prepares the list for the three test blocks.
+ */
+void prepare_test_lists () {
+
+    // shuffle the order of the test items.
+    familiar_l1.shuffle(0,-1);
+    familiar_l2.shuffle(0,-1);
+    new_l1.shuffle(0,-1);
+    new_l2.shuffle(0,-1);
+
+    if (chosen_language == LANG_L1) {
+        prepare_test_stims(familiar_l1, new_l1);
+    }
+    else {
+        prepare_test_stims(familiar_l2, new_l2);
+    }
+}
