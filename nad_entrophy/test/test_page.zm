@@ -192,7 +192,7 @@ Page train_page
 
 Page test_page
 {
-    TrainItem    item;           // trial control parameters
+    TestItem    item;           // trial control parameters
     int         ntrials;
     string      test_no;
     int         count_offset;
@@ -341,14 +341,18 @@ Page test_page
     SoundPlayback stimulus
     {
         // Sound source/producer object.
-        SoundFile clip {}
+        SoundFile clip1 {}
+        SilenceGenerator Silence{}
+        SoundFile clip2 {}
 
         time play(time t)
         {
             abort();
 
             stimulus.device = sound_output_device;
-            clip.file = stimuli_dir() + "sounds/test/" + item.sndfn + ".wav";
+            clip1.file = stimuli_dir() + "sounds/test/" + item.fn1 + ".wav";
+            Silence.duration = 1s;
+            clip2.file = stimuli_dir() + "sounds/test/" + item.fn2 + ".wav";
 
             start(t);
 
@@ -387,24 +391,6 @@ Page test_page
             {
                 value = val;
                 rt = int(reaction_time(0));
-                //isXXY = (item.type == TYPE1 || item.type == TYPE3);
-                println("fix process hit testpage 391");
-                correct = (
-                      (isXXY && val == 1) || (!isXXY && val == 0)
-                );
-                if (isXXY) {
-                    if (value == 1) {
-                        atype = 1;
-                    } else {
-                        atype = 2;
-                    }
-                } else {
-                    if (value == 1) {
-                        atype = 3;
-                    } else {
-                        atype = 4;
-                    }
-                }
                 ignore_remaining_hits();
 
                 stop();
@@ -426,11 +412,11 @@ Page test_page
                 done(CONTINUE);
         }
 
-
-        on_event:message()
-        {
-            done(CONTINUE);
-        }
+// not used I think.
+//        on_event:message()
+//        {
+//            done(CONTINUE);
+//        }
     }
 
 
@@ -488,7 +474,7 @@ Page test_page
 
 
     // Starts a trial.
-    void action(Object caller, TrainItem it, time tref, int count=-1)
+    void action(Object caller, TestItem it, time tref, int count=-1)
     {
         // Save the passed trial control parameters.
         item = it;
@@ -521,9 +507,10 @@ Page test_page
         // Update status line on control window. Cleared in done() above.
         string status = "TEST " + this.test_no + ": " +
             string(item.id) + "  " +
-            string(item.entropy) + "  " +
-            string(item.language) + "  " +
-            string(item.sndfn);
+            // string(item.entropy) + "  " +
+            //string(item.language) + "  " +
+            item.fn1 + "  " +
+            item.fn2; 
 
         control.set_status(status);
 

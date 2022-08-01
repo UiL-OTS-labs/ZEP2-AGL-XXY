@@ -355,8 +355,19 @@ void prepare_training_items() {
     prepare_training_lists(training_items);
 }
 
+void print_test_items(TestItem[] items) {
+    int i = 0;
+    while (i < items.size) {
+        println(string(items[i].id) + " " +
+                items[i].fn1 + " " +
+                items[i].fn2 + " " +
+                items[i].test_type);
+        i++;
+    }
+}
+
 /*
- *
+ * prepares the testitems
  */
 void prepare_test_stims(string[] fam, string[] new) {
     int[] first = {}; // Nope initializing with {1 ,1, ..., 0}; is an syntax error...
@@ -372,7 +383,7 @@ void prepare_test_stims(string[] fam, string[] new) {
     first[8] = 0;
     first.shuffle(0, -1);
     
-    int first_stim = random(1, 0);
+    int first_stim = random(0, 1);
     int i = 0;
     string stim_fam;
     string stim_new;
@@ -401,6 +412,12 @@ void prepare_test_stims(string[] fam, string[] new) {
 
         i++;
     }
+//    println("testitems1");
+//    print_test_items(test_items1);
+//    println("testitems2");
+//    print_test_items(test_items2);
+//    println("testitems3");
+//    print_test_items(test_items3);
 }
 
 /*

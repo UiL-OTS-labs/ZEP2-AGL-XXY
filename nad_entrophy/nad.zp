@@ -35,6 +35,8 @@ Experiment experiment
         if (test::shuffle_test_items(test::training_items3) != OK)
             terminate message;
 
+        test::prepare_test_lists();
+
         show_test_windows();
     }
 

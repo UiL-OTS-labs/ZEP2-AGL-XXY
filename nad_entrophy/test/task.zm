@@ -118,7 +118,7 @@ Block task
                 output.id = item.id;
                 output.entropy = item.entropy;
                 output.language = item.language;
-                output.sndfn = item.sndfn;
+                output.fn1 = item.sndfn;
                 output.value = -1;
                 output.rt = -1;
                 output.correct = -1;
@@ -194,9 +194,10 @@ Block task
                 output.grp = selected_group;
                 output.trial = test1.cycle + 1;
                 output.id = item.id;
-                output.entropy = item.entropy;
-                output.language = item.language;
-                output.sndfn = item.sndfn;
+                //output.entropy = item.entropy;
+                //output.language = item.language;
+                output.fn1 = item.fn1;
+                output.fn2 = item.fn2;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
@@ -254,7 +255,7 @@ Block task
                 output.id = item.id;
                 output.entropy = item.entropy;
                 output.language = item.language;
-                output.sndfn = item.sndfn;
+                output.fn1 = item.sndfn;
                 output.value = -1;
                 output.rt = -1;
                 output.correct = -1;
@@ -293,13 +294,12 @@ Block task
 
     Block test2
     {
-        TrainItem        item;   // current item
+        TestItem        item;   // current item
 
 
         on_event:entry()
         {
-            num_cycles = test_items[1].size;
-	    test_items[1].shuffle(0, -1);
+            num_cycles = test_items2.size;
 
             // Prepare test page: progress bar enabled, feedback and prompt
             // disabled.
@@ -317,7 +317,7 @@ Block task
         {
             on_event:entry()
             {
-                item = test_items[1][test2.cycle];
+                item = test_items2[test2.cycle];
 
                 test_page.action(this, item, reference_time, test2.cycle);
             }
@@ -331,9 +331,10 @@ Block task
                 output.grp = selected_group;
                 output.trial = test2.cycle + 1;
                 output.id = item.id;
-                output.entropy = item.entropy;
-                output.language = item.language;
-                output.sndfn = item.sndfn;
+                //output.entropy = item.entropy;
+                //output.language = item.language;
+                output.fn1 = item.fn1;
+                output.fn2 = item.fn2;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
@@ -391,7 +392,7 @@ Block task
                 output.id = item.id;
                 output.entropy = item.entropy;
                 output.language = item.language;
-                output.sndfn = item.sndfn;
+                output.fn1 = item.sndfn;
                 output.value = -1;
                 output.rt = -1;
                 output.correct = -1;
@@ -430,13 +431,12 @@ Block task
 
     Block test3
     {
-        TrainItem        item;   // current item
+        TestItem        item;   // current item
 
 
         on_event:entry()
         {
-            num_cycles = test_items[2].size;
-            test_items[2].shuffle(0, -1);
+            num_cycles = test_items3.size;
 
             // Prepare test page: progress bar enabled, feedback and prompt
             // disabled.
@@ -454,7 +454,7 @@ Block task
         {
             on_event:entry()
             {
-                item = test_items[2][test3.cycle];
+                item = test_items3[test3.cycle];
 
                 test_page.action(this, item, reference_time, test3.cycle);
             }
@@ -468,9 +468,10 @@ Block task
                 output.grp = selected_group;
                 output.trial = test3.cycle + 1;
                 output.id = item.id;
-                output.entropy = item.entropy;
-                output.language = item.language;
-                output.sndfn = item.sndfn;
+                //output.entropy = item.entropy;
+                //output.language = item.language;
+                output.fn1 = item.fn1;
+                output.fn2 = item.fn2;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
