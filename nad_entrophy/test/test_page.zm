@@ -252,7 +252,7 @@ Page test_page
         {
             init()
             {
-                fill_pattern_color = TEST_PAGE_STIMULUS_COLOR;
+                //fill_pattern_color = TEST_PAGE_STIMULUS_COLOR;
                 size = 450, 100;
                 //offset_x = width / 2;
                 //offset_y = height / 2;
@@ -358,7 +358,7 @@ Page test_page
 
             start(t);
 
-            return expected_start_time;
+            return expected_finish_time;
         }
     }
 
@@ -486,21 +486,17 @@ Page test_page
         response.clear();
 
 
-        // Start fixation symbol.
-        time fixoffset = layout.start_fixation(tref);
-
         // Show item number
         test_page_overlay.show_prompt(
                 this.question + "\n\n" + (this.count_offset + count + 1) + " / " +
                 (this.total_offset + this.ntrials), true);
 
-        fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);
-        // Start stimulus at fixation offset.
-        time stimonset = stimulus.play(fixoffset);
+        // Start stimulus
+        time stimoffset = stimulus.play(tref);
 
         // Response interval starts at stimulus onset. Timeout after
         // RESPONSE_DURATION unless this duration is 0s or less.
-        response.start(stimonset, RESPONSE_DURATION);
+        response.start(stimoffset, RESPONSE_DURATION);
 
         // Update progress counter (if enabled).
         // test_page_overlay.update_progress_bar(this.count_offset + count);
