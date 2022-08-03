@@ -122,7 +122,6 @@ Block task
                 output.value = -1;
                 output.rt = -1;
                 output.correct = -1;
-                output.atype = -1;
                 test_output_append(output);
             }
         }
@@ -194,14 +193,13 @@ Block task
                 output.grp = selected_group;
                 output.trial = test1.cycle + 1;
                 output.id = item.id;
-                //output.entropy = item.entropy;
-                //output.language = item.language;
+                output.entropy = chosen_entropy;
+                output.language = chosen_language;
                 output.fn1 = item.fn1;
                 output.fn2 = item.fn2;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
-                output.atype = test_page.response.atype;
                 test_output_append(output);
             }
         }
@@ -259,7 +257,6 @@ Block task
                 output.value = -1;
                 output.rt = -1;
                 output.correct = -1;
-                output.atype = -1;
                 test_output_append(output);
             }
         }
@@ -331,14 +328,13 @@ Block task
                 output.grp = selected_group;
                 output.trial = test2.cycle + 1;
                 output.id = item.id;
-                //output.entropy = item.entropy;
-                //output.language = item.language;
+                output.entropy = chosen_entropy;
+                output.language = chosen_language;
                 output.fn1 = item.fn1;
                 output.fn2 = item.fn2;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
-                output.atype = test_page.response.atype;
                 test_output_append(output);
             }
         }
@@ -396,7 +392,6 @@ Block task
                 output.value = -1;
                 output.rt = -1;
                 output.correct = -1;
-                output.atype = -1;
                 test_output_append(output);
             }
         }
@@ -468,14 +463,13 @@ Block task
                 output.grp = selected_group;
                 output.trial = test3.cycle + 1;
                 output.id = item.id;
-                //output.entropy = item.entropy;
-                //output.language = item.language;
+                output.entropy = chosen_entropy;
+                output.language = chosen_language;
                 output.fn1 = item.fn1;
                 output.fn2 = item.fn2;
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
-                output.atype = test_page.response.atype;
                 test_output_append(output);
             }
         }

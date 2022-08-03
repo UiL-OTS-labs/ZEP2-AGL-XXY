@@ -252,10 +252,10 @@ Page test_page
         {
             init()
             {
-                //fill_pattern_color = TEST_PAGE_STIMULUS_COLOR;
+                fill_pattern_color = TEST_PAGE_STIMULUS_COLOR;
                 size = 450, 100;
-                offset_x = width / 2;
-                offset_y = height / 2;
+                //offset_x = width / 2;
+                //offset_y = height / 2;
             }
 
 
@@ -263,6 +263,8 @@ Page test_page
             {
                 init()
                 {
+                    offset_x = canvas.width / 2;
+                    offset_x = canvas.height / 2;
                     radius = 15;
                     line_width = 5;
                     line_pattern_color = color:crimson;
@@ -295,7 +297,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    response.process_hit(1, event_time);
+                    response.process_hit(FIRST, event_time);
                 }
             }
 
@@ -314,7 +316,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    response.process_hit(0, event_time);
+                    response.process_hit(SECOND, event_time);
                 }
             }
         }
@@ -367,8 +369,6 @@ Page test_page
         int     value;          // response value: 0=no, 1=yes, -1=timeout
         int     rt;             // response time [ms]
         int     correct;        // correct response: 0=no, 1=yes, -1=n.a.
-        int     atype;
-        int     isXXY;
 
 
         void clear()
@@ -376,8 +376,6 @@ Page test_page
             value = -1;
             rt = -9999;
             correct = -1;
-            atype = -1;
-            isXXY = 0;
         }
 
 
@@ -390,8 +388,13 @@ Page test_page
             if (validity == HIT_VALID)
             {
                 value = val;
-                rt = int(reaction_time(0));
                 ignore_remaining_hits();
+                rt = int(reaction_time(0));
+                if (item.test_type == TRAINED_FIRST && value == FIRST ||
+                    item.test_type == FOREIGN_FIRST && value == SECOND)
+                    correct = 1;
+                else
+                    correct = 0;
 
                 stop();
             }
@@ -411,12 +414,6 @@ Page test_page
                     FEEDBACK_DURATION))
                 done(CONTINUE);
         }
-
-// not used I think.
-//        on_event:message()
-//        {
-//            done(CONTINUE);
-//        }
     }
 
 
@@ -457,9 +454,12 @@ Page test_page
         // Enable button-box buttons 0 and 1 for resp. yes(0) and no(1).
         control.target = this;
         control.disable_buttons();
-        control.enable_button(0, 1); // button 0 means yes(1)
-        // button 1 is unused (button down)
-        control.enable_button(2, 0); // button 2 means no(0)
+        // button 0 means that the left button indicates that participant thinks the
+        // first stimulus belongs to the training language
+        control.enable_button(0, FIRST);
+        // button 1 the participant thinks the second stimulus belonged to the
+        // trained language.
+        control.enable_button(2, SECOND); // button 2 means no(0)
     }
 
 
@@ -490,7 +490,8 @@ Page test_page
         time fixoffset = layout.start_fixation(tref);
 
         // Show item number
-        test_page_overlay.show_prompt(this.question + "\n\n" + (this.count_offset + count + 1) + " / " +
+        test_page_overlay.show_prompt(
+                this.question + "\n\n" + (this.count_offset + count + 1) + " / " +
                 (this.total_offset + this.ntrials), true);
 
         fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);

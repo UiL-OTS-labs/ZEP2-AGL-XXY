@@ -23,6 +23,12 @@ enum TestType {
     FOREIGN_FIRST  // In the test phase the 
 }
 
+enum ResponseType {
+    FIRST,
+    SECOND
+}
+
+
 // Item table record.
 record TrainItem
 {
