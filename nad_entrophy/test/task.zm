@@ -203,6 +203,19 @@ Block task
                 test_output_append(output);
             }
         }
+
+        Trial confidence
+        {
+            entry()
+            {
+                confidence_page.action(this, reference_time);
+            }
+
+            exit()
+            {
+
+            }
+        }
     }
 
 

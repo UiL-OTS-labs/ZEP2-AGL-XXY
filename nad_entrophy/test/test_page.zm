@@ -16,6 +16,8 @@ HISTORY:
 
 import std_sound_output_device;
 import global_texts;
+import fonts;
+import colors;
 
 Page train_page
 {
@@ -140,6 +142,10 @@ Page train_page
         // Enable or disable the progress bar.
         // test_page_overlay.show_progress_bar(ntrials);   // disabled if < 0
 
+        control.disable_buttons();
+        control.enable_button(0, FIRST);
+        control.enable_button(2, SECOND);
+
         control.clear_status();
     }
 
@@ -224,9 +230,9 @@ Page test_page
     {
         // Handle left-shift (no) and right-shift (yes).
         if (input_key == KEY_Shift_L)
-            response.process_hit(1, event_time);
+            response.process_hit(FIRST, event_time);
         else if (input_key == KEY_Shift_R)
-            response.process_hit(0, event_time);
+            response.process_hit(SECOND, event_time);
         else
             handle_special_key(this, input_key, input_modifiers);
     }
@@ -515,3 +521,273 @@ Page test_page
         target = caller;
     }
 }
+
+Page confidence_page
+{
+
+    init()
+    {
+        fill_pattern_color = TEST_PAGE_COLOR;
+    }
+
+    VerticalLayout layout
+    {
+        init()
+        {
+            spacing = 50;
+            height = 0;     // 0 means as large as possible
+        }
+
+        LabelGadget question
+        {
+            init()
+            {
+                text = "Hoe zeker ben je van je keuze:";
+                font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
+                font_size = TEST_PAGE_PROMPT_FONT_SIZE;
+                text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
+            }
+        }
+
+        HorGridLayout grid
+        {
+            init()
+            {
+                hor_spacing = 10;
+                ver_spacing = 10;
+                wrap_count = 5;
+                options = LAYOUT_EQUAL_WIDTH | LAYOUT_EQUAL_HEIGHT;
+            }
+
+            LabelGadget l1
+            {
+                init()
+                {
+                    text = "Zeker";
+                    font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
+                    font_size = TEST_PAGE_PROMPT_FONT_SIZE;
+                    text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
+                }
+            }
+
+            Spacer {}
+            Spacer {}
+            Spacer {}
+
+            LabelGadget l2
+            {
+                init()
+                {
+                    text = "Onzeker";
+                    font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
+                    font_size = TEST_PAGE_PROMPT_FONT_SIZE;
+                    text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
+                }
+
+                
+            }
+
+            ButtonGadget b1
+            {
+                int value = 1;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+            ButtonGadget b2
+            {
+                int value = 2;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+            ButtonGadget b3
+            {
+                int value = 3;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+            ButtonGadget b4
+            {
+                int value = 4;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+            ButtonGadget b5
+            {
+                int value = 5;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+        }
+
+        void reset()
+        {
+            layout.is_visible = false;
+            full_abort();
+        }
+    }
+
+    Response response
+    {
+        // Response data.
+        int     value;          // response value: 1=uncertain 2, 3, 4, 5=certain, -1=timeout
+        int     rt;             // response time [ms]
+
+        void clear()
+        {
+            value = -1;
+            rt = -9999;
+        }
+
+
+        void process_hit(int val, time t)
+        {
+            HitType validity = hit(t);
+
+            // Accept the first hit in the response interval and end the
+            // response interval.
+            if (validity == HIT_VALID)
+            {
+                value = val;
+                rt = int(reaction_time(0));
+                ignore_remaining_hits();
+
+                stop();
+            }
+            else if (validity == HIT_TOO_EARLY || validity == HIT_TOO_LATE)
+            {
+                // False alarm. Deal with this if desired.
+            }
+        }
+
+        on_event:finish()
+        {
+            done(CONTINUE);
+        }
+    }
+
+    // Aborts any ongoing activity on this page and signals the initiator
+    // of the trial that we're done.
+    void done(int msgid)
+    {
+        // Just in case; abort presentation if still active.
+        layout.reset();
+
+        signal_target(msgid);   // tell caller we're done
+        target = null;
+
+        control.clear_status();
+    }
+
+
+    //==========================================================================
+
+
+    // Performs preparatory work required before using this page.
+    void setup(int ntrials=-1)
+    {
+        test_page_overlay.setup(this);
+
+        // Show item number
+        test_page_overlay.show_prompt("" + ntrials + " items", true);
+
+        // Enable or disable the progress bar.
+        // test_page_overlay.show_progress_bar(ntrials);   // disabled if < 0
+
+        control.clear_status();
+    }
+
+
+    // Performs cleaning up if necessary.
+    void cleanup()
+    {
+        test_page_overlay.cleanup();
+    }
+
+
+    // Starts a trial.
+    void action(Object caller, time tref)
+    {
+        // Show this page (if not yet done) and make tref the trial start time.
+        tref = test_window1.show_test_page(this, tref + INTERTRIAL_INTERVAL);
+
+        layout.is_visible = true;
+
+        // make the response active
+        response.start(tref);
+
+        // Show item number
+        test_page_overlay.show_prompt("", true);
+
+        // Update progress counter (if enabled).
+        // test_page_overlay.update_progress_bar(count);
+
+        // Update status line on control window. Cleared in done() above.
+        string status = "Confidence " + ": ";
+
+        control.set_status(status);
+
+        // Remember who to signal when the trial is over.
+        target = caller;
+    }
+}
+
