@@ -203,28 +203,11 @@ Page test_page
     string      test_no;
     int         count_offset;
     int         total_offset;
-    string      question;
-    dur         question_only_dur;
-
 
     init()
     {
         fill_pattern_color = TEST_PAGE_COLOR;
-        this.set_question(EXPERIMENT_TEST_QUESTION);
     }
-
-
-    void set_question(string q)
-    {
-    	this.question = q;
-    }
-
-
-    void set_question_only_duration(dur d=QUESTION_ALONE_DURATION)
-    {
-    	this.question_only_dur = d;
-    }
-
 
     on_event:key_press()
     {
@@ -292,7 +275,7 @@ Page test_page
             {
                 init()
                 {
-                    text = YES_BUTTON_TEXT;
+                    text = FIRST_BUTTON_TEXT;
                     font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
                     font_size = TEST_PAGE_BUTTON_FONT_SIZE;
                     fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
@@ -312,7 +295,7 @@ Page test_page
             {
                 init()
                 {
-                    text = NO_BUTTON_TEXT;
+                    text = SECOND_BUTTON_TEXT;
                     font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
                     font_size = TEST_PAGE_BUTTON_FONT_SIZE;
                     fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
@@ -440,6 +423,20 @@ Page test_page
 
     //==========================================================================
 
+    void setup_beexy_box()
+    {
+        // Enable button-box buttons 0 and 1 for resp. yes(0) and no(1).
+        control.target = this;
+
+        control.disable_buttons();
+        // button 0 means that the left button indicates that participant thinks the
+        // first stimulus belongs to the training language
+        control.enable_button(0, FIRST);
+        // button 1 the participant thinks the second stimulus belonged to the
+        // trained language.
+        control.enable_button(2, SECOND); // button 2 means no(0)
+    }
+
 
     // Performs preparatory work required before using this page.
     void setup(int ntrials=-1, string test_no="", int count_offset=0, int total_offset=0)
@@ -449,23 +446,9 @@ Page test_page
         this.test_no = test_no;
         this.count_offset = count_offset;
         this.total_offset = total_offset;
-        this.set_question_only_duration();
 
         // Show or hide prompt.
         test_page_overlay.show_prompt("" + (this.total_offset + this.ntrials) + " items", true);
-
-        // Enable or disable the progress bar.
-        // test_page_overlay.show_progress_bar(this.total_offset + this.ntrials);   // disabled if < 0
-
-        // Enable button-box buttons 0 and 1 for resp. yes(0) and no(1).
-        control.target = this;
-        control.disable_buttons();
-        // button 0 means that the left button indicates that participant thinks the
-        // first stimulus belongs to the training language
-        control.enable_button(0, FIRST);
-        // button 1 the participant thinks the second stimulus belonged to the
-        // trained language.
-        control.enable_button(2, SECOND); // button 2 means no(0)
     }
 
 
@@ -491,10 +474,12 @@ Page test_page
         // Reset response data.
         response.clear();
 
+        setup_beexy_box();
 
         // Show item number
         test_page_overlay.show_prompt(
-                this.question + "\n\n" + (this.count_offset + count + 1) + " / " +
+                EXPERIMENT_TEST_QUESTION + "\n\n" +
+                (this.count_offset + count + 1) + " / " +
                 (this.total_offset + this.ntrials), true);
 
         // Start stimulus
@@ -542,7 +527,7 @@ Page confidence_page
         {
             init()
             {
-                text = "Hoe zeker ben je van je keuze:";
+                text = CONFIDENCE_QUESTION;
                 font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
                 font_size = TEST_PAGE_PROMPT_FONT_SIZE;
                 text_color = TEST_PAGE_PROMPT_TEXT_COLOR;

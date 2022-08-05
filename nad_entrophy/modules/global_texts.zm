@@ -25,13 +25,17 @@ const string    TRUE_BUTTON_TEXT                = "True";
 const string    FALSE_BUTTON_TEXT               = "False";
 const string    CORRECT_BUTTON_TEXT             = "Correct";
 const string    INCORRECT_BUTTON_TEXT           = "Incorrect";
-const string    FIRST_BUTTON_TEXT               = "First";
-const string    SECOND_BUTTON_TEXT              = "Second";
+const string    FIRST_BUTTON_TEXT               = "Eerste";
+const string    SECOND_BUTTON_TEXT              = "Tweede";
 
 
 // Other texts.
 const string    WELCOME_TEXT                    = "Welkom!";
-const string    THANK_YOU_TEXT                  = "Dit is het einde van het experiment.\n\nBedankt voor uw inzet.";
-const string    EXPERIMENT_TEST_QUESTION	= "Is dit woord correct in de taal die je zojuist heeft geleerd?";
-const string    MEMORY_SYLL_TEST_QUESTION	= "Heeft u deze lettergreep eerder in de training gehoord?";
-const string    MEMORY_STR_TEST_QUESTION	= "Heeft u dit woord eerder in de training gehoord?";
+const string    THANK_YOU_TEXT                  = "Dit is het einde van het experiment.\n\n"
+                                                  "Bedankt voor uw inzet.";
+
+const string    EXPERIMENT_TEST_QUESTION	    = "Was het eerste of tweede woord correct in "
+                                                  "de taal die je zojuist heeft geleerd?";
+
+const string    CONFIDENCE_QUESTION             = "Hoe zeker ben je van je keuze:";
+
