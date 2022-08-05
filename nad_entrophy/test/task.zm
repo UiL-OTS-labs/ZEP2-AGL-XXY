@@ -79,7 +79,6 @@ Block task
         }
     }*/
 
-
     Block training1
     {
         TrainItem        item;   // current item
@@ -157,6 +156,7 @@ Block task
     Block test1
     {
         TestItem        item;   // current item
+        TestOutput      output;
 
 
         on_event:entry()
@@ -200,7 +200,8 @@ Block task
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
-                test_output_append(output);
+
+                test1.output = output;
             }
         }
 
@@ -213,7 +214,10 @@ Block task
 
             exit()
             {
+                test1.output.confidence = confidence_page.response.value;
+                test1.output.confidence_rt = confidence_page.response.rt;
 
+                test_output_append(test1.output);
             }
         }
     }
@@ -305,6 +309,7 @@ Block task
     Block test2
     {
         TestItem        item;   // current item
+        TestOutput      output;
 
 
         on_event:entry()
@@ -348,7 +353,24 @@ Block task
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
-                test_output_append(output);
+
+                test2.output = output;
+            }
+        }
+
+        Trial confidence
+        {
+            entry()
+            {
+                confidence_page.action(this, reference_time);
+            }
+
+            exit()
+            {
+                test2.output.confidence = confidence_page.response.value;
+                test2.output.confidence_rt = confidence_page.response.rt;
+
+                test_output_append(test2.output);
             }
         }
     }
@@ -365,7 +387,7 @@ Block task
 
     Block training3
     {
-        TrainItem        item;   // current item
+        TrainItem       item;   // current item
 
         on_event:entry()
         {
@@ -440,6 +462,7 @@ Block task
     Block test3
     {
         TestItem        item;   // current item
+        TestOutput      output;
 
 
         on_event:entry()
@@ -483,7 +506,24 @@ Block task
                 output.value = test_page.response.value;
                 output.rt = test_page.response.rt;
                 output.correct = test_page.response.correct;
-                test_output_append(output);
+
+                test3.output = output;
+            }
+        }
+
+        Trial confidence
+        {
+            entry()
+            {
+                confidence_page.action(this, reference_time);
+            }
+
+            exit()
+            {
+                test3.output.confidence = confidence_page.response.value;
+                test3.output.confidence_rt = confidence_page.response.rt;
+
+                test_output_append(test3.output);
             }
         }
     }
@@ -496,7 +536,6 @@ Block task
             blank_page.action_auto(this, 500ms);
         }
     }
-
 }
 
 

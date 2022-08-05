@@ -32,6 +32,10 @@ record TestOutput
     int         rt;             // response time [ms]
     int         correct;        // correct response: 0=no, 1=yes, -1=n.a.
     int         atype;          // answer type - compiled from value (participant answer) and correct
+
+    int         confidence;     // The confidence in the answer of the participant
+                                // 1 zeker 2, 3, 4, 5 onzeker
+    int         confidence_rt;  // The response_time of the participant 
 }
 
 
@@ -55,6 +59,8 @@ void test_output_append(TestOutput data)
     expdb.set_trial_data_int_field("rt", data.rt);
     expdb.set_trial_data_int_field("correct", data.correct);
     expdb.set_trial_data_int_field("atype", data.atype);
+    expdb.set_trial_data_int_field("confidence", data.confidence);
+    expdb.set_trial_data_int_field("confidence_rt", data.confidence_rt);
 }
 
 

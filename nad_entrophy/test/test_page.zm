@@ -555,6 +555,7 @@ Page confidence_page
                 }
             }
 
+            // These are added to align the buttons with the labels
             Spacer {}
             Spacer {}
             Spacer {}
@@ -568,8 +569,6 @@ Page confidence_page
                     font_size = TEST_PAGE_PROMPT_FONT_SIZE;
                     text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
                 }
-
-                
             }
 
             ButtonGadget b1
@@ -590,6 +589,7 @@ Page confidence_page
                     confidence_page.response.process_hit(value, event_time);
                 }
             }
+
             ButtonGadget b2
             {
                 int value = 2;
@@ -608,6 +608,7 @@ Page confidence_page
                     confidence_page.response.process_hit(value, event_time);
                 }
             }
+
             ButtonGadget b3
             {
                 int value = 3;
@@ -626,6 +627,7 @@ Page confidence_page
                     confidence_page.response.process_hit(value, event_time);
                 }
             }
+
             ButtonGadget b4
             {
                 int value = 4;
@@ -644,6 +646,7 @@ Page confidence_page
                     confidence_page.response.process_hit(value, event_time);
                 }
             }
+
             ButtonGadget b5
             {
                 int value = 5;
