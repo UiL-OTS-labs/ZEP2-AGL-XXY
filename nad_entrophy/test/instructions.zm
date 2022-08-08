@@ -32,3 +32,10 @@ const string PRE_TEST_INSTRUCTION_SHORT =
 const string TEST_QUESION = 
     "Van welke klankenreeds is het meer waarschijnlijk dat deze uit de buitenaardse taal komt?\n\n"
     "Kies de eerste of tweede klankenreeks door op de corresponderende toets te drukken.";
+
+const string EXPERIMENT_TEST_QUESTION =
+    "Van welke klankenreeks is het meer waarschijnlijk dat hij uit de buitenaardse taal komt?"
+    "Kies de eerste of de tweede klankenreeks door op de corresponderende toets te drukken";
+
+const string    CONFIDENCE_QUESTION             = "Hoe zeker ben je van je keuze:";
+
