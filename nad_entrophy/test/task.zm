@@ -196,7 +196,7 @@ Block task
             {
                 entry()
                 {
-                    item = test_items[tes1.cycle];
+                    item = test_items[test.cycle];
                     test_page.action(this, item, reference_time, test.cycle);
                 }
 
