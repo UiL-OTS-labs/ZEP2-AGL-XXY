@@ -41,6 +41,7 @@ import output;
 import test_page;
 import condition;
 import global_texts;
+import instructions;
 
 
 Block task
@@ -50,34 +51,19 @@ Block task
     }
 
 
-    /*Part instructions
+    Part instructions
     {
         on_event:entry()
         {
 //            pause_page.set_text_size(1000, 600);
             pause_page.set_text(
-                "<b>Dear participant,</b>\n"
-                "\n"
-                "Thank you for participating in this experiment.\n"
-                "\n"
-                "To respond, hit the left button on the button-box for "
-                "<i>No</i> and the right button for <i>Yes</i>.\n"
-
-//                "To respond, hit the left shift key for <i>No</i> and the "
-//                "right shift key for <i>Yes</i>.\n"
-
-//                "To respond, hit the left button on the button-box for "
-//                "<i>No</i> and the right button for <i>Yes</i>. "
-//                "Alternatively you can use the left or right shift keys.\n"
-
-//                "<i>Hit Enter when ready to start.</i>",
-                "<i>Hit any button on the button-box when ready to start.</i>",
+                PRE_TEST_INSTRUCTION,
                 true);
 
             pause_page.action(this);
-            control.button_box.enable_all_buttons(CONTINUE);
+            control.enable_all_buttons(CONTINUE);
         }
-    }*/
+    }
 
     Block training1
     {
@@ -140,11 +126,8 @@ Block task
     {
         on_event:entry()
         {
-            pause_page.set_text(
-                "Dat was het voor deze fase.\n"
-                "Nu in de test, gebruik de muis om op de JA of NEE knop op het scherm te klikken.\n"
-                "Druk op START zodra je klaar bent om te beginnen.\n"
-                "\n",
+            pause_page.set_text (
+                PRE_TEST_INSTRUCTION,
                 true);
 
             pause_page.action(this);
