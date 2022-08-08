@@ -161,19 +161,28 @@ Block task
             }
         }
 
-        Block test1
+        Block test
         {
             TestItem        item;   // current item
+            TestItem[]      test_items;
             TestOutput      output;
 
 
             entry()
             {
-                num_cycles = test_items1.size;
+                if (training_test_repetitions.cycle == 0)
+                    test_items = test_items1;
+                else if (training_test_repetitions.cycle == 1)
+                    test_items = test_items2;
+                else if (training_test_repetitions.cycle == 2)
+                    test_items = test_items3;
+                else
+                    terminate "Unexpected block";
 
                 // Prepare test page: progress bar enabled, feedback and prompt
                 // disabled.
                 test_page.setup(num_cycles, "1");
+                num_cycles = test_items.size;
             }
 
 
@@ -187,11 +196,9 @@ Block task
             {
                 entry()
                 {
-                    item = test_items1[test1.cycle];
-
-                    test_page.action(this, item, reference_time, test1.cycle);
+                    item = test_items[tes1.cycle];
+                    test_page.action(this, item, reference_time, test.cycle);
                 }
-
 
                 exit()
                 {
@@ -199,7 +206,7 @@ Block task
                     TestOutput output;
                     output.step = "test" + (training_test_repetitions.cycle + 1);
                     output.grp = selected_group;
-                    output.trial = test1.cycle + 1;
+                    output.trial = test.cycle + 1;
                     output.id = item.id;
                     output.entropy = chosen_entropy;
                     output.language = chosen_language;
@@ -209,7 +216,7 @@ Block task
                     output.rt = test_page.response.rt;
                     output.correct = test_page.response.correct;
 
-                    test1.output = output;
+                    test.output = output;
                 }
             }
 
@@ -230,10 +237,10 @@ Block task
 
                 exit()
                 {
-                    test1.output.confidence = confidence_page.response.value;
-                    test1.output.confidence_rt = confidence_page.response.rt;
+                    test.output.confidence = confidence_page.response.value;
+                    test.output.confidence_rt = confidence_page.response.rt;
 
-                    test_output_append(test1.output);
+                    test_output_append(test.output);
                 }
             }
         }
