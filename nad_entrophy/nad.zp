@@ -1,32 +1,5 @@
-/******************************************************************************\
-FILE:           entr.zp
-AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
-ADAPTED BY:     Silvia Radulescu <sil.radulescu@gmail.com>
 
-DESCRIPTION:
-
-Implementation of task: Limits and Variations of Generalization
-
-For more information see readme.txt in the
-test folder.
-
-
-Global structure of experiment:
-
-  - welcome
-
-  - phase 1 (see subfolder test)
-
-  - thankyou
-
-
-HISTORY:
-2015-03-10 Adapted.
-2017-01-04 Adapted.
-
-\******************************************************************************/
-
-requires 2.5;
+//requires 2.5;
 
 import std_windows1;
 import global_texts;
@@ -36,13 +9,36 @@ import std_exit_page1;
 import std_pause_page;
 import std_blank_page;
 
+import io_beexybox;
+
+import test::defs;
+import test::condition;
 import test::task;
+import test::shuffle;
 
 
 Experiment experiment
 {
     on_event:entry()
     {
+        test::init_conditions_from_test_group(selected_group);
+        if (have_flag("short")) { // for testing purposes
+            test::NUM_TRAININGS_ITEMS = 12;
+        }
+        test::TOT_TRAININGS_ITEMS = test::NUM_TRAININGS_ITEMS * 3;
+        test::prepare_training_items();
+
+        string message = "Unable to randomize according constraints";
+
+        if (test::shuffle_test_items(test::training_items1) != OK)
+            terminate message;
+        if (test::shuffle_test_items(test::training_items2) != OK)
+            terminate message;
+        if (test::shuffle_test_items(test::training_items3) != OK)
+            terminate message;
+
+        test::prepare_test_lists();
+
         show_test_windows();
     }
 

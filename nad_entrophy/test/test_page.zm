@@ -16,11 +16,13 @@ HISTORY:
 
 import std_sound_output_device;
 import global_texts;
+import fonts;
+import colors;
 
 Page train_page
 {
-    TestItem    item;           // trial control parameters
-    int 	ntrials;
+    TrainItem    item;           // trial control parameters
+    int         ntrials;
 
 
     init()
@@ -96,7 +98,7 @@ Page train_page
             abort();
 
             stimulus.device = sound_output_device;
-            clip.file = stimuli_dir() + "sounds/" + item.sndfn;
+            clip.file = stimuli_dir() + "sounds/training/" + item.sndfn + ".wav";
 
             start(t);
 
@@ -140,6 +142,10 @@ Page train_page
         // Enable or disable the progress bar.
         // test_page_overlay.show_progress_bar(ntrials);   // disabled if < 0
 
+        control.disable_buttons();
+        control.enable_button(0, FIRST);
+        control.enable_button(2, SECOND);
+
         control.clear_status();
     }
 
@@ -152,15 +158,17 @@ Page train_page
 
 
     // Starts a trial.
-    void action(Object caller, TestItem it, time tref, int count=-1)
+    void action(Object caller, TrainItem it, time tref, int count=-1)
     {
         // Save the passed trial control parameters.
         item = it;
 
 
         // Show this page (if not yet done) and make tref the trial start time.
-        tref = test_window1.show_test_page(this, tref + INTERTRIAL_INTERVAL);
-
+        if (chosen_pause == PAUSE)
+            tref = test_window1.show_test_page(this, tref + PAUSE_INTERTRIAL_INTERVAL);
+        else
+            tref = test_window1.show_test_page(this, tref + NOPAUSE_INTERTRIAL_INTERVAL);
 
         // Start fixation symbol.
         time fixoffset = layout.start_fixation(tref);
@@ -175,13 +183,13 @@ Page train_page
         // test_page_overlay.update_progress_bar(count);
 
         // Update status line on control window. Cleared in done() above.
-	string status = "TRAIN " + ": " +
-                        string(item.id) + "  " +
-                        string(item.type) + "  " +
-                        string(item.sndfn);
+        string status = "TRAIN " + ": " +
+            string(item.id) + "  " +
+            string(item.entropy) + "  " +
+            string(item.language) + "  " +
+            string(item.sndfn);
 
         control.set_status(status);
-	println(status);
 
         // Remember who to signal when the trial is over.
         target = caller;
@@ -191,40 +199,23 @@ Page train_page
 Page test_page
 {
     TestItem    item;           // trial control parameters
-    int 	ntrials;
-    string 	test_no;
-    int 	count_offset;
-    int 	total_offset;
-    string	question;
-    dur		question_only_dur;
-
+    int         ntrials;
+    string      test_no;
+    int         count_offset;
+    int         total_offset;
 
     init()
     {
         fill_pattern_color = TEST_PAGE_COLOR;
-	this.set_question(EXPERIMENT_TEST_QUESTION);
     }
-
-
-    void set_question(string q)
-    {
-    	this.question = q;
-    }
-
-
-    void set_question_only_duration(dur d=QUESTION_ALONE_DURATION)
-    {
-    	this.question_only_dur = d;
-    }
-
 
     on_event:key_press()
     {
         // Handle left-shift (no) and right-shift (yes).
         if (input_key == KEY_Shift_L)
-            response.process_hit(1, event_time);
+            response.process_hit(FIRST, event_time);
         else if (input_key == KEY_Shift_R)
-            response.process_hit(0, event_time);
+            response.process_hit(SECOND, event_time);
         else
             handle_special_key(this, input_key, input_modifiers);
     }
@@ -252,8 +243,8 @@ Page test_page
             {
                 //fill_pattern_color = TEST_PAGE_STIMULUS_COLOR;
                 size = 450, 100;
-                offset_x = width / 2;
-                offset_y = height / 2;
+                //offset_x = width / 2;
+                //offset_y = height / 2;
             }
 
 
@@ -261,6 +252,8 @@ Page test_page
             {
                 init()
                 {
+                    offset_x = canvas.width / 2;
+                    offset_x = canvas.height / 2;
                     radius = 15;
                     line_width = 5;
                     line_pattern_color = color:crimson;
@@ -268,7 +261,7 @@ Page test_page
             }
         }
 
-	/* Disable buttons from the screen - user uses handels */
+	    /* Disable buttons from the screen - user uses handels */
         HorizontalLayout buttons
         {
             init()
@@ -282,7 +275,7 @@ Page test_page
             {
                 init()
                 {
-                    text = YES_BUTTON_TEXT;
+                    text = FIRST_BUTTON_TEXT;
                     font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
                     font_size = TEST_PAGE_BUTTON_FONT_SIZE;
                     fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
@@ -293,7 +286,7 @@ Page test_page
 
                 on_event:activate()
                 {
-                    response.process_hit(1, event_time);
+                    response.process_hit(FIRST, event_time);
                 }
             }
 
@@ -302,7 +295,7 @@ Page test_page
             {
                 init()
                 {
-                    text = NO_BUTTON_TEXT;
+                    text = SECOND_BUTTON_TEXT;
                     font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
                     font_size = TEST_PAGE_BUTTON_FONT_SIZE;
                     fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
@@ -310,10 +303,9 @@ Page test_page
                     size = 150, 75;
                 }
 
-
                 on_event:activate()
                 {
-                    response.process_hit(0, event_time);
+                    response.process_hit(SECOND, event_time);
                 }
             }
         }
@@ -340,30 +332,32 @@ Page test_page
     SoundPlayback stimulus
     {
         // Sound source/producer object.
-        SoundFile clip {}
+        SoundFile clip1 {}
+        SilenceGenerator Silence{}
+        SoundFile clip2 {}
 
         time play(time t)
         {
             abort();
 
             stimulus.device = sound_output_device;
-            clip.file = stimuli_dir() + "sounds/" + item.sndfn;
+            clip1.file = stimuli_dir() + "sounds/test/" + item.fn1 + ".wav";
+            Silence.duration = 1s;
+            clip2.file = stimuli_dir() + "sounds/test/" + item.fn2 + ".wav";
 
             start(t);
 
-            return expected_start_time;
+            return expected_finish_time;
         }
     }
 
 
-   Response response
+    Response response
     {
         // Response data.
         int     value;          // response value: 0=no, 1=yes, -1=timeout
         int     rt;             // response time [ms]
         int     correct;        // correct response: 0=no, 1=yes, -1=n.a.
-        int     atype;
-        int     isXXY;
 
 
         void clear()
@@ -371,8 +365,6 @@ Page test_page
             value = -1;
             rt = -9999;
             correct = -1;
-            atype = -1;
-            isXXY = 0;
         }
 
 
@@ -385,25 +377,13 @@ Page test_page
             if (validity == HIT_VALID)
             {
                 value = val;
-                rt = int(reaction_time(0));
-                isXXY = (item.type == TYPE1 || item.type == TYPE3);
-                correct = (
-                      (isXXY && val == 1) || (!isXXY && val == 0)
-                );
-                if (isXXY) {
-                    if (value == 1) {
-                        atype = 1;
-                    } else {
-                        atype = 2;
-                    }
-                } else {
-                    if (value == 1) {
-                        atype = 3;
-                    } else {
-                        atype = 4;
-                    }
-                }
                 ignore_remaining_hits();
+                rt = int(reaction_time(0));
+                if (item.test_type == TRAINED_FIRST && value == FIRST ||
+                    item.test_type == FOREIGN_FIRST && value == SECOND)
+                    correct = 1;
+                else
+                    correct = 0;
 
                 stop();
             }
@@ -414,7 +394,6 @@ Page test_page
         }
 
 
-
         on_event:finish()
         {
             real correctness = 0;
@@ -423,12 +402,6 @@ Page test_page
             if (!test_page_overlay.start_feedback(this, correctness,
                     FEEDBACK_DURATION))
                 done(CONTINUE);
-        }
-
-
-        on_event:message()
-        {
-            done(CONTINUE);
         }
     }
 
@@ -450,29 +423,32 @@ Page test_page
 
     //==========================================================================
 
+    void setup_beexy_box()
+    {
+        // Enable button-box buttons 0 and 1 for resp. yes(0) and no(1).
+        control.target = this;
+
+        control.disable_buttons();
+        // button 0 means that the left button indicates that participant thinks the
+        // first stimulus belongs to the training language
+        control.enable_button(0, FIRST);
+        // button 1 the participant thinks the second stimulus belonged to the
+        // trained language.
+        control.enable_button(2, SECOND); // button 2 means no(0)
+    }
+
 
     // Performs preparatory work required before using this page.
     void setup(int ntrials=-1, string test_no="", int count_offset=0, int total_offset=0)
     {
         test_page_overlay.setup(this);
-	this.ntrials = ntrials;
-	this.test_no = test_no;
-	this.count_offset = count_offset;
-	this.total_offset = total_offset;
-	this.set_question_only_duration();
+        this.ntrials = ntrials;
+        this.test_no = test_no;
+        this.count_offset = count_offset;
+        this.total_offset = total_offset;
 
         // Show or hide prompt.
         test_page_overlay.show_prompt("" + (this.total_offset + this.ntrials) + " items", true);
-
-        // Enable or disable the progress bar.
-        // test_page_overlay.show_progress_bar(this.total_offset + this.ntrials);   // disabled if < 0
-
-        // Enable button-box buttons 0 and 1 for resp. yes(0) and no(1).
-        control.target = this;
-        control.disable_buttons();
-       	control.enable_button(0, 1); // button 0 means yes(1)
-        // button 1 is unused (button down)
-        control.enable_button(2, 0); // button 2 means no(0)
     }
 
 
@@ -492,43 +468,314 @@ Page test_page
         // Save the passed trial control parameters.
         item = it;
 
-
         // Show this page (if not yet done) and make tref the trial start time.
         tref = test_window1.show_test_page(this, tref + INTERTRIAL_INTERVAL);
-
 
         // Reset response data.
         response.clear();
 
-
-        // Start fixation symbol.
-        time fixoffset = layout.start_fixation(tref);
+        setup_beexy_box();
 
         // Show item number
-        test_page_overlay.show_prompt(this.question + "\n\n" + (this.count_offset + count + 1) + " / " +
-				      (this.total_offset + this.ntrials), true);
+        test_page_overlay.show_prompt(
+                EXPERIMENT_TEST_QUESTION + "\n\n" +
+                (this.count_offset + count + 1) + " / " +
+                (this.total_offset + this.ntrials), true);
 
-	fixoffset += (count == 0 && this.count_offset == 0 ? this.question_only_dur : 0ms);
-        // Start stimulus at fixation offset.
-        time stimonset = stimulus.play(fixoffset);
+        // Start stimulus
+        time stimoffset = stimulus.play(tref);
 
         // Response interval starts at stimulus onset. Timeout after
         // RESPONSE_DURATION unless this duration is 0s or less.
-        response.start(stimonset, RESPONSE_DURATION);
+        response.start(stimoffset, RESPONSE_DURATION);
 
         // Update progress counter (if enabled).
         // test_page_overlay.update_progress_bar(this.count_offset + count);
 
         // Update status line on control window. Cleared in done() above.
-	string status = "TEST " + this.test_no + ": " +
-			string(item.id) + "  " +
-            		string(item.type) + "  " +
-            		string(item.sndfn);
+        string status = "TEST " + this.test_no + ": " +
+            string(item.id) + "  " +
+            // string(item.entropy) + "  " +
+            //string(item.language) + "  " +
+            item.fn1 + "  " +
+            item.fn2; 
 
         control.set_status(status);
-	println(status);
 
         // Remember who to signal when the trial is over.
         target = caller;
     }
 }
+
+Page confidence_page
+{
+
+    init()
+    {
+        fill_pattern_color = TEST_PAGE_COLOR;
+    }
+
+    VerticalLayout layout
+    {
+        init()
+        {
+            spacing = 50;
+            height = 0;     // 0 means as large as possible
+        }
+
+        LabelGadget question
+        {
+            init()
+            {
+                text = CONFIDENCE_QUESTION;
+                font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
+                font_size = TEST_PAGE_PROMPT_FONT_SIZE;
+                text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
+            }
+        }
+
+        HorGridLayout grid
+        {
+            init()
+            {
+                hor_spacing = 10;
+                ver_spacing = 10;
+                wrap_count = 5;
+                options = LAYOUT_EQUAL_WIDTH | LAYOUT_EQUAL_HEIGHT;
+            }
+
+            LabelGadget l1
+            {
+                init()
+                {
+                    text = "Zeker";
+                    font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
+                    font_size = TEST_PAGE_PROMPT_FONT_SIZE;
+                    text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
+                }
+            }
+
+            // These are added to align the buttons with the labels
+            Spacer {}
+            Spacer {}
+            Spacer {}
+
+            LabelGadget l2
+            {
+                init()
+                {
+                    text = "Onzeker";
+                    font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
+                    font_size = TEST_PAGE_PROMPT_FONT_SIZE;
+                    text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
+                }
+            }
+
+            ButtonGadget b1
+            {
+                int value = 1;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+
+            ButtonGadget b2
+            {
+                int value = 2;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+
+            ButtonGadget b3
+            {
+                int value = 3;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+
+            ButtonGadget b4
+            {
+                int value = 4;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+
+            ButtonGadget b5
+            {
+                int value = 5;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+        }
+
+        void reset()
+        {
+            layout.is_visible = false;
+            full_abort();
+        }
+    }
+
+    Response response
+    {
+        // Response data.
+        int     value;          // response value: 1=uncertain 2, 3, 4, 5=certain, -1=timeout
+        int     rt;             // response time [ms]
+
+        void clear()
+        {
+            value = -1;
+            rt = -9999;
+        }
+
+
+        void process_hit(int val, time t)
+        {
+            HitType validity = hit(t);
+
+            // Accept the first hit in the response interval and end the
+            // response interval.
+            if (validity == HIT_VALID)
+            {
+                value = val;
+                rt = int(reaction_time(0));
+                ignore_remaining_hits();
+
+                stop();
+            }
+            else if (validity == HIT_TOO_EARLY || validity == HIT_TOO_LATE)
+            {
+                // False alarm. Deal with this if desired.
+            }
+        }
+
+        on_event:finish()
+        {
+            done(CONTINUE);
+        }
+    }
+
+    // Aborts any ongoing activity on this page and signals the initiator
+    // of the trial that we're done.
+    void done(int msgid)
+    {
+        // Just in case; abort presentation if still active.
+        layout.reset();
+
+        signal_target(msgid);   // tell caller we're done
+        target = null;
+
+        control.clear_status();
+    }
+
+
+    //==========================================================================
+
+
+    // Performs preparatory work required before using this page.
+    void setup(int ntrials=-1)
+    {
+        test_page_overlay.setup(this);
+
+        // Show item number
+        test_page_overlay.show_prompt("" + ntrials + " items", true);
+
+        // Enable or disable the progress bar.
+        // test_page_overlay.show_progress_bar(ntrials);   // disabled if < 0
+
+        control.clear_status();
+    }
+
+
+    // Performs cleaning up if necessary.
+    void cleanup()
+    {
+        test_page_overlay.cleanup();
+    }
+
+
+    // Starts a trial.
+    void action(Object caller, time tref)
+    {
+        // Show this page (if not yet done) and make tref the trial start time.
+        tref = test_window1.show_test_page(this, tref + INTERTRIAL_INTERVAL);
+
+        layout.is_visible = true;
+
+        // make the response active
+        response.start(tref);
+
+        // Show item number
+        test_page_overlay.show_prompt("", true);
+
+        // Update progress counter (if enabled).
+        // test_page_overlay.update_progress_bar(count);
+
+        // Update status line on control window. Cleared in done() above.
+        string status = "Confidence " + ": ";
+
+        control.set_status(status);
+
+        // Remember who to signal when the trial is over.
+        target = caller;
+    }
+}
+

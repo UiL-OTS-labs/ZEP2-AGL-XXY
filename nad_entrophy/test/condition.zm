@@ -1,0 +1,67 @@
+/*
+ * Each participant gets assigned to a test group, in
+ * each test group are 3 conditions encoded:
+ *  - entropy low or high
+ *  - inter stimulus time 150 or 75 ms
+ *  - language of training stimuli, language a or b
+ */
+
+enum CondEntropy {
+    EN_HIGH,
+    EN_LOW
+};
+
+enum CondPause {
+    NOPAUSE,
+    PAUSE
+};
+
+enum CondLang {
+    LANG_L1,
+    LANG_L2
+};
+
+CondEntropy chosen_entropy;
+CondPause   chosen_pause;
+CondLang    chosen_language;
+
+void init_conditions_from_test_group(TestGroup group) {
+    if (
+        group == lo_pause_l1    ||
+        group == lo_pause_l2    ||
+        group == lo_nopause_l1  ||
+        group == lo_nopause_l2
+       )
+        chosen_entropy = EN_LOW;
+    else
+        chosen_entropy = EN_HIGH;
+
+    if (
+        group == lo_pause_l1 ||
+        group == lo_pause_l2 ||
+        group == hi_pause_l1 ||
+        group == hi_pause_l2
+       )
+        chosen_pause = PAUSE;
+    else
+        chosen_pause = NOPAUSE;
+    
+    if (
+        group == lo_pause_l1   ||
+        group == lo_nopause_l1 ||
+        group == hi_pause_l1   ||
+        group == hi_nopause_l1
+       )
+        chosen_language = LANG_L1;
+    else
+        chosen_language = LANG_L2;
+}
+
+
+void print_chosen_conditions(TestGroup group) {
+    println("chosen_group = " + group);
+    println("chosen_entropy = " + chosen_entropy);
+    println("chosen_pause = " + chosen_pause);
+    println("chosen_language = " + chosen_language);
+}
+

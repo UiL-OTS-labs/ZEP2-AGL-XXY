@@ -17,9 +17,14 @@ HISTORY:
 // Symbolic definition of groups.
 enum TestGroup
 {
-    LoEn,
-    MdEn,
-    HiEn
+    lo_pause_l1,     // low entropy interstimulus interval 167 ms language l2
+    lo_pause_l2,     // low entropy interstimulus interval 167 ms language l1
+    lo_nopause_l1,   // low entropy interstimulus interval 83 ms language l1
+    lo_nopause_l2,   // low entropy interstimulus interval 83 ms language l2
+    hi_pause_l1,     // high entropy interstimulus interval 167 ms language l1
+    hi_pause_l2,     // high entropy interstimulus interval 167 ms language l2
+    hi_nopause_l1,   // high entropy interstimulus interval 83 ms language l1
+    hi_nopause_l2,   // high entropy interstimulus interval 83 ms language l2
 }
  
  
