@@ -46,478 +46,206 @@ import instructions;
 
 Block task
 {
-    on_event:entry()
+
+    Block training_test_repetitions
     {
-    }
 
-
-    Part instructions
-    {
-        on_event:entry()
+        entry()
         {
-//            pause_page.set_text_size(1000, 600);
-            pause_page.set_text(
-                PRE_TEST_INSTRUCTION,
-                true);
-
-            pause_page.action(this);
-            control.enable_all_buttons(CONTINUE);
-        }
-    }
-
-    Block training1
-    {
-        TrainItem        item;   // current item
-
-        on_event:entry()
-        {
-            num_cycles = training_items1.size;
-
-            // Prepare test page: progress bar, feedback and prompt enabled.
-            train_page.setup(num_cycles);
+            num_cycles = NUM_TEST_TRAINING_REPETITIONS;
         }
 
-
-        on_event:exit()
-        {
-            train_page.cleanup();
-        }
-
-
-        Trial trial
-        {
-            on_event:entry()
-            {
-                item = training_items1[training1.cycle];
-
-                train_page.action(this, item, reference_time, training1.cycle);
-            }
-
-            on_event:exit()
-            {
-                // Add new row to test output table.
-                TestOutput output;
-                output.step = "training1";
-                output.grp = selected_group;
-                output.trial = training1.cycle + 1;
-                output.id = item.id;
-                output.entropy = item.entropy;
-                output.language = item.language;
-                output.fn1 = item.sndfn;
-                output.value = -1;
-                output.rt = -1;
-                output.correct = -1;
-                test_output_append(output);
-            }
-        }
-    }
-
-
-    Part
-    {
-        on_event:entry()
-        {
-            blank_page.action_auto(this, 500ms);
-        }
-    }
-
-
-    Part pause1
-    {
-        on_event:entry()
-        {
-            pause_page.set_text (
-                PRE_TEST_INSTRUCTION,
-                true);
-
-            pause_page.action(this);
-            control.enable_all_buttons(CONTINUE);
-        }
-    }
-
-
-    Block test1
-    {
-        TestItem        item;   // current item
-        TestOutput      output;
-
-
-        on_event:entry()
-        {
-            num_cycles = test_items1.size;
-
-            // Prepare test page: progress bar enabled, feedback and prompt
-            // disabled.
-            test_page.setup(num_cycles, "1");
-        }
-
-
-        on_event:exit()
-        {
-            test_page.cleanup();
-        }
-
-
-        Trial trial
-        {
-            on_event:entry()
-            {
-                item = test_items1[test1.cycle];
-
-                test_page.action(this, item, reference_time, test1.cycle);
-            }
-
-
-            on_event:exit()
-            {
-                // Add new row to test output table.
-                TestOutput output;
-                output.step = "test1";
-                output.grp = selected_group;
-                output.trial = test1.cycle + 1;
-                output.id = item.id;
-                output.entropy = chosen_entropy;
-                output.language = chosen_language;
-                output.fn1 = item.fn1;
-                output.fn2 = item.fn2;
-                output.value = test_page.response.value;
-                output.rt = test_page.response.rt;
-                output.correct = test_page.response.correct;
-
-                test1.output = output;
-            }
-        }
-
-        Trial confidence
+        Part pre_training_instructions
         {
             entry()
             {
-                confidence_page.action(this, reference_time);
+                string instructions;
+                if (training_test_repetitions.cycle == 0)
+                    instructions = PRE_TRAIN_INSTRUCTION;
+                else
+                    instructions = PRE_TRAIN_INSTRUCTION_SHORT;
+                pause_page.set_text(instructions, true);
+
+                pause_page.action(this);
+                control.enable_all_buttons(CONTINUE);
             }
+        }
+
+        Block training
+        {
+            TrainItem        item;   // current item
+            TrainItem[]      train_items;
+
+            entry()
+            {
+                num_cycles = training_items1.size;
+                if (training_test_repetitions.cycle == 0)
+                    train_items = training_items1;
+                else if (training_test_repetitions.cycle == 1)
+                    train_items = training_items2;
+                else if (training_test_repetitions.cycle == 2)
+                    train_items = training_items3;
+                else
+                    train_items = null;
+
+                // Prepare test page: progress bar, feedback and prompt enabled.
+                train_page.setup(num_cycles);
+            }
+
 
             exit()
             {
-                test1.output.confidence = confidence_page.response.value;
-                test1.output.confidence_rt = confidence_page.response.rt;
-
-                test_output_append(test1.output);
+                train_page.cleanup();
             }
-        }
-    }
 
 
-    Part
-    {
-        on_event:entry()
-        {
-            blank_page.action_auto(this, 500ms);
-        }
-    }
-
-
-    Block training2
-    {
-        TrainItem        item;   // current item
-
-        on_event:entry()
-        {
-            num_cycles = training_items2.size;
-
-            // Prepare test page: progress bar, feedback and prompt enabled.
-            train_page.setup(num_cycles);
-        }
-
-
-        on_event:exit()
-        {
-            train_page.cleanup();
-        }
-
-
-        Trial trial
-        {
-            on_event:entry()
+            Trial trial
             {
-                item = training_items2[training2.cycle];
+                entry()
+                {
+                    item = train_items[training.cycle];
+                    train_page.action(this, item, reference_time, training.cycle);
+                }
 
-                train_page.action(this, item, reference_time, training2.cycle);
-            }
-
-            on_event:exit()
-            {
-                // Add new row to test output table.
-                TestOutput output;
-                output.step = "training2";
-                output.grp = selected_group;
-                output.trial = training2.cycle + 1;
-                output.id = item.id;
-                output.entropy = item.entropy;
-                output.language = item.language;
-                output.fn1 = item.sndfn;
-                output.value = -1;
-                output.rt = -1;
-                output.correct = -1;
-                test_output_append(output);
-            }
-        }
-    }
-
-
-    Part
-    {
-        on_event:entry()
-        {
-            blank_page.action_auto(this, 500ms);
-        }
-    }
-
-
-    Part pause2
-    {
-        on_event:entry()
-        {
-            pause_page.set_text(
-                "Dat was het voor deze fase.\n"
-                "Nu in de test, gebruik de muis om op de JA of NEE knop op het scherm te klikken.\n"
-                "Druk op START zodra je klaar bent om te beginnen.\n"
-                "\n",
-                true);
-
-            pause_page.action(this);
-            control.enable_all_buttons(CONTINUE);
-        }
-    }
-
-
-    Block test2
-    {
-        TestItem        item;   // current item
-        TestOutput      output;
-
-
-        on_event:entry()
-        {
-            num_cycles = test_items2.size;
-
-            // Prepare test page: progress bar enabled, feedback and prompt
-            // disabled.
-            test_page.setup(num_cycles, "2");
-        }
-
-
-        on_event:exit()
-        {
-            test_page.cleanup();
-        }
-
-
-        Trial trial
-        {
-            on_event:entry()
-            {
-                item = test_items2[test2.cycle];
-
-                test_page.action(this, item, reference_time, test2.cycle);
-            }
-
-
-            on_event:exit()
-            {
-                // Add new row to test output table.
-                TestOutput output;
-                output.step = "test2";
-                output.grp = selected_group;
-                output.trial = test2.cycle + 1;
-                output.id = item.id;
-                output.entropy = chosen_entropy;
-                output.language = chosen_language;
-                output.fn1 = item.fn1;
-                output.fn2 = item.fn2;
-                output.value = test_page.response.value;
-                output.rt = test_page.response.rt;
-                output.correct = test_page.response.correct;
-
-                test2.output = output;
+                exit()
+                {
+                    // Add new row to test output table.
+                    TestOutput output;
+                    output.step = "training" + (training_test_repetitions.cycle + 1);
+                    output.grp = selected_group;
+                    output.trial = training.cycle + 1;
+                    output.id = item.id;
+                    output.entropy = item.entropy;
+                    output.language = item.language;
+                    output.fn1 = item.sndfn;
+                    output.value = -1;
+                    output.rt = -1;
+                    output.correct = -1;
+                    test_output_append(output);
+                }
             }
         }
 
-        Trial confidence
+
+        Part
         {
             entry()
             {
-                confidence_page.action(this, reference_time);
-            }
-
-            exit()
-            {
-                test2.output.confidence = confidence_page.response.value;
-                test2.output.confidence_rt = confidence_page.response.rt;
-
-                test_output_append(test2.output);
-            }
-        }
-    }
-
-
-    Part
-    {
-        on_event:entry()
-        {
-            blank_page.action_auto(this, 500ms);
-        }
-    }
-
-
-    Block training3
-    {
-        TrainItem       item;   // current item
-
-        on_event:entry()
-        {
-            num_cycles = training_items3.size;
-
-            // Prepare test page: progress bar, feedback and prompt enabled.
-            train_page.setup(num_cycles);
-        }
-
-
-        on_event:exit()
-        {
-            train_page.cleanup();
-        }
-
-
-        Trial trial
-        {
-            on_event:entry()
-            {
-                item = training_items3[training3.cycle];
-
-                train_page.action(this, item, reference_time, training3.cycle);
-            }
-
-            on_event:exit()
-            {
-                // Add new row to test output table.
-                TestOutput output;
-                output.step = "training3";
-                output.grp = selected_group;
-                output.trial = training3.cycle + 1;
-                output.id = item.id;
-                output.entropy = item.entropy;
-                output.language = item.language;
-                output.fn1 = item.sndfn;
-                output.value = -1;
-                output.rt = -1;
-                output.correct = -1;
-                test_output_append(output);
-            }
-        }
-    }
-
-
-    Part
-    {
-        on_event:entry()
-        {
-            blank_page.action_auto(this, 500ms);
-        }
-    }
-
-
-    Part pause3
-    {
-        on_event:entry()
-        {
-            pause_page.set_text(
-                "Dat was het voor deze fase.\n"
-                "Nu in de test, gebruik de muis om op de JA of NEE knop op het scherm te klikken.\n"
-                "Druk op START zodra je klaar bent om te beginnen.\n"
-                "\n",
-                true);
-
-            pause_page.action(this);
-            control.enable_all_buttons(CONTINUE);
-        }
-    }
-
-
-    Block test3
-    {
-        TestItem        item;   // current item
-        TestOutput      output;
-
-
-        on_event:entry()
-        {
-            num_cycles = test_items3.size;
-
-            // Prepare test page: progress bar enabled, feedback and prompt
-            // disabled.
-            test_page.setup(num_cycles, "3");
-        }
-
-
-        on_event:exit()
-        {
-            test_page.cleanup();
-        }
-
-
-        Trial trial
-        {
-            on_event:entry()
-            {
-                item = test_items3[test3.cycle];
-
-                test_page.action(this, item, reference_time, test3.cycle);
-            }
-
-
-            on_event:exit()
-            {
-                // Add new row to test output table.
-                TestOutput output;
-                output.step = "test3";
-                output.grp = selected_group;
-                output.trial = test3.cycle + 1;
-                output.id = item.id;
-                output.entropy = chosen_entropy;
-                output.language = chosen_language;
-                output.fn1 = item.fn1;
-                output.fn2 = item.fn2;
-                output.value = test_page.response.value;
-                output.rt = test_page.response.rt;
-                output.correct = test_page.response.correct;
-
-                test3.output = output;
+                blank_page.action_auto(this, 500ms);
             }
         }
 
-        Trial confidence
+
+        Part pre_test_instructions
         {
             entry()
             {
-                confidence_page.action(this, reference_time);
+                string instructions;
+                if (training_test_repetitions.cycle == 0)
+                    instructions = PRE_TEST_INSTRUCTION;
+                else
+                    instructions = PRE_TEST_INSTRUCTION_SHORT;
+
+                pause_page.set_text (instructions, true);
+
+                pause_page.action(this);
+                control.enable_all_buttons(CONTINUE);
             }
+        }
+        
+        Part
+        {
+            entry()
+            {
+                blank_page.action_auto(this, 500ms);
+            }
+        }
+
+        Block test1
+        {
+            TestItem        item;   // current item
+            TestOutput      output;
+
+
+            entry()
+            {
+                num_cycles = test_items1.size;
+
+                // Prepare test page: progress bar enabled, feedback and prompt
+                // disabled.
+                test_page.setup(num_cycles, "1");
+            }
+
 
             exit()
             {
-                test3.output.confidence = confidence_page.response.value;
-                test3.output.confidence_rt = confidence_page.response.rt;
+                test_page.cleanup();
+            }
 
-                test_output_append(test3.output);
+
+            Trial trial
+            {
+                entry()
+                {
+                    item = test_items1[test1.cycle];
+
+                    test_page.action(this, item, reference_time, test1.cycle);
+                }
+
+
+                exit()
+                {
+                    // Add new row to test output table.
+                    TestOutput output;
+                    output.step = "test" + (training_test_repetitions.cycle + 1);
+                    output.grp = selected_group;
+                    output.trial = test1.cycle + 1;
+                    output.id = item.id;
+                    output.entropy = chosen_entropy;
+                    output.language = chosen_language;
+                    output.fn1 = item.fn1;
+                    output.fn2 = item.fn2;
+                    output.value = test_page.response.value;
+                    output.rt = test_page.response.rt;
+                    output.correct = test_page.response.correct;
+
+                    test1.output = output;
+                }
+            }
+
+            Part
+            {
+                on_event:entry()
+                {
+                    blank_page.action_auto(this, 500ms);
+                }
+            }
+
+            Trial confidence
+            {
+                entry()
+                {
+                    confidence_page.action(this, reference_time);
+                }
+
+                exit()
+                {
+                    test1.output.confidence = confidence_page.response.value;
+                    test1.output.confidence_rt = confidence_page.response.rt;
+
+                    test_output_append(test1.output);
+                }
             }
         }
-    }
 
-
-    Part
-    {
-        on_event:entry()
+        Part
         {
-            blank_page.action_auto(this, 500ms);
+            on_event:entry()
+            {
+                blank_page.action_auto(this, 500ms);
+            }
         }
+
     }
 }
 
