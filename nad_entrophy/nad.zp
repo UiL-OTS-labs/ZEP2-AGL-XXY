@@ -40,6 +40,36 @@ Experiment experiment
 
         test::prepare_test_lists();
 
+        if (have_flag("print-items") ||
+            have_flag("print-test-items") ||
+            have_flag("print-train-items")
+            ) 
+            println("selected_group = " + selected_group);
+
+        /* optionally print the training items */
+        if (have_flag("print-items") || have_flag("print-train-items")) {
+            println("Printing TrainItems");
+            println("trainitems1");
+            test::print_train_items(test::training_items1, true);
+            println("trainitems2");
+            test::print_train_items(test::training_items2, false);
+            println("trainitems3");
+            test::print_train_items(test::training_items3, false);
+            println();
+        }
+        
+        /* optionally print the test items */
+        if (have_flag("print-items") || have_flag("print-test-items")) {
+            println("Printing TestItems");
+            println("testitems1");
+            test::print_test_items(test::test_items1, true);
+            println("testitems2");
+            test::print_test_items(test::test_items2, false);
+            println("testitems3");
+            test::print_test_items(test::test_items3, false);
+            println();
+        }
+
         show_test_windows();
     }
 

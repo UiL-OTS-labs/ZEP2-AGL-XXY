@@ -20,7 +20,7 @@ import condition;
 
 enum TestType {
     TRAINED_FIRST, // In the the test phase the trained is presented first
-    FOREIGN_FIRST  // In the test phase the 
+    FOREIGN_FIRST  // In the test phase the foreign item is presented first
 }
 
 enum ResponseType {
@@ -39,12 +39,43 @@ record TrainItem
     string      sndfn;          // stimulus word sound filename
 }
 
+void print_train_items(TrainItem[] items, bool header) {
+    int i = 0;
+    if (header)
+        println("id nth_repetition entropy language sound_file");
+
+    while (i < items.size) {
+        TrainItem it = items[i];
+        println("" + it.id + " "
+                   + it.nth_rep + " "
+                   + it.entropy + " "
+                   + it.language + " "
+                   + it.sndfn
+               );
+        i++;
+    }
+}
+
 record TestItem {
     int         id;
-    TestType    test_type;      // The type of test trial foreign or trained 
+    TestType    test_type;      // The type of test trial foreign or trained
     string      fn1;            // file of the first stimulus
     string      fn2;            // file of the second stimulus
 };
+
+void print_test_items(TestItem[] items, bool header) {
+    int i = 0;
+    if (header)
+        println("id test_type file1 file2");
+
+    while (i < items.size) {
+        println(string(items[i].id) + " " +
+                items[i].fn1 + " " +
+                items[i].fn2 + " " +
+                items[i].test_type);
+        i++;
+    }
+}
 
 record CheckinItem
 {
@@ -361,21 +392,11 @@ void prepare_training_items() {
     prepare_training_lists(training_items);
 }
 
-void print_test_items(TestItem[] items) {
-    int i = 0;
-    while (i < items.size) {
-        println(string(items[i].id) + " " +
-                items[i].fn1 + " " +
-                items[i].fn2 + " " +
-                items[i].test_type);
-        i++;
-    }
-}
 
 /*
  * prepares the testitems
  */
-void prepare_test_stims(string[] fam, string[] new) {
+void prepare_test_stims(string[] correct, string[] incorrect) {
     int[] first = {}; // Nope initializing with {1 ,1, ..., 0}; is an syntax error...
     first.size = 9;
     first[0] = 1;
@@ -391,22 +412,22 @@ void prepare_test_stims(string[] fam, string[] new) {
     
     int first_stim = random(0, 1);
     int i = 0;
-    string stim_fam;
-    string stim_new;
+    string stim_correct;
+    string stim_incorrect;
     while (i < TOT_TEST_ITEMS) {
         TestItem item;
         item.id = 1;
         item.test_type = first[i] == first_stim ? TRAINED_FIRST : FOREIGN_FIRST;
-        stim_fam = fam[i];
-        stim_new = new[i];
+        stim_correct = correct[i];
+        stim_incorrect = incorrect[i];
 
         if (item.test_type == TRAINED_FIRST) {
-            item.fn1 = stim_fam;
-            item.fn2 = stim_new;
+            item.fn1 = stim_correct;
+            item.fn2 = stim_incorrect;
         }
         else {
-            item.fn1 = stim_new;
-            item.fn2 = stim_fam;
+            item.fn1 = stim_incorrect;
+            item.fn2 = stim_correct;
         }
 
         if (i % 3 == 0)
@@ -418,12 +439,6 @@ void prepare_test_stims(string[] fam, string[] new) {
 
         i++;
     }
-//    println("testitems1");
-//    print_test_items(test_items1);
-//    println("testitems2");
-//    print_test_items(test_items2);
-//    println("testitems3");
-//    print_test_items(test_items3);
 }
 
 /*
@@ -438,9 +453,15 @@ void prepare_test_lists () {
     new_l2.shuffle(0,-1);
 
     if (chosen_language == LANG_L1) {
-        prepare_test_stims(familiar_l1, new_l1);
+        if (chosen_test_stim == STIM_FAMILIAR)
+            prepare_test_stims(familiar_l1, familiar_l2);
+        else
+            prepare_test_stims(new_l1, new_l2);
     }
     else {
-        prepare_test_stims(familiar_l2, new_l2);
+        if (chosen_test_stim == STIM_FAMILIAR)
+            prepare_test_stims(familiar_l2, familiar_l1);
+        else
+            prepare_test_stims(new_l2, new_l1);
     }
 }
