@@ -14,6 +14,8 @@ const string PRE_TRAIN_INSTRUCTION_SHORT =
     "Je gaat nu verder met het luisteren naar klanken reeksen uit de buitenaardse taal.\n"
     "Druk op <b>start</b> om verder te gaan.";
 
+const string TRAIN_PROMPT = "Luister naar de buitenaardse klanken.";
+
 const string PRE_TEST_INSTRUCTION = 
     "Je gaat nu een aantal vragen beantwoorden.\n\n"
     "Je krijgt twee klankenreeksen te horen. Selecteer de klankenreeks "
