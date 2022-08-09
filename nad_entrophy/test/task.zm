@@ -220,19 +220,19 @@ Block task
                 }
             }
 
-            Part
-            {
-                on_event:entry()
-                {
-                    blank_page.action_auto(this, 500ms);
-                }
-            }
+//            Part
+//            {
+//                on_event:entry()
+//                {
+//                    blank_page.action_auto(this, 500ms);
+//                }
+//            }
 
             Trial confidence
             {
                 entry()
                 {
-                    confidence_page.action(this, reference_time);
+                    confidence_page.action(this, event_time);
                 }
 
                 exit()

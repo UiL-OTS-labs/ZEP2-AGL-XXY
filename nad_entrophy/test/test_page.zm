@@ -523,14 +523,32 @@ Page confidence_page
             height = 0;     // 0 means as large as possible
         }
 
-        LabelGadget question
+        CanvasGadget canvas
         {
             init()
             {
-                text = CONFIDENCE_QUESTION;
-                font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
-                font_size = TEST_PAGE_PROMPT_FONT_SIZE;
-                text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
+                size = 800, 100;
+            }
+
+            TextShape question
+            {
+                init()
+                {
+                    fancy_text          = CONFIDENCE_QUESTION;
+                    font_family         = TEST_PAGE_PROMPT_FONT_FAMILY;
+                    font_size           = TEST_PAGE_PROMPT_FONT_SIZE;
+                    line_pattern_color  = TEST_PAGE_PROMPT_TEXT_COLOR;
+                }
+
+                start() {
+                    layout.grid.is_visible = true;
+                }
+            }
+
+            time action (time tref)
+            {
+                question.start(tref);
+                return question.expected_start_time;
             }
         }
 
@@ -538,6 +556,7 @@ Page confidence_page
         {
             init()
             {
+                is_visible = false;
                 hor_spacing = 10;
                 ver_spacing = 10;
                 wrap_count = 6;
@@ -687,6 +706,11 @@ Page confidence_page
             }
         }
 
+        time action(time tstart)
+        {
+            return layout.canvas.action(tstart);
+        }
+
         void reset()
         {
             layout.is_visible = false;
@@ -780,8 +804,10 @@ Page confidence_page
 
         layout.is_visible = true;
 
+        time resp_start = layout.action(tref);
+
         // make the response active
-        response.start(tref);
+        response.start(resp_start);
 
         // Show item number
         test_page_overlay.show_prompt("", true);
