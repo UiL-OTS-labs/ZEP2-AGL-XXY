@@ -478,7 +478,7 @@ Page test_page
 
         // Show item number
         test_page_overlay.show_prompt(
-                EXPERIMENT_TEST_QUESTION + "\n\n" +
+                TEST_QUESTION + "\n\n" +
                 (this.count_offset + count + 1) + " / " +
                 (this.total_offset + this.ntrials), true);
 
