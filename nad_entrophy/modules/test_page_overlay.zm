@@ -121,6 +121,7 @@ VerticalLayout test_page_overlay
             hor_alignment = ALIGN_END;
             margin = 4;
             width = 0;      // 0 means as large as possible
+            min_height = 20;
         }
     }
 
