@@ -131,16 +131,16 @@ Page train_page
 
 
     // Performs preparatory work required before using this page.
-    void setup(int ntrials=-1)
+    void setup(int ntrials)
     {
         test_page_overlay.setup(this);
         this.ntrials = ntrials;
 
         // Show item number
-        test_page_overlay.show_prompt("" + ntrials + " items", true);
+        test_page_overlay.show_prompt(TRAIN_PROMPT, true);
 
         // Enable or disable the progress bar.
-        // test_page_overlay.show_progress_bar(ntrials);   // disabled if < 0
+        test_page_overlay.show_progress_bar(ntrials);   // disabled if < 0
 
         control.disable_buttons();
         control.enable_button(0, FIRST);
@@ -177,10 +177,10 @@ Page train_page
         time stimoffset = stimulus.play(fixoffset);
 
         // Show item number
-        test_page_overlay.show_prompt("" + (count + 1) + " / " + this.ntrials, true);
+        // test_page_overlay.show_prompt("" + (count + 1) + " / " + this.ntrials, true);
 
         // Update progress counter (if enabled).
-        // test_page_overlay.update_progress_bar(count);
+        test_page_overlay.update_progress_bar(count);
 
         // Update status line on control window. Cleared in done() above.
         string status = "TRAIN " + ": " +
@@ -478,7 +478,7 @@ Page test_page
 
         // Show item number
         test_page_overlay.show_prompt(
-                EXPERIMENT_TEST_QUESTION + "\n\n" +
+                TEST_QUESTION + "\n\n" +
                 (this.count_offset + count + 1) + " / " +
                 (this.total_offset + this.ntrials), true);
 
@@ -540,7 +540,7 @@ Page confidence_page
             {
                 hor_spacing = 10;
                 ver_spacing = 10;
-                wrap_count = 5;
+                wrap_count = 6;
                 options = LAYOUT_EQUAL_WIDTH | LAYOUT_EQUAL_HEIGHT;
             }
 
@@ -548,7 +548,7 @@ Page confidence_page
             {
                 init()
                 {
-                    text = "Zeker";
+                    text = "Onzeker";
                     font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
                     font_size = TEST_PAGE_PROMPT_FONT_SIZE;
                     text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
@@ -559,12 +559,13 @@ Page confidence_page
             Spacer {}
             Spacer {}
             Spacer {}
+            Spacer {}
 
             LabelGadget l2
             {
                 init()
                 {
-                    text = "Onzeker";
+                    text = "Zeker";
                     font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
                     font_size = TEST_PAGE_PROMPT_FONT_SIZE;
                     text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
@@ -650,6 +651,25 @@ Page confidence_page
             ButtonGadget b5
             {
                 int value = 5;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+            
+            ButtonGadget b6
+            {
+                int value = 6;
 
                 init()
                 {
