@@ -540,7 +540,7 @@ Page confidence_page
             {
                 hor_spacing = 10;
                 ver_spacing = 10;
-                wrap_count = 5;
+                wrap_count = 6;
                 options = LAYOUT_EQUAL_WIDTH | LAYOUT_EQUAL_HEIGHT;
             }
 
@@ -548,7 +548,7 @@ Page confidence_page
             {
                 init()
                 {
-                    text = "Zeker";
+                    text = "Onzeker";
                     font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
                     font_size = TEST_PAGE_PROMPT_FONT_SIZE;
                     text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
@@ -559,12 +559,13 @@ Page confidence_page
             Spacer {}
             Spacer {}
             Spacer {}
+            Spacer {}
 
             LabelGadget l2
             {
                 init()
                 {
-                    text = "Onzeker";
+                    text = "Zeker";
                     font_family = TEST_PAGE_PROMPT_FONT_FAMILY;
                     font_size = TEST_PAGE_PROMPT_FONT_SIZE;
                     text_color = TEST_PAGE_PROMPT_TEXT_COLOR;
@@ -650,6 +651,25 @@ Page confidence_page
             ButtonGadget b5
             {
                 int value = 5;
+
+                init()
+                {
+                    text = string(value);
+                    fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                    font_family = TEST_PAGE_BUTTON_FONT_FAMILY;
+                    font_size = TEST_PAGE_BUTTON_FONT_SIZE;
+                    text_color = TEST_PAGE_BUTTON_TEXT_COLOR;
+                }
+
+                activate()
+                {
+                    confidence_page.response.process_hit(value, event_time);
+                }
+            }
+            
+            ButtonGadget b6
+            {
+                int value = 6;
 
                 init()
                 {
