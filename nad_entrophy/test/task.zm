@@ -141,8 +141,14 @@ Block task
             entry()
             {
                 string instructions;
-                if (training_test_repetitions.cycle == 0)
-                    instructions = PRE_TEST_INSTRUCTION;
+                if (training_test_repetitions.cycle == 0) {
+                    if (chosen_test_stim == STIM_NEW) {
+                        instructions = PRE_TEST_INSTRUCTION_NEW;
+                    }
+                    else {
+                        instructions = PRE_TEST_INSTRUCTION;
+                    }
+                }
                 else
                     instructions = PRE_TEST_INSTRUCTION_SHORT;
 
