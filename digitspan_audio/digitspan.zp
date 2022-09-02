@@ -112,7 +112,7 @@ Experiment experiment
             if(CFG_LANGUAGE == DUTCH)
 				wlk_txt = "Welkom!";
             entry_page.set_text(wlk_txt);
-            entry_page.action(this, 0s);
+            entry_page.action(this, 1s);
         }
     }
 
@@ -218,7 +218,7 @@ Experiment experiment
             if(CFG_LANGUAGE == ENGLISH)
 				thanku_txt = THANK_YOU_TEXT;
             if(CFG_LANGUAGE == DUTCH)
-				thanku_txt = "Einde van het Experiment!\n\n Dank u wel!";
+				thanku_txt = "Einde van het Experiment!\n\n Dank je wel!";
 			exit_page.set_text(thanku_txt);
 			exit_page.action(this, 5s);
         }
