@@ -21,7 +21,7 @@ import colors;
 
 Page train_page
 {
-    TrainItem    item;           // trial control parameters
+    TrainItem   item;           // trial control parameters
     int         ntrials;
 
 
@@ -379,8 +379,16 @@ Page test_page
                 value = val;
                 ignore_remaining_hits();
                 rt = int(reaction_time(0));
-                if (item.test_type == TRAINED_FIRST && value == FIRST ||
-                    item.test_type == FOREIGN_FIRST && value == SECOND)
+                GrammarType selected_grammar;
+                if (val == FIRST)
+                    selected_grammar = item.g1;
+                else if (val == SECOND)
+                    selected_grammar = item.g2;
+                else
+                    print_error("Unexpected answer chosen, report this error\n");
+
+                if (chosen_language == LANG_L1 && selected_grammar == GRAM_L1 ||
+                    chosen_language == LANG_L2 && selected_grammar == GRAM_L2)
                     correct = 1;
                 else
                     correct = 0;
