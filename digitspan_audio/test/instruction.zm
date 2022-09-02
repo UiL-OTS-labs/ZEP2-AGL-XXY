@@ -50,19 +50,19 @@ Block instruction // Provides instruction to the participant
 				page_text = 
 				"<b>Beste deelnemer,</b>\n"
 				"\n"
-				"Dank u voor het deelnemen in dit experiment.\n"
+				"Dank je voor het deelnemen in dit experiment.\n"
 				"\n"
 				"Dit is een geheugen test. Ik presenteer een lijst van cijfers "
 				+ presentation_var +
 				"\n"
 				"\n"
-				"Uw taak is de cijfers in te typen in de"
+				"Jouw taak is de cijfers in te typen in de"
 				+ direction_var +  
 				" volgorde en dan op OK te klikken.\n"
 				"\n"
 				+ practice_text +
 				"\n"
-				"<i>Klik op Ga verder wanneer u klaar bent om te starten.</i>";			
+				"<i>Klik op Ga verder wanneer je klaar bent om te starten.</i>";			
 			} 
 			
 			pause_page.set_text(page_text, true);
