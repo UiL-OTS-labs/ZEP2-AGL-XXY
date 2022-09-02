@@ -90,7 +90,7 @@ Experiment experiment
         on_event:entry()
         {
             entry_page.set_text(WELCOME_TEXT);
-            entry_page.action(this, 0s);
+            entry_page.action(this, 1s);
         }
     }
 

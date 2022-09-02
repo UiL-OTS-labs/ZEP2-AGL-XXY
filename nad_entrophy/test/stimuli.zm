@@ -1,32 +1,16 @@
-/******************************************************************************\
-FILE:           stimuli.zm
-AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
-ADAPTED BY:     Silvia Radulescu
-LAST MODIFIED:	2015-03-17
-
-DESCRIPTION:
-
-Defines the formats of item table(s) and provides the actual content of
-the item table(s) i.e. stimulus information.
-
-
-HISTORY:
-2011-10-25 TV   Created.
-
-\******************************************************************************/
 
 import condition;
 
 
-enum TestType {
-    TRAINED_FIRST, // In the the test phase the trained is presented first
-    FOREIGN_FIRST  // In the test phase the foreign item is presented first
-}
+enum GrammarType {
+    GRAM_L1, // Grammar compatible with L1
+    GRAM_L2  // Grammar compatible with L2
+};
 
 enum ResponseType {
     FIRST,
     SECOND
-}
+};
 
 
 // Item table record.
@@ -37,7 +21,7 @@ record TrainItem
     CondEntropy entropy;        // entropy of item
     CondLang    language;       // L1 or L2
     string      sndfn;          // stimulus word sound filename
-}
+};
 
 void print_train_items(TrainItem[] items, bool header) {
     int i = 0;
@@ -56,32 +40,14 @@ void print_train_items(TrainItem[] items, bool header) {
     }
 }
 
-record TestItem {
-    int         id;
-    TestType    test_type;      // The type of test trial foreign or trained
-    string      fn1;            // file of the first stimulus
-    string      fn2;            // file of the second stimulus
-};
 
-void print_test_items(TestItem[] items, bool header) {
-    int i = 0;
-    if (header)
-        println("id test_type file1 file2");
-
-    while (i < items.size) {
-        println(string(items[i].id) + " " +
-                items[i].fn1 + " " +
-                items[i].fn2 + " " +
-                items[i].test_type);
-        i++;
-    }
-}
-
-record CheckinItem
-{
-    int           id;
-    string        value;
-}
+/*
+ * The training stimuli are presented in these 3 lists, each
+ * list corresponds to a block.
+ */
+TrainItem[] training_items1 = {};
+TrainItem[] training_items2 = {};
+TrainItem[] training_items3 = {};
 
 
 // Training items of language 1 with low entropy
@@ -229,67 +195,6 @@ TrainItem[] items_high_l2 = {
     {54, 0, EN_HIGH, LANG_L2, "tep_zuk_jik"}
 }
 
-string[] familiar_l1 = {
-    "rak_bap_toef",
-    "rak_gom_toef",
-    "rak_ves_toef",
-    "sot_bap_jik",
-    "sot_gom_jik",
-    "sot_ves_jik",
-    "tep_bap_lut",
-    "tep_gom_lut",
-    "tep_ves_lut",
-};
-
-string[] familiar_l2 = {
-    "rak_bap_lut",
-    "rak_gom_lut",
-    "rak_ves_lut",
-    "sot_bap_toef",
-    "sot_gom_toef",
-    "sot_ves_toef",
-    "tep_bap_jik",
-    "tep_gom_jik",
-    "tep_ves_jik"
-};
-
-string[] new_l1 = {
-    "rak_bug_toef",
-    "rak_gak_toef",
-    "rak_zim_toef",
-    "sot_bug_jik",
-    "sot_gak_jik",
-    "sot_zim_jik",
-    "tep_bug_lut",
-    "tep_gak_lut",
-    "tep_zim_lut"
-};
-
-string[] new_l2 = {
-    "rak_bug_lut",
-    "rak_gak_lut",
-    "rak_zim_lut",
-    "sot_bug_toef",
-    "sot_gak_toef",
-    "sot_zim_toef",
-    "tep_bug_jik",
-    "tep_gak_jik",
-    "tep_zim_jik"
-};
-
-/*
- * The training stimuli are presented in these 3 lists, each
- * list corresponds to a block.
- */
-TrainItem[] training_items1 = {};
-TrainItem[] training_items2 = {};
-TrainItem[] training_items3 = {};
-
-TestItem [] test_items1 = {};
-TestItem [] test_items2 = {};
-TestItem [] test_items3 = {};
-
-
 void append_train_item(TrainItem[] array, TrainItem item) {
     array.size = array.size + 1;
     array[array.size - 1] = item;
@@ -392,43 +297,104 @@ void prepare_training_items() {
     prepare_training_lists(training_items);
 }
 
+/*
+ * Test items
+ */
+record TestItem {
+    int         id;
+    GrammarType g1;
+    string      fn1;
+    GrammarType g2;
+    string      fn2;
+};
+
+void print_test_items(TestItem[] items, bool header) {
+    int i = 0;
+    if (header)
+        println("id test_type file1 file2");
+
+    while (i < items.size) {
+        println(string(items[i].id) + " " +
+                items[i].g1  + " " +
+                items[i].fn1 + " " +
+                items[i].g2  + " " +
+                items[i].fn2
+                );
+        i++;
+    }
+}
+
+TestItem[] test_items_fam = {
+    {1, GRAM_L1, "rak_bap_toef", GRAM_L2, "rak_bap_lut"},
+    {2, GRAM_L1, "rak_gom_toef", GRAM_L2, "rak_gom_lut"},
+    {3, GRAM_L1, "rak_ves_toef", GRAM_L2, "rak_ves_lut"},
+    {4, GRAM_L1, "sot_bap_jik",  GRAM_L2, "sot_bap_toef"},
+    {5, GRAM_L1, "sot_gom_jik",  GRAM_L2, "sot_gom_toef"},
+    {6, GRAM_L1, "sot_ves_jik",  GRAM_L2, "sot_ves_toef"},
+    {7, GRAM_L1, "tep_bap_lut",  GRAM_L2, "tep_bap_jik"},
+    {8, GRAM_L1, "tep_gom_lut",  GRAM_L2, "tep_gom_jik"},
+    {9, GRAM_L1, "tep_ves_lut",  GRAM_L2, "tep_ves_jik"}
+};
+
+TestItem[] test_items_new = {
+    {1, GRAM_L1, "rak_bug_toef", GRAM_L2, "rak_bug_lut"},
+    {2, GRAM_L1, "rak_gak_toef", GRAM_L2, "rak_gak_lut"},
+    {3, GRAM_L1, "rak_zim_toef", GRAM_L2, "rak_zim_lut"},
+    {4, GRAM_L1, "sot_bug_jik",  GRAM_L2, "sot_bug_toef"},
+    {5, GRAM_L1, "sot_gak_jik",  GRAM_L2, "sot_gak_toef"},
+    {6, GRAM_L1, "sot_zim_jik",  GRAM_L2, "sot_zim_toef"},
+    {7, GRAM_L1, "tep_bug_lut",  GRAM_L2, "tep_bug_jik"},
+    {8, GRAM_L1, "tep_gak_lut",  GRAM_L2, "tep_gak_jik"},
+    {9, GRAM_L1, "tep_zim_lut",  GRAM_L2, "tep_zim_jik"}
+};
+
+TestItem [] test_items1 = {};
+TestItem [] test_items2 = {};
+TestItem [] test_items3 = {};
+                
+TestItem swap_words_in_test_item(TestItem item) {
+
+    string      fntemp = item.fn1;
+    GrammarType gtemp  = item.g1;
+
+    item.fn1 = item.fn2;
+    item.g1  = item.g2;
+    item.fn2 = fntemp;
+    item.g2  = gtemp;
+
+    return item;
+}
 
 /*
  * prepares the testitems
  */
-void prepare_test_stims(string[] correct, string[] incorrect) {
-    int[] first = {}; // Nope initializing with {1 ,1, ..., 0}; is an syntax error...
-    first.size = 9;
-    first[0] = 1;
-    first[1] = 1;
-    first[2] = 1;
-    first[3] = 1;
-    first[4] = 1;
-    first[5] = 0;
-    first[6] = 0;
-    first[7] = 0;
-    first[8] = 0;
-    first.shuffle(0, -1);
+void prepare_test_stims(TestItem[] test_items) {
+    int[] swap = {}; // Nope initializing with {1 ,1, ..., 0}; is a syntax error...
+    swap.size = 9;
+    swap[0] = 1;
+    swap[1] = 1;
+    swap[2] = 1;
+    swap[3] = 1;
+    swap[4] = 1;
+    swap[5] = 0;
+    swap[6] = 0;
+    swap[7] = 0;
+    swap[8] = 0;
+    swap.shuffle(0, -1);
     
-    int first_stim = random(0, 2);
+    bool swap_if_one = random(0, 2) == 1;
     int i = 0;
     string stim_correct;
     string stim_incorrect;
     while (i < TOT_TEST_ITEMS) {
-        TestItem item;
-        item.id = i + 1;
-        item.test_type = first[i] == first_stim ? TRAINED_FIRST : FOREIGN_FIRST;
-        stim_correct = correct[i];
-        stim_incorrect = incorrect[i];
+        TestItem item = test_items[i];
 
-        if (item.test_type == TRAINED_FIRST) {
-            item.fn1 = stim_correct;
-            item.fn2 = stim_incorrect;
-        }
-        else {
-            item.fn1 = stim_incorrect;
-            item.fn2 = stim_correct;
-        }
+        if (swap_if_one)
+            if (swap[i] == 1)
+                item = swap_words_in_test_item(item);
+        else // swap if zero
+            if (swap[i] == 0)
+                item = swap_words_in_test_item(item);
 
         if (i % 3 == 0)
             append_test_item(test_items1, item);
@@ -447,21 +413,11 @@ void prepare_test_stims(string[] correct, string[] incorrect) {
 void prepare_test_lists () {
 
     // shuffle the order of the test items.
-    familiar_l1.shuffle(0,-1);
-    familiar_l2.shuffle(0,-1);
-    new_l1.shuffle(0,-1);
-    new_l2.shuffle(0,-1);
+    test_items_fam.shuffle(0,-1);
+    test_items_new.shuffle(0,-1);
 
-    if (chosen_language == LANG_L1) {
-        if (chosen_test_stim == STIM_FAMILIAR)
-            prepare_test_stims(familiar_l1, familiar_l2);
-        else
-            prepare_test_stims(new_l1, new_l2);
-    }
-    else {
-        if (chosen_test_stim == STIM_FAMILIAR)
-            prepare_test_stims(familiar_l2, familiar_l1);
-        else
-            prepare_test_stims(new_l2, new_l1);
-    }
+    if (chosen_test_stim == STIM_FAMILIAR)
+        prepare_test_stims(test_items_fam);
+    else
+        prepare_test_stims(test_items_new);
 }
