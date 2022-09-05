@@ -47,25 +47,6 @@ Page training_page
     }
 
 
-    on_event:key_press()
-    {
-        // Handle left-shift (no) and right-shift (yes).
-        if (input_key == KEY_Shift_L)
-            response.process_hit(1, event_time);
-        else if (input_key == KEY_Shift_R)
-            response.process_hit(0, event_time);
-        else
-            handle_special_key(this, input_key, input_modifiers);
-    }
-
-
-    on_event:message()
-    {
-        // Process button-box message. See setup() below.
-        response.process_hit(message_arg, event_time);
-    }
-
-
     VerticalLayout layout
     {
         init()
