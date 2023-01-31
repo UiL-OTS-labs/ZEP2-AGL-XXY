@@ -302,6 +302,7 @@ void prepare_training_items() {
  */
 record TestItem {
     int         id;
+    CondList    list_ab;
     GrammarType g1;
     string      fn1;
     GrammarType g2;
@@ -315,6 +316,7 @@ void print_test_items(TestItem[] items, bool header) {
 
     while (i < items.size) {
         println(string(items[i].id) + " " +
+                string(items[i].list_ab) + " " +
                 items[i].g1  + " " +
                 items[i].fn1 + " " +
                 items[i].g2  + " " +
@@ -324,28 +326,59 @@ void print_test_items(TestItem[] items, bool header) {
     }
 }
 
-TestItem[] test_items_fam = {
-    {1, GRAM_L1, "rak_bap_toef", GRAM_L2, "rak_bap_lut"},
-    {2, GRAM_L1, "rak_gom_toef", GRAM_L2, "rak_gom_lut"},
-    {3, GRAM_L1, "rak_ves_toef", GRAM_L2, "rak_ves_lut"},
-    {4, GRAM_L1, "sot_bap_jik",  GRAM_L2, "sot_bap_toef"},
-    {5, GRAM_L1, "sot_gom_jik",  GRAM_L2, "sot_gom_toef"},
-    {6, GRAM_L1, "sot_ves_jik",  GRAM_L2, "sot_ves_toef"},
-    {7, GRAM_L1, "tep_bap_lut",  GRAM_L2, "tep_bap_jik"},
-    {8, GRAM_L1, "tep_gom_lut",  GRAM_L2, "tep_gom_jik"},
-    {9, GRAM_L1, "tep_ves_lut",  GRAM_L2, "tep_ves_jik"}
+/*
+ * Test items belonging to list A
+ */
+
+TestItem[] test_items_fam_a = {
+    {1, LIST_A, GRAM_L1, "rak_bap_toef", GRAM_L2, "rak_bap_lut"},
+    {2, LIST_A, GRAM_L1, "rak_gom_toef", GRAM_L2, "rak_gom_lut"},
+    {3, LIST_A, GRAM_L1, "rak_ves_toef", GRAM_L2, "rak_ves_lut"},
+    {4, LIST_A, GRAM_L1, "sot_bap_jik",  GRAM_L2, "sot_bap_toef"},
+    {5, LIST_A, GRAM_L1, "sot_gom_jik",  GRAM_L2, "sot_gom_toef"},
+    {6, LIST_A, GRAM_L1, "sot_ves_jik",  GRAM_L2, "sot_ves_toef"},
+    {7, LIST_A, GRAM_L1, "tep_bap_lut",  GRAM_L2, "tep_bap_jik"},
+    {8, LIST_A, GRAM_L1, "tep_gom_lut",  GRAM_L2, "tep_gom_jik"},
+    {9, LIST_A, GRAM_L1, "tep_ves_lut",  GRAM_L2, "tep_ves_jik"}
 };
 
-TestItem[] test_items_new = {
-    {1, GRAM_L1, "rak_bug_toef", GRAM_L2, "rak_bug_lut"},
-    {2, GRAM_L1, "rak_gak_toef", GRAM_L2, "rak_gak_lut"},
-    {3, GRAM_L1, "rak_zim_toef", GRAM_L2, "rak_zim_lut"},
-    {4, GRAM_L1, "sot_bug_jik",  GRAM_L2, "sot_bug_toef"},
-    {5, GRAM_L1, "sot_gak_jik",  GRAM_L2, "sot_gak_toef"},
-    {6, GRAM_L1, "sot_zim_jik",  GRAM_L2, "sot_zim_toef"},
-    {7, GRAM_L1, "tep_bug_lut",  GRAM_L2, "tep_bug_jik"},
-    {8, GRAM_L1, "tep_gak_lut",  GRAM_L2, "tep_gak_jik"},
-    {9, GRAM_L1, "tep_zim_lut",  GRAM_L2, "tep_zim_jik"}
+TestItem[] test_items_new_a = {
+    {1, LIST_A, GRAM_L1, "rak_bug_toef", GRAM_L2, "rak_bug_lut"},
+    {2, LIST_A, GRAM_L1, "rak_gak_toef", GRAM_L2, "rak_gak_lut"},
+    {3, LIST_A, GRAM_L1, "rak_zim_toef", GRAM_L2, "rak_zim_lut"},
+    {4, LIST_A, GRAM_L1, "sot_bug_jik",  GRAM_L2, "sot_bug_toef"},
+    {5, LIST_A, GRAM_L1, "sot_gak_jik",  GRAM_L2, "sot_gak_toef"},
+    {6, LIST_A, GRAM_L1, "sot_zim_jik",  GRAM_L2, "sot_zim_toef"},
+    {7, LIST_A, GRAM_L1, "tep_bug_lut",  GRAM_L2, "tep_bug_jik"},
+    {8, LIST_A, GRAM_L1, "tep_gak_lut",  GRAM_L2, "tep_gak_jik"},
+    {9, LIST_A, GRAM_L1, "tep_zim_lut",  GRAM_L2, "tep_zim_jik"}
+};
+
+/*
+ * Test items belonging to list B
+ */
+TestItem[] test_items_fam_b = {
+   {1, LIST_B, GRAM_L1, "rak_bap_toef", GRAM_L2, "sot_bap_toef"},
+   {2, LIST_B, GRAM_L1, "rak_gom_toef", GRAM_L2, "sot_gom_toef"},
+   {3, LIST_B, GRAM_L1, "rak_ves_toef", GRAM_L2, "sot_ves_toef"},
+   {4, LIST_B, GRAM_L1, "sot_bap_jik",  GRAM_L2, "tep_bap_jik"},
+   {5, LIST_B, GRAM_L1, "sot_gom_jik",  GRAM_L2, "tep_gom_jik"},
+   {6, LIST_B, GRAM_L1, "sot_ves_jik",  GRAM_L2, "tep_ves_jik"},
+   {7, LIST_B, GRAM_L1, "tep_bap_lut",  GRAM_L2, "rak_bap_lut"},
+   {8, LIST_B, GRAM_L1, "tep_gom_lut",  GRAM_L2, "rak_gom_lut"},
+   {9, LIST_B, GRAM_L1, "tep_ves_lut",  GRAM_L2, "rak_ves_lut"}
+};
+
+TestItem[] test_items_new_b = {
+   {1, LIST_B, GRAM_L1, "rak_bug_toef", GRAM_L2, "sot_bug_toef"},
+   {2, LIST_B, GRAM_L1, "rak_gak_toef", GRAM_L2, "sot_gak_toef"},
+   {3, LIST_B, GRAM_L1, "rak_zim_toef", GRAM_L2, "sot_zim_toef"},
+   {4, LIST_B, GRAM_L1, "sot_bug_jik",  GRAM_L2, "tep_bug_jik"},
+   {5, LIST_B, GRAM_L1, "sot_gak_jik",  GRAM_L2, "tep_gak_jik"},
+   {6, LIST_B, GRAM_L1, "sot_zim_jik",  GRAM_L2, "tep_zim_jik"},
+   {7, LIST_B, GRAM_L1, "tep_bug_lut",  GRAM_L2, "rak_bug_lut"},
+   {8, LIST_B, GRAM_L1, "tep_gak_lut",  GRAM_L2, "rak_gak_lut"},
+   {9, LIST_B, GRAM_L1, "tep_zim_lut",  GRAM_L2, "rak_zim_lut"}
 };
 
 TestItem [] test_items1 = {};
@@ -413,11 +446,21 @@ void prepare_test_stims(TestItem[] test_items) {
 void prepare_test_lists () {
 
     // shuffle the order of the test items.
-    test_items_fam.shuffle(0,-1);
-    test_items_new.shuffle(0,-1);
+    test_items_fam_a.shuffle(0,-1);
+    test_items_new_a.shuffle(0,-1);
+    test_items_fam_b.shuffle(0,-1);
+    test_items_new_b.shuffle(0,-1);
 
-    if (chosen_test_stim == STIM_FAMILIAR)
-        prepare_test_stims(test_items_fam);
-    else
-        prepare_test_stims(test_items_new);
+    if (chosen_test_stim == STIM_FAMILIAR) {
+        if (chosen_list == LIST_A)
+            prepare_test_stims(test_items_fam_a);
+        else
+            prepare_test_stims(test_items_fam_b);
+    }
+    else {
+        if (chosen_list == LIST_A)
+            prepare_test_stims(test_items_new_a);
+        else
+            prepare_test_stims(test_items_new_b);
+    }
 }
