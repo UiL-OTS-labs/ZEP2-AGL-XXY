@@ -216,6 +216,7 @@ Block task
                     output.id = item.id;
                     output.entropy = chosen_entropy;
                     output.language = chosen_language;
+                    output.list_ab = item.list_ab;
                     output.fn1 = item.fn1;
                     output.fn2 = item.fn2;
                     output.value = test_page.response.value;
