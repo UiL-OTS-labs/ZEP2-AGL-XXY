@@ -119,7 +119,7 @@ Page test_page
                 ver_alignment = ALIGN_CENTER;
                 hor_alignment = ALIGN_BEGIN;
 
-                // Some mr
+                // Some more default values for a TextField input
                 font_family = TEST_PAGE_INPUT_FONT_FAMILY;
                 font_size = TEST_PAGE_INPUT_FONT_SIZE;
                 fill_pattern_color = TEST_PAGE_INPUT_COLOR;
