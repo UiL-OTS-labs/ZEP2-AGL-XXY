@@ -35,7 +35,8 @@ import std_exit_page1;
 import std_pause_page;
 import std_blank_page;
 
-import io_beexybox;
+// no beexybox
+// import io_beexybox;
 
 import test::task;
 
