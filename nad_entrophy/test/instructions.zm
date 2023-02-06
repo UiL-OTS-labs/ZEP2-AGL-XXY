@@ -46,6 +46,6 @@ const string TEST_QUESTION =
     "Kies de eerste of de tweede klankenreeks door op de corresponderende toets te drukken.";
 
 const string    CONFIDENCE_QUESTION             = 
-    "Hoe zeker ben je van je keuze:\n"
+    "Hoe zeker ben je van je keuze op een schaal van 1 to 6?\n"
     "1 = Onzeker, 6 = Zeker";
 
