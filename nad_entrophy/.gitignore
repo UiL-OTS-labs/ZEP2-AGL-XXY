@@ -4,3 +4,5 @@ db/
 
 # vim temporary files
 *.sw[op]
+
+*.csv
