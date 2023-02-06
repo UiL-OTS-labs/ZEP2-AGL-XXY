@@ -109,24 +109,24 @@ Page test_page
             return tref + actual_stim_dur;
         }
 
-        TextFieldGadget input
+        LabelGadget input
         {
             init()
             {
+                // try to force a minimal dimensions to appear as a text field.
+                min_width = 150;
+                min_height = 40;
+                ver_alignment = ALIGN_CENTER;
+                hor_alignment = ALIGN_BEGIN;
+
+                // Some more default values for a TextField input
                 font_family = TEST_PAGE_INPUT_FONT_FAMILY;
                 font_size = TEST_PAGE_INPUT_FONT_SIZE;
                 fill_pattern_color = TEST_PAGE_INPUT_COLOR;
                 text_color = TEST_PAGE_INPUT_TEXT_COLOR;
-                width_en = 20;
                 is_visible = false;
             }
 
-            on_event:enter()
-            {
-                // Only accept when characters have been entered.
-                if (text != "")
-                    response.process_hit(text, event_time);
-            }
         }
 
         HorizontalLayout buttons

@@ -21,7 +21,8 @@ const string PRE_TEST_INSTRUCTION =
     "Je krijgt twee klankenreeksen te horen. Selecteer de klankenreeks "
     "waarvan het waarschijnlijker is dat deze uit de buitenaardse taal komt "
     "die je net hoorde.\n\n"
-    "Antwoord zo snel en accuraat als mogelijk alsjeblieft.\n\n"
+    "Denk niet te lang na. Vertrouw op je intuïtie en reageer vlot (na"
+    "het horen van de klankenreeksen).\n\n"
     "Druk op <b>start</b> om verder te gaan.";
 
 const string PRE_TEST_INSTRUCTION_NEW = 
@@ -32,7 +33,8 @@ const string PRE_TEST_INSTRUCTION_NEW =
     "Niet alle klanken in deze test zijn voorgekomen in de taal die je net "
     "hoorde, maar je kunt nog steeds de klankenreeks selecteren die het meest "
     "waarschijnlijk uit deze taal komt.\n\n"
-    "Antwoord zo snel en accuraat als mogelijk alsjeblieft.\n\n"
+    "Denk niet te lang na. Vertrouw op je intuïtie en reageer vlot (na"
+    "het horen van de klankenreeksen).\n\n"
     "Druk op <b>start</b> om verder te gaan.";
 
 const string PRE_TEST_INSTRUCTION_SHORT = 
@@ -40,10 +42,10 @@ const string PRE_TEST_INSTRUCTION_SHORT =
     "Druk op <b>start</b> om verder te gaan.";
 
 const string TEST_QUESTION = 
-    "Van welke klankenreeds is het meer waarschijnlijk dat deze uit de buitenaardse taal komt?\n\n"
-    "Kies de eerste of tweede klankenreeks door op de corresponderende toets te drukken.";
+    "Van welke klankenreeks is het meer waarschijnlijk dat deze uit de buitenaardse taal komt?\n\n"
+    "Kies de eerste of de tweede klankenreeks door op de corresponderende toets te drukken.";
 
 const string    CONFIDENCE_QUESTION             = 
-    "Hoe zeker ben je van je keuze:\n"
+    "Hoe zeker ben je van je keuze op een schaal van 1 to 6?\n"
     "1 = Onzeker, 6 = Zeker";
 

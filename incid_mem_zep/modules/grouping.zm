@@ -17,9 +17,6 @@ HISTORY:
 // Symbolic definition of groups.
 enum TestGroup
 {
-    LoEn,
-    MdEn,
-    HiEn
 }
  
  
