@@ -417,8 +417,7 @@ void prepare_test_stims(TestItem[] test_items) {
     
     bool swap_if_one = random(0, 2) == 1;
     int i = 0;
-    string stim_correct;
-    string stim_incorrect;
+
     while (i < TOT_TEST_ITEMS) {
         TestItem item = test_items[i];
 
