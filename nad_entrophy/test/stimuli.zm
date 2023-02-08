@@ -309,19 +309,23 @@ record TestItem {
     string      fn2;
 };
 
+void print_test_item(TestItem item) {
+    println(string(item.id) + " " +
+            string(item.list_ab) + " " +
+            item.g1  + " " +
+            item.fn1 + " " +
+            item.g2  + " " +
+            item.fn2
+            );
+}
+
 void print_test_items(TestItem[] items, bool header) {
     int i = 0;
     if (header)
-        println("id test_type file1 file2");
+        println("id list_ab grammar1 file1 gramar2 file2");
 
     while (i < items.size) {
-        println(string(items[i].id) + " " +
-                string(items[i].list_ab) + " " +
-                items[i].g1  + " " +
-                items[i].fn1 + " " +
-                items[i].g2  + " " +
-                items[i].fn2
-                );
+        print_test_item(items[i]);
         i++;
     }
 }
@@ -417,17 +421,20 @@ void prepare_test_stims(TestItem[] test_items) {
     
     bool swap_if_one = random(0, 2) == 1;
     int i = 0;
-    string stim_correct;
-    string stim_incorrect;
+
     while (i < TOT_TEST_ITEMS) {
         TestItem item = test_items[i];
 
-        if (swap_if_one)
-            if (swap[i] == 1)
+        if (swap_if_one) {
+            if (swap[i] == 1) {
                 item = swap_words_in_test_item(item);
-        else // swap if zero
-            if (swap[i] == 0)
+            }
+        }
+        else { // swap if zero
+            if (swap[i] == 0) {
                 item = swap_words_in_test_item(item);
+            }
+        }
 
         if (i % 3 == 0)
             append_test_item(test_items1, item);
