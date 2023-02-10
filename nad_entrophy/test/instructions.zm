@@ -33,7 +33,7 @@ const string PRE_TEST_INSTRUCTION_NEW =
     "Niet alle klanken in deze test zijn voorgekomen in de taal die je net "
     "hoorde, maar je kunt nog steeds de klankenreeks selecteren die het meest "
     "waarschijnlijk uit deze taal komt.\n\n"
-    "Denk niet te lang na. Vertrouw op je intuïtie en reageer vlot (na"
+    "Denk niet te lang na. Vertrouw op je intuïtie en reageer vlot (na "
     "het horen van de klankenreeksen).\n\n"
     "Druk op <b>start</b> om verder te gaan.";
 
