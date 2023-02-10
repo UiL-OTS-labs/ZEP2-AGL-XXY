@@ -27,7 +27,7 @@ HISTORY:
 
 requires 2.5;
 
-import std_windows1;
+import std_windows1a;
 import global_texts;
 //import std_texts_en;
 import std_entry_page1;
