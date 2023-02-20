@@ -113,6 +113,7 @@ VerticalLayout test_page_overlay
         init()
         {
             font_family = TEST_PAGE_STATUS_FONT_FAMILY;
+            is_visible = false;
             // make font invisible small
             font_size = 0; //TEST_PAGE_STATUS_FONT_SIZE;
             fill_pattern_color = TEST_PAGE_STATUS_COLOR;
