@@ -116,7 +116,10 @@ Block task
                     output.trial = training.cycle + 1;
                     output.id = item.id;
                     output.entropy = item.entropy;
+                    output.pause = chosen_pause;
                     output.language = item.language;
+                    output.test_stims = chosen_test_stim;
+                    output.list_ab = chosen_list;
                     output.fn1 = item.sndfn;
                     output.value = -1;
                     output.rt = -1;
@@ -208,14 +211,16 @@ Block task
 
                 exit()
                 {
-                    // Add new row to test output table.
+                    // Create a fresh test output
                     TestOutput output;
                     output.step = "test" + (training_test_repetitions.cycle + 1);
                     output.grp = selected_group;
                     output.trial = test.cycle + 1;
                     output.id = item.id;
                     output.entropy = chosen_entropy;
+                    output.pause = chosen_pause;
                     output.language = chosen_language;
+                    output.test_stims = chosen_test_stim;
                     output.list_ab = item.list_ab;
                     output.fn1 = item.fn1;
                     output.fn2 = item.fn2;
