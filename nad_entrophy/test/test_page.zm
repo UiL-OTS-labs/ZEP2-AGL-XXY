@@ -199,10 +199,8 @@ Page train_page
 Page test_page
 {
     TestItem    item;           // trial control parameters
-    int         ntrials;
-    string      test_no;
-    int         count_offset;
-    int         total_offset;
+    int         num_trials;     // num trials for this block
+    int         nth_test;       // nth block/test
 
     init()
     {
@@ -447,16 +445,11 @@ Page test_page
 
 
     // Performs preparatory work required before using this page.
-    void setup(int ntrials=-1, string test_no="", int count_offset=0, int total_offset=0)
+    void setup(int nth_test, int num_trials=-1)
     {
         test_page_overlay.setup(this);
-        this.ntrials = ntrials;
-        this.test_no = test_no;
-        this.count_offset = count_offset;
-        this.total_offset = total_offset;
-
-        // Show or hide prompt.
-        test_page_overlay.show_prompt("" + (this.total_offset + this.ntrials) + " items", true);
+        this.nth_test = nth_test;
+        this.num_trials = num_trials;
     }
 
 
@@ -471,7 +464,7 @@ Page test_page
 
 
     // Starts a trial.
-    void action(Object caller, TestItem it, time tref, int count=-1)
+    void action(Object caller, TestItem it, time tref, int nth_trial)
     {
         // Save the passed trial control parameters.
         item = it;
@@ -487,8 +480,8 @@ Page test_page
         // Show item number
         test_page_overlay.show_prompt(
                 TEST_QUESTION + "\n\n" +
-                (this.count_offset + count + 1) + " / " +
-                (this.total_offset + this.ntrials), true);
+                (nth_trial + 1) + " / " + (this.num_trials),
+                true);
 
         // Start stimulus
         time stimoffset = stimulus.play(tref);
@@ -501,7 +494,7 @@ Page test_page
         // test_page_overlay.update_progress_bar(this.count_offset + count);
 
         // Update status line on control window. Cleared in done() above.
-        string status = "TEST " + this.test_no + ": " +
+        string status = "TEST " + this.nth_test + ": " +
             string(item.id) + "  " +
             // string(item.entropy) + "  " +
             //string(item.language) + "  " +
