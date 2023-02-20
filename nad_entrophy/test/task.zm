@@ -188,10 +188,13 @@ Block task
                 else
                     terminate "Unexpected block";
 
+                num_cycles = test_items.size;
+
                 // Prepare test page: progress bar enabled, feedback and prompt
                 // disabled.
-                test_page.setup(num_cycles, "1");
-                num_cycles = test_items.size;
+                test_page.setup(
+                        training_test_repetitions.cycle + 1,
+                        test.num_cycles);
             }
 
 
@@ -206,7 +209,7 @@ Block task
                 entry()
                 {
                     item = test_items[test.cycle];
-                    test_page.action(this, item, reference_time, -1);
+                    test_page.action(this, item, reference_time, test.cycle);
                 }
 
                 exit()
