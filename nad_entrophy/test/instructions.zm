@@ -21,7 +21,7 @@ const string PRE_TEST_INSTRUCTION =
     "Je krijgt twee klankenreeksen te horen. Selecteer de klankenreeks "
     "waarvan het waarschijnlijker is dat deze uit de buitenaardse taal komt "
     "die je net hoorde.\n\n"
-    "Denk niet te lang na. Vertrouw op je intuïtie en reageer vlot (na"
+    "Denk niet te lang na. Vertrouw op je intuïtie en reageer vlot (na "
     "het horen van de klankenreeksen).\n\n"
     "Druk op <b>start</b> om verder te gaan.";
 
