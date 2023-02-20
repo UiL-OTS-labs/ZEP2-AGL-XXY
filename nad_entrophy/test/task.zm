@@ -104,7 +104,7 @@ Block task
                 entry()
                 {
                     item = train_items[training.cycle];
-                    train_page.action(this, item, reference_time, training.cycle);
+                    train_page.action(this, item, reference_time, -1);
                 }
 
                 exit()
@@ -203,7 +203,7 @@ Block task
                 entry()
                 {
                     item = test_items[test.cycle];
-                    test_page.action(this, item, reference_time, test.cycle);
+                    test_page.action(this, item, reference_time, -1);
                 }
 
                 exit()
