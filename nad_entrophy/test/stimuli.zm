@@ -415,33 +415,30 @@ TestItem swap_words_in_test_item(TestItem item) {
  */
 void prepare_test_stims(TestItem[] test_items) {
     int[] swap = {}; // Nope initializing with {1 ,1, ..., 0}; is a syntax error...
-    swap.size = 9;
+    swap.size = TOT_TEST_ITEMS;
+
+    /*The first and second word are swapped when swap is one*/
     swap[0] = 1;
     swap[1] = 1;
     swap[2] = 1;
     swap[3] = 1;
     swap[4] = 1;
-    swap[5] = 0;
+    swap[5] = 1;
     swap[6] = 0;
     swap[7] = 0;
     swap[8] = 0;
+    swap[9] = 0;
+    swap[10] = 0;
+    swap[11] = 0;
     swap.shuffle(0, -1);
     
-    bool swap_if_one = random(0, 2) == 1;
     int i = 0;
 
     while (i < TOT_TEST_ITEMS) {
         TestItem item = test_items[i];
 
-        if (swap_if_one) {
-            if (swap[i] == 1) {
-                item = swap_words_in_test_item(item);
-            }
-        }
-        else { // swap if zero
-            if (swap[i] == 0) {
-                item = swap_words_in_test_item(item);
-            }
+        if (swap[i] == 1) {
+            item = swap_words_in_test_item(item);
         }
 
         if (i % 3 == 0)

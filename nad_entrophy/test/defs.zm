@@ -45,7 +45,7 @@ int             NUM_TRAININGS_ITEMS             = 144;
 int             TOT_TRAININGS_ITEMS             = 0; //NUM_TRAININGS_ITEMS * 3;
 
 // The total number of test items
-const int       TOT_TEST_ITEMS                  = 9;
+const int       TOT_TEST_ITEMS                  = 12;
 
 const int       NUM_TEST_TRAINING_REPETITIONS   = 3;
 
