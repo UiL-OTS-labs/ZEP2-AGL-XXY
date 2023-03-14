@@ -339,9 +339,9 @@ TestItem[] test_items_fam_a = {
     { 6, LIST_A, GRAM_L1, "sot_ves_jik",  GRAM_L2, "sot_ves_toef"},
     { 7, LIST_A, GRAM_L1, "tep_bap_lut",  GRAM_L2, "tep_bap_jik"},
     { 8, LIST_A, GRAM_L1, "tep_huf_lut",  GRAM_L2, "tep_huf_jik"},
-    { 9, LIST_A, GRAM_L1, "tep_ves_lut",  GRAM_L2, "tep_ves_jik"}
-    {10, LIST_A, GRAM_L1, "rak_keg_jik",  GRAM_L2, "rak_keg_lut"}
-    {11, LIST_A, GRAM_L1, "sot_keg_jik",  GRAM_L2, "sot_keg_toef"}
+    { 9, LIST_A, GRAM_L1, "tep_ves_lut",  GRAM_L2, "tep_ves_jik"},
+    {10, LIST_A, GRAM_L1, "rak_keg_toef", GRAM_L2, "rak_keg_lut"},
+    {11, LIST_A, GRAM_L1, "sot_keg_jik",  GRAM_L2, "sot_keg_toef"},
     {12, LIST_A, GRAM_L1, "tep_keg_lut",  GRAM_L2, "tep_keg_jik"}
 };
 
@@ -354,9 +354,9 @@ TestItem[] test_items_new_a = {
     { 6, LIST_A, GRAM_L1, "sot_zim_jik",  GRAM_L2, "sot_zim_toef"},
     { 7, LIST_A, GRAM_L1, "tep_bug_lut",  GRAM_L2, "tep_bug_jik"},
     { 8, LIST_A, GRAM_L1, "tep_gak_lut",  GRAM_L2, "tep_gak_jik"},
-    { 9, LIST_A, GRAM_L1, "tep_zim_lut",  GRAM_L2, "tep_zim_jik"}
-    {10, LIST_A, GRAM_L1, "rak_dos_toef", GRAM_L2, "rak_dos_lut"}
-    {11, LIST_A, GRAM_L1, "sot_dos_jik",  GRAM_L2, "sot_dos_toef"}
+    { 9, LIST_A, GRAM_L1, "tep_zim_lut",  GRAM_L2, "tep_zim_jik"},
+    {10, LIST_A, GRAM_L1, "rak_dos_toef", GRAM_L2, "rak_dos_lut"},
+    {11, LIST_A, GRAM_L1, "sot_dos_jik",  GRAM_L2, "sot_dos_toef"},
     {12, LIST_A, GRAM_L1, "tep_dos_lut",  GRAM_L2, "tep_dos_jik"}
 };
 
@@ -372,9 +372,9 @@ TestItem[] test_items_fam_b = {
    { 6, LIST_B, GRAM_L1, "sot_ves_jik",  GRAM_L2, "tep_ves_jik"},
    { 7, LIST_B, GRAM_L1, "tep_bap_lut",  GRAM_L2, "rak_bap_lut"},
    { 8, LIST_B, GRAM_L1, "tep_huf_lut",  GRAM_L2, "rak_huf_lut"},
-   { 9, LIST_B, GRAM_L1, "tep_ves_lut",  GRAM_L2, "rak_ves_lut"}
-   {10, LIST_B, GRAM_L1, "rak_keg_toef", GRAM_L2, "sot_keg_toef"}
-   {11, LIST_B, GRAM_L1, "sot_keg_jik",  GRAM_L2, "tap_keg_jik"}
+   { 9, LIST_B, GRAM_L1, "tep_ves_lut",  GRAM_L2, "rak_ves_lut"},
+   {10, LIST_B, GRAM_L1, "rak_keg_toef", GRAM_L2, "sot_keg_toef"},
+   {11, LIST_B, GRAM_L1, "sot_keg_jik",  GRAM_L2, "tap_keg_jik"},
    {12, LIST_B, GRAM_L1, "tep_keg_lut",  GRAM_L2, "rak_keg_lut"}
 };
 
@@ -387,9 +387,9 @@ TestItem[] test_items_new_b = {
    { 6, LIST_B, GRAM_L1, "sot_zim_jik",  GRAM_L2, "tep_zim_jik"},
    { 7, LIST_B, GRAM_L1, "tep_bug_lut",  GRAM_L2, "rak_bug_lut"},
    { 8, LIST_B, GRAM_L1, "tep_gak_lut",  GRAM_L2, "rak_gak_lut"},
-   { 9, LIST_B, GRAM_L1, "tep_zim_lut",  GRAM_L2, "rak_zim_lut"}
-   {10, LIST_B, GRAM_L1, "rak_dos_toef", GRAM_L2, "sot_dos_toef"}
-   {11, LIST_B, GRAM_L1, "sot_dos_jik",  GRAM_L2, "tep_dos_jik"}
+   { 9, LIST_B, GRAM_L1, "tep_zim_lut",  GRAM_L2, "rak_zim_lut"},
+   {10, LIST_B, GRAM_L1, "rak_dos_toef", GRAM_L2, "sot_dos_toef"},
+   {11, LIST_B, GRAM_L1, "sot_dos_jik",  GRAM_L2, "tep_dos_jik"},
    {12, LIST_B, GRAM_L1, "tep_dos_lut",  GRAM_L2, "rak_dos_lut"}
 };
 
