@@ -43,7 +43,7 @@ Block task
         on_event:entry()
         {
             pause_page.set_text(
-                "Je gaat zo luisteren naar woorden uit een vergeten taal. Elk woord behoort to één van de volgende categorieën: bloemen, dieren, of gereedschap.\n"
+                "Je gaat zo luisteren naar woorden uit een buitenaardse taal. Elk woord behoort tot één van de volgende categorieën: bloemen, dieren, of gereedschap.\n"
                 "Jouw taak is om ieder woord in te delen in één van deze categorieën, gebaseerd op hoe het woord klinkt.\n"
                 "Nadat je het woord gehoord hebt, krijg je steeds 3 seconden de tijd om een categorie te kiezen. Gebruik de muis om op de BLOEMEN, DIEREN of GEREEDSCHAP knop op het scherm te klikken.\n"
                 "Zorg ervoor dat je altijd binnen de tijd een categorie gekozen hebt.\n"
