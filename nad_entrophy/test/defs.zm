@@ -39,7 +39,7 @@ const int       NUM_TRAINING_BLOCKS             = 3;
 
 
 // The number of training items in one of the trainings blocks
-int             NUM_TRAININGS_ITEMS             = 144;
+int             NUM_TRAININGS_ITEMS             = 20;
 
 // The total number of trainings items
 int             TOT_TRAININGS_ITEMS             = 0; //NUM_TRAININGS_ITEMS * 3;

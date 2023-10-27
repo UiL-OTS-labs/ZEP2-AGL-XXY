@@ -52,7 +52,7 @@ Block task
 
         entry()
         {
-            num_cycles = NUM_TEST_TRAINING_REPETITIONS;
+            num_cycles = 1;
         }
 
         Part pre_training_instructions
